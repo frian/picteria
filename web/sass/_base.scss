@@ -1,0 +1,72 @@
+/* atinfo base scss */
+
+
+
+/* COMPASS IMPORTS */
+@import "compass/reset";
+@import "compass/css3/images";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/transform";
+@import "compass/css3/transition";
+
+
+/* OWN MIXINS */
+@mixin debug($color:black) {
+  border : 1px solid $color !important;
+}
+
+@mixin debugbg($color:black) {
+  background-color : $color !important;
+}
+
+@mixin posabs() {
+  position : absolute;
+}
+
+@mixin my-background-image($image) {
+  @include background-image($image); // Compass default version, for everything but IE 10.
+  background-image: -ms-#{$image}; // Vendor prefixes for IE 10.
+}
+
+@mixin keyframes( $animationName )
+{
+    @-webkit-keyframes $animationName {
+        @content;
+    }
+    @-moz-keyframes $animationName {
+        @content;
+    }
+    @-o-keyframes $animationName {
+        @content;
+    }
+    @keyframes $animationName {
+        @content;
+    }
+}
+
+
+$default-animation-name: none;
+$default-animation-duration: 0;
+$default-animation-timing-function: ease;
+$default-animation-iteration-count: 1;
+$default-animation-direction: normal;
+$default-animation-play-state: running;
+$default-animation-delay: 0s;
+$default-animation-fill-mode: none;
+
+/* Simple animation with named arguments */
+@mixin animation-simple(
+  $name: $default-animation-name,
+  $duration: $default-animation-duration,
+  $timing-function: $default-animation-timing-function,
+  $delay: $default-animation-delay,
+  $iteration-count: $default-animation-iteration-count,
+  $direction: $default-animation-direction
+) {
+  @include experimental(animation, $name $duration $timing-function $delay $iteration-count $direction);
+}
+
+@mixin animation-fill-mode($fill-mode) {
+  @include experimental(animation-fill-mode, $fill-mode);
+}
