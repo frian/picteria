@@ -1,5 +1,8 @@
 $(function() {
 
+  // get gallery name
+  var gal = $('title').text().split(" / ")[1];
+  
   // get image list
   var images = $('#container').find('img').map(function() { return this.id; }).get();
 
@@ -46,12 +49,10 @@ $(function() {
 
     currentImgId = '#' + img;
 
-//    $('#picteria-1').attr('src', "/galleries/buds/002.jpg");
-    
     currentImgNumber = img.replace('picteria-', '');
 
     $.ajax({
-      url: "buds/" + currentImgNumber,
+      url: gal + '/' + currentImgNumber,
       type: "get",
       success: function(data){
         $("#container").html(data);
@@ -62,7 +63,6 @@ $(function() {
         $("#container").html('There is error while submit');
       }
   });
-//    currentImgNumber++;
     
     console.log(currentImgId);
 
@@ -105,7 +105,6 @@ $(function() {
   // down arrow :  show previous previews
   // right arrow : show next image
   // left arrow  : show previous image
-  currentImgNumber = prevImage(currentImgNumber, mode);
   $(document).keydown(function(e) {
     console.log(e.which);
     if ( e.which == 82 ) {
@@ -118,10 +117,10 @@ $(function() {
       prevPreviews(previews);
     }
     else if ( e.which == 39 ) {
-      currentImgNumber = nextImage(currentImgNumber, mode);
+      currentImgNumber = nextImage(gal, currentImgNumber, mode);
     }
     else if ( e.which == 37 ) {
-      currentImgNumber = prevImage(currentImgNumber, mode);
+      currentImgNumber = prevImage(gal, currentImgNumber, mode);
     }
   });
 
@@ -129,13 +128,13 @@ $(function() {
 });
 
 
-function nextImage(currentImgNumber, mode) {
+function nextImage(gal, currentImgNumber, mode) {
 
   console.log(currentImgNumber);
   currentImgNumber++;
   console.log(currentImgNumber);
   $.ajax({
-    url: "buds/" + currentImgNumber,
+    url: gal + '/' + currentImgNumber,
     type: "get",
     success: function(data){
       $("#container").html(data);
@@ -149,14 +148,15 @@ function nextImage(currentImgNumber, mode) {
 }
 
 
-function prevImage(currentImgNumber, mode) {
+function prevImage(gal, currentImgNumber, mode) {
 
+  console.log('in prevImage');
   console.log(currentImgNumber);
   currentImgNumber--;
   if (currentImgNumber < 1) { currentImgNumber = 1; }
   console.log(currentImgNumber);
   $.ajax({
-    url: "buds/" + currentImgNumber,
+    url: gal + '/' + currentImgNumber,
     type: "get",
     success: function(data){
       $("#container").html(data);
@@ -168,7 +168,6 @@ function prevImage(currentImgNumber, mode) {
   });
   return currentImgNumber;
 }
-
 
 
 function nextPreviews(previews) {
@@ -256,7 +255,6 @@ function showPreviews(previews, offset) {
     current.removeClass('hide');
   });
 }
-
 
 
 function fullImage(currentImgId) {

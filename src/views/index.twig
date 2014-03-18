@@ -1,5 +1,12 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-  {{ msg }}
+
+  {% for gallery, img in galleriesData %}
+<div class="indexImage">
+  <div>{{ gallery }}</div>
+  <a href="{{ gallery }}"><img src="{{ img }}"></a>
+</div>
+  {% endfor %}
+
 {% endblock %}

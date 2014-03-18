@@ -18,11 +18,14 @@ $app->get('/', function () use ($app, $galsDir) {
   // get galleries list
   $galleries = glob($_SERVER['DOCUMENT_ROOT'].$galsDir.'*' , GLOB_ONLYDIR);
 
+  // galleriesData
+  $galleriesData = array();
+
   foreach ( $galleries as $gal ) {
-    print basename($gal).PHP_EOL;
+    $galleriesData[basename($gal)] = '/'.$galsDir.basename($gal).'/001.jpg'.PHP_EOL;
   }
   
-  return $app['twig']->render('index.twig', array( 'msg' => 'polo'));
+  return $app['twig']->render('index.twig', array( 'galleriesData' => $galleriesData ));
 })
 ->bind('home');
 
@@ -39,24 +42,15 @@ $app->get('/{gallery}', function ($gallery) use ($app, $galsDir) {
     return $app['twig']->render('errors/404.twig', array( 'code' => 404 ));
   }
 
-  // 
-
-
-  // 
   $prevPics = array();
-  $maxPreviewPics = 10;
-  $previewPicsCount = 0;
   
   foreach (glob($galleryPath . "/prev-*") as $prevPic) {
-    array_push( $prevPics, '/' . basename($prevPic).PHP_EOL);
+    array_push( $prevPics, basename($prevPic).PHP_EOL);
   }
 
   $pics = array();
-  $pics[0] = preg_replace("/\/prev-*/", '', $prevPics[0]);
-//   echo $pics[0];
-  $pics[1] = preg_replace("/\/prev-*/", '', $prevPics[1]);
-//   echo $pics[1];
-
+  $pics[0] = preg_replace("/prev-*/", '', $prevPics[0]);
+  $pics[1] = preg_replace("/prev-*/", '', $prevPics[1]);
 
   return $app['twig']->render('gallery.twig', array( 
     'prevPics' => $prevPics,
@@ -72,8 +66,6 @@ $app->get('/{gallery}', function ($gallery) use ($app, $galsDir) {
 $app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDir) {
   
   $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
-  
-//   $picNum = $pic;
   
   $pics = scandir($galleryPath);
   

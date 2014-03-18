@@ -114,25 +114,26 @@ img.hide {
 
 /* line 43, ../sass/screen.scss */
 img.preview {
-  /*   position : absolute; */
   height: 90px;
+  margin: 5px 0;
   cursor: pointer;
-  border: 1px solid red !important;
 }
 
-/* line 50, ../sass/screen.scss */
+/* line 49, ../sass/screen.scss */
 #mode {
   width: 90px;
+  margin: 5px 0;
   cursor: pointer;
 }
 
 /* line 55, ../sass/screen.scss */
 #next, #prev {
   height: 90px;
+  margin: 5px 0;
   cursor: pointer;
 }
 
-/* line 60, ../sass/screen.scss */
+/* line 61, ../sass/screen.scss */
 #controls {
   color: black;
   position: absolute;
@@ -145,17 +146,31 @@ img.preview {
   background-image: -o-linear-gradient(top left, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
   background-image: linear-gradient(top left, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
   background-image: -ms-linear-gradient(top left, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
-  border: 1px solid lime !important;
 }
 
-/* line 76, ../sass/screen.scss */
+/* line 77, ../sass/screen.scss */
 #controlsContainer {
   margin: auto;
   display: table;
 }
 
+/* line 84, ../sass/screen.scss */
+div.indexImage {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border: 1px solid red !important;
+}
+
+/* line 91, ../sass/screen.scss */
+div.indexImage img {
+  /*   max-width : 400px; */
+  max-height: 200px;
+  margin-left: -50px;
+}
+
 @media screen and (min-width: 1000px) {
-  /* line 88, ../sass/screen.scss */
+  /* line 103, ../sass/screen.scss */
   #controls {
     bottom: 20px;
     height: 100px;

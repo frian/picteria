@@ -41,19 +41,20 @@ img.hide {
 }
 
 img.preview {
-/*   position : absolute; */
-  height : 90px;
+  height :    90px;
+  margin :   5px 0;
   cursor : pointer;
-  @include debug(red)
 }
 
 #mode {
-  width : 90px;
+  width :     90px;
+  margin :   5px 0;
   cursor : pointer;
 }
 
 #next, #prev {
-  height : 90px;
+  height :    90px;
+  margin :   5px 0;
   cursor : pointer;
 }
 
@@ -70,14 +71,28 @@ img.preview {
         rgba( 255, 255, 255, .2)
     )
   );
-  @include debug(lime);
 }
+
 
 #controlsContainer {
   margin : auto;
   display: table;
 }
 
+
+$indexDivSize : 200px;
+div.indexImage {
+  width :  $indexDivSize;
+  height : $indexDivSize;
+  overflow :      hidden;
+  @include debug(red);
+}
+
+div.indexImage img {
+/*   max-width : 400px; */
+  max-height : $indexDivSize;
+  margin-left : -$indexDivSize / 4;
+}
 
 @media screen and (min-width: 640px) {
 
