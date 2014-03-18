@@ -67,13 +67,13 @@ $app->get('/{gallery}', function ($gallery) use ($app, $galsDir) {
 
 
 /**
- * -- show gallery ------------------------------------------------------------
+ * -- show pic ----------------------------------------------------------------
  */
-$app->get('/{gallery}/{pic}', function ($gallery, $pic) use ($app, $galsDir) {
+$app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDir) {
   
   $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
   
-  $picNum = $pic;
+//   $picNum = $pic;
   
   $pics = scandir($galleryPath);
   
@@ -81,6 +81,12 @@ $app->get('/{gallery}/{pic}', function ($gallery, $pic) use ($app, $galsDir) {
     if ( preg_match('/^\.\.?$/', $pic) ) { array_shift($pics);  }
   }
 
+  $numPics = count($pics);
+  
+  if ( $picNum > $numPics / 2 ) {
+    $picNum = $numPics / 2;
+  }
+  
   return $app['twig']->render('image.twig', array(
     'gallery' => $gallery,
     'pic'     => $pics[ $picNum - 1 ]

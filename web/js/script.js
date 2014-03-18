@@ -8,16 +8,19 @@ $(function() {
   
   // get id of current image
   var currentImgId = '#' + images[0];
+
+  // placeholder for the current image number
+  var currentImgNumber = 1;
   
   // image mode : screen / image
   var mode = 'image';
 
   
   // -- show first image on page load -----------------------------------------
-  showImage(currentImgId, mode);
+  setTimeout(function(){showImage(currentImgId, mode);}, 10);
 
   // -- show previews on page load --------------------------------------------
-  showPreviews(previews);
+  setTimeout(function(){showPreviews(previews);},10);
 
 
   // -- handle screen resize --------------------------------------------------
@@ -50,16 +53,13 @@ $(function() {
     $.ajax({
       url: "buds/" + currentImgNumber,
       type: "get",
-//      data: values,
       success: function(data){
-//          alert("success");
-          $("#container").html(data);
-          setTimeout(function(){showImage('#picteria-1', mode);},200);
+        $("#container").html(data);
+        setTimeout(function(){showImage('#picteria-1', mode);},20);
           
       },
       error:function(){
-//          alert("failure");
-          $("#container").html('There is error while submit');
+        $("#container").html('There is error while submit');
       }
   });
 //    currentImgNumber++;
@@ -100,9 +100,15 @@ $(function() {
 
 
   // -- keyboard shortcuts ----------------------------------------------------
+  // r :           switch mode
+  // up arrow :    show next previews
+  // down arrow :  show previous previews
+  // right arrow : show next image
+  // left arrow  : show previous image
+  currentImgNumber = prevImage(currentImgNumber, mode);
   $(document).keydown(function(e) {
     console.log(e.which);
-    if ( e.which == 82 ) { // r : switch mode
+    if ( e.which == 82 ) {
       mode = switchMode(currentImgId, mode);
     }
     else if ( e.which == 38 ) {
@@ -111,10 +117,58 @@ $(function() {
     else if ( e.which == 40 ) {
       prevPreviews(previews);
     }
+    else if ( e.which == 39 ) {
+      currentImgNumber = nextImage(currentImgNumber, mode);
+    }
+    else if ( e.which == 37 ) {
+      currentImgNumber = prevImage(currentImgNumber, mode);
+    }
   });
 
 
 });
+
+
+function nextImage(currentImgNumber, mode) {
+
+  console.log(currentImgNumber);
+  currentImgNumber++;
+  console.log(currentImgNumber);
+  $.ajax({
+    url: "buds/" + currentImgNumber,
+    type: "get",
+    success: function(data){
+      $("#container").html(data);
+      setTimeout(function(){showImage('#picteria-1', mode);},20);
+    },
+    error:function(){
+      $("#container").html('There is error while submit');
+    }
+  });
+  return currentImgNumber;
+}
+
+
+function prevImage(currentImgNumber, mode) {
+
+  console.log(currentImgNumber);
+  currentImgNumber--;
+  if (currentImgNumber < 1) { currentImgNumber = 1; }
+  console.log(currentImgNumber);
+  $.ajax({
+    url: "buds/" + currentImgNumber,
+    type: "get",
+    success: function(data){
+      $("#container").html(data);
+      setTimeout(function(){showImage('#picteria-1', mode);},20);
+    },
+    error:function(){
+      $("#container").html('There is error while submit');
+    }
+  });
+  return currentImgNumber;
+}
+
 
 
 function nextPreviews(previews) {
@@ -162,7 +216,6 @@ function switchMode(currentImgId, mode) {
 
 
 function showImage(currentImgId, mode) {
-//  console.log('showImage : ' + mode);
   mode == 'screen' ? fullScreen(currentImgId) : fullImage(currentImgId);
 }
 
@@ -171,7 +224,6 @@ function showPreviews(previews, offset) {
 
   if ( !offset ) {
     offset = 0;
-//    console.log( offset );
   }
   
   $.each(previews, function(index, item) {
@@ -206,23 +258,24 @@ function showPreviews(previews, offset) {
 }
 
 
+
 function fullImage(currentImgId) {
-
+  
   var item = $(currentImgId);
-
+  
   console.log( 'item : ' + currentImgId  );
   
   item.css( 'max-width',  '100%' );
   item.css( 'max-height', '100%' );
-
+  
   item.removeClass('hide');
-
+  
   var orientation = getOrientation();
-
+  
   // remove css added by fullScreen
   item.css('width', '');
   item.css('height', '');
-
+  
   if ( orientation == 'l' ) {
     var leftPos = (getWidth() - item.width()) / 2;
     item.css('left', leftPos);
