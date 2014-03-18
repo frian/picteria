@@ -5,6 +5,7 @@
 
 @import "base";
 
+@import url(http://fonts.googleapis.com/css?family=Courgette);
 
 html, body { height : 100% }
 
@@ -80,12 +81,42 @@ img.preview {
 }
 
 
+#indexContainer {
+  width : 80%;
+  margin : auto;
+  padding : 20px;
+  @include debug(red);
+}
+
+
+div.imageContainer {
+  display : inline-block;
+  background-color : white;
+  width : 210px;
+  margin : 20px;
+/*   height : 300px; */
+  overflow : auto;
+}
+
 $indexDivSize : 200px;
 div.indexImage {
+
   width :  $indexDivSize;
   height : $indexDivSize;
+  margin : 5px;
   overflow :      hidden;
-  @include debug(red);
+/*   @include debug(red); */
+}
+
+
+div.galleryTitle {
+  font-family: 'Courgette',cursive;
+  padding : 5px;
+  height : 30px;
+  line-height : 30px;
+  font-size : 110%;
+  color : black;
+/*   @include debug(); */
 }
 
 div.indexImage img {

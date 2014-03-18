@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
-$galsDir = 'galleries/';
+$galsDir = 'web/galleries/';
 
 
 /**
@@ -36,7 +36,7 @@ $app->get('/', function () use ($app, $galsDir) {
 $app->get('/{gallery}', function ($gallery) use ($app, $galsDir) {
 
   $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
-
+  
   // if gallery does not exist => 404
   if (!is_dir($galleryPath)) {
     return $app['twig']->render('errors/404.twig', array( 'code' => 404 ));

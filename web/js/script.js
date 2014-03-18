@@ -1,5 +1,5 @@
 $(function() {
-
+  
   // get gallery name
   var gal = $('title').text().split(" / ")[1];
   
@@ -105,6 +105,7 @@ $(function() {
   // down arrow :  show previous previews
   // right arrow : show next image
   // left arrow  : show previous image
+  // b :           back to galleries index
   $(document).keydown(function(e) {
     console.log(e.which);
     if ( e.which == 82 ) {
@@ -121,6 +122,9 @@ $(function() {
     }
     else if ( e.which == 37 ) {
       currentImgNumber = prevImage(gal, currentImgNumber, mode);
+    }
+    else if ( e.which == 66 ) {
+      window.location.href = "http://picteria/index.php/";
     }
   });
 
@@ -155,6 +159,7 @@ function prevImage(gal, currentImgNumber, mode) {
   currentImgNumber--;
   if (currentImgNumber < 1) { currentImgNumber = 1; }
   console.log(currentImgNumber);
+
   $.ajax({
     url: gal + '/' + currentImgNumber,
     type: "get",
@@ -166,6 +171,7 @@ function prevImage(gal, currentImgNumber, mode) {
       $("#container").html('There is error while submit');
     }
   });
+
   return currentImgNumber;
 }
 

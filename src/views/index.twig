@@ -1,12 +1,20 @@
 {% extends "layout.twig" %}
 
+{% block title %}home{% endblock %}
+
+{% block picteria_javascripts %}<script src="/js/index.js"></script>{% endblock %}
+
 {% block content %}
-
+<section id="indexContainer">
   {% for gallery, img in galleriesData %}
-<div class="indexImage">
-  <div>{{ gallery }}</div>
-  <a href="{{ gallery }}"><img src="{{ img }}"></a>
-</div>
-  {% endfor %}
 
+<div class="imageContainer">
+  <div class="indexImage">  
+    <a href="/{{ gallery }}"><img src="{{ img }}"></a>
+  </div>
+  <div class="galleryTitle">{{ gallery }}</div>
+</div>
+
+  {% endfor %}
+</section>
 {% endblock %}
