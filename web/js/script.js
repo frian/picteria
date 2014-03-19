@@ -26,17 +26,12 @@ $(function() {
   showPreviews(previews);
 
   var numPreviews = 0;
-  
+
   setTimeout(function() {
-    $.each(previews, function(index, item) {
-     current = $('#' + item).attr('class');
-     if ( current.match(/hide/) ) { return true; }; 
-     numPreviews++;
-    });
-    return numPreviews;
+    numPreviews = countPreviews(previews);
+//    console.log( 'numPreviews : ' + numPreviews );
   }, 60);
-
-
+  
   // add active state style
   $(currentImgId + '-prev').css('border', '1px solid white');
   
@@ -137,22 +132,17 @@ $(function() {
       prevPreviews(previews);
     }
     else if ( e.which == 39 ) {
+      console.log( 'countPreviews : ' + numPreviews );
       if ( currentImgNumber % numPreviews == 0) {
-        nextPreviews(previews);
-        setTimeout(function() {
-          $.each(previews, function(index, item) {
-           current = $('#' + item).attr('class');
-           if ( current.match(/hide/) ) { return true; }; 
-           numPreviews++;
-          });
-          return numPreviews;
-        }, 60);
+        nextPreviews(previews, numPreviews);
+        numPreviews = countPreviews(previews);
       }
       currentImgNumber = nextImage(gal, currentImgNumber, mode);
     }
     else if ( e.which == 37 ) {
-      if ( currentImgNumber % 5 == 0) {
-        prevPreviews(previews);
+      if ( currentImgNumber % numPreviews == 1) {
+        prevPreviews(previews, numPreviews);
+        numPreviews = countPreviews(previews);
       }
       currentImgNumber = prevImage(gal, currentImgNumber, mode);
     }
@@ -164,6 +154,17 @@ $(function() {
 
 });
 
+function countPreviews(previews) {
+
+  var numPreviews = 0;
+  
+  $.each(previews, function(index, item) {
+   current = $('#' + item).attr('class');
+   if ( current.match(/hide/) ) { return true; }; 
+   numPreviews++;
+  });
+  return numPreviews;
+}
 
 function nextImage(gal, currentImgNumber, mode) {
 
@@ -218,10 +219,10 @@ function prevImage(gal, currentImgNumber, mode) {
 }
 
 
-function nextPreviews(previews) {
+function nextPreviews(previews, step) {
 
   offset = parseInt($('#next').attr('data-offset'));
-  offset += 5;
+  offset += step;
   
   if ( offset >= previews.length ) {
     return false;
@@ -234,10 +235,10 @@ function nextPreviews(previews) {
 }
 
 
-function prevPreviews(previews) {
+function prevPreviews(previews, step) {
 
   offset = $('#prev').attr('data-offset');
-  offset -= 5;
+  offset -= step;
   
   if ( offset < 0 ) {
     return false;
