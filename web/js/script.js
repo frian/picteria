@@ -25,11 +25,11 @@ $(function() {
   // -- show previews on page load --------------------------------------------
   showPreviews(previews);
 
-
+  $(currentImgId + '-prev').css('border', '1px solid white');
+  
   // -- handle screen resize --------------------------------------------------
   $(window).resize(function() {
     showImage(currentImgId, mode);
-//    mode == 'screen' ? fullScreen(currentImgId, 'resize') : fullImage(currentImgId);
     showPreviews(previews);
   });
 
@@ -42,6 +42,10 @@ $(function() {
 //      $('#' + item).addClass('hide');
 //    });
 
+    console.log('before' + currentImgId);
+    
+    $(currentImgId + '-prev').css('border', 'none');
+    
     // get clicked element id    
     var id = $(this).attr('id');
 
@@ -50,6 +54,8 @@ $(function() {
 
     currentImgId = '#' + img;
 
+    $(currentImgId + '-prev').css('border', '1px solid white');
+    
     currentImgNumber = img.replace('picteria-', '');
 
     $.ajax({
@@ -62,9 +68,9 @@ $(function() {
       error:function(){
         $("#container").html('There is error while submit');
       }
-  });
+    });
     
-    console.log(currentImgId);
+    console.log('after' + currentImgId);
 
 //    $.each(images, function(index, item) {
 
@@ -107,7 +113,7 @@ $(function() {
   // left arrow  : show previous image
   // b :           back to galleries index
   $(document).keydown(function(e) {
-    console.log(e.which);
+//    console.log(e.which);
     if ( e.which == 82 ) {
       mode = switchMode(currentImgId, mode);
     }
@@ -118,9 +124,15 @@ $(function() {
       prevPreviews(previews);
     }
     else if ( e.which == 39 ) {
+      if ( currentImgNumber % 5 == 0) {
+        nextPreviews(previews);
+      }
       currentImgNumber = nextImage(gal, currentImgNumber, mode);
     }
     else if ( e.which == 37 ) {
+      if ( currentImgNumber % 5 == 0) {
+        prevPreviews(previews);
+      }
       currentImgNumber = prevImage(gal, currentImgNumber, mode);
     }
     else if ( e.which == 66 ) {
@@ -134,9 +146,11 @@ $(function() {
 
 function nextImage(gal, currentImgNumber, mode) {
 
-  console.log(currentImgNumber);
+  // remove active state style from previous preview
+  $('#picteria-' + currentImgNumber + '-prev').css('border', 'none');
+  
   currentImgNumber++;
-  console.log(currentImgNumber);
+//  console.log(currentImgNumber);
   $.ajax({
     url: gal + '/' + currentImgNumber,
     type: "get",
@@ -148,17 +162,21 @@ function nextImage(gal, currentImgNumber, mode) {
       $("#container").html('There is error while submit');
     }
   });
+  
+  // add active state style to current preview
+  $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+
   return currentImgNumber;
 }
 
 
 function prevImage(gal, currentImgNumber, mode) {
 
-  console.log('in prevImage');
-  console.log(currentImgNumber);
+  // remove active state style from previous preview
+  $('#picteria-' + currentImgNumber + '-prev').css('border', 'none');
+
   currentImgNumber--;
   if (currentImgNumber < 1) { currentImgNumber = 1; }
-  console.log(currentImgNumber);
 
   $.ajax({
     url: gal + '/' + currentImgNumber,
@@ -171,6 +189,9 @@ function prevImage(gal, currentImgNumber, mode) {
       $("#container").html('There is error while submit');
     }
   });
+
+  // add active state style to current preview
+  $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
 
   return currentImgNumber;
 }
@@ -240,16 +261,20 @@ function showPreviews(previews, offset) {
       $('#' + item).addClass('hide');
     });
   
-    var screenWidth = getWidth() - 400; // 100px for the resize button
+    var screenWidth = getWidth() - 400; // place for navigation buttons
     var previewWidth = 0;
-  
+    
+    var numPreviews = 0;
+    
     $.each(previews, function(index, item) {
   
       // skip items before offset
       if ( index <  offset  ) {
         return true;
       }
-  
+      
+      numPreviews++;
+      
       // finish when screen is full
       current = $('#' + item);
       previewWidth += current.width();
@@ -265,7 +290,14 @@ function showPreviews(previews, offset) {
       // show item
       current.removeClass('hide');
     });
+
+    console.log(numPreviews);
+    return numPreviews;
+    // end setTimeout
   }, 50);
+
+  
+
 }
 
 
