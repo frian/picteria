@@ -25,6 +25,19 @@ $(function() {
   // -- show previews on page load --------------------------------------------
   showPreviews(previews);
 
+  var numPreviews = 0;
+  
+  setTimeout(function() {
+    $.each(previews, function(index, item) {
+     current = $('#' + item).attr('class');
+     if ( current.match(/hide/) ) { return true; }; 
+     numPreviews++;
+    });
+    return numPreviews;
+  }, 60);
+
+
+  // add active state style
   $(currentImgId + '-prev').css('border', '1px solid white');
   
   // -- handle screen resize --------------------------------------------------
@@ -124,8 +137,16 @@ $(function() {
       prevPreviews(previews);
     }
     else if ( e.which == 39 ) {
-      if ( currentImgNumber % 5 == 0) {
+      if ( currentImgNumber % numPreviews == 0) {
         nextPreviews(previews);
+        setTimeout(function() {
+          $.each(previews, function(index, item) {
+           current = $('#' + item).attr('class');
+           if ( current.match(/hide/) ) { return true; }; 
+           numPreviews++;
+          });
+          return numPreviews;
+        }, 60);
       }
       currentImgNumber = nextImage(gal, currentImgNumber, mode);
     }
@@ -290,9 +311,7 @@ function showPreviews(previews, offset) {
       // show item
       current.removeClass('hide');
     });
-
     console.log(numPreviews);
-    return numPreviews;
     // end setTimeout
   }, 50);
 
