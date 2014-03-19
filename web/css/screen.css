@@ -109,7 +109,7 @@ img.picteria {
 }
 
 /* line 40, ../sass/screen.scss */
-img.hide {
+.hide {
   display: none;
 }
 
@@ -160,10 +160,11 @@ img.preview {
   width: 80%;
   margin: auto;
   padding: 20px;
-  border: 1px solid red !important;
+  text-align: center;
+  /*   @include debug(red); */
 }
 
-/* line 92, ../sass/screen.scss */
+/* line 93, ../sass/screen.scss */
 div.imageContainer {
   display: inline-block;
   background-color: white;
@@ -173,7 +174,7 @@ div.imageContainer {
   overflow: auto;
 }
 
-/* line 102, ../sass/screen.scss */
+/* line 103, ../sass/screen.scss */
 div.indexImage {
   width: 200px;
   height: 200px;
@@ -182,7 +183,7 @@ div.indexImage {
   /*   @include debug(red); */
 }
 
-/* line 112, ../sass/screen.scss */
+/* line 113, ../sass/screen.scss */
 div.galleryTitle {
   font-family: 'Courgette',cursive;
   padding: 5px;
@@ -193,7 +194,27 @@ div.galleryTitle {
   /*   @include debug(); */
 }
 
-/* line 122, ../sass/screen.scss */
+/* line 123, ../sass/screen.scss */
+div.active {
+  /*   padding : 5px; */
+  /*   margin : 0 5px; */
+  /* height : 20px; */
+  background-color: black;
+  /*   width : 190px; */
+  /* width: 0px; */
+  /* height: 0px; */
+  /* border-style: solid; */
+  /* border-width: 0 100px 30px 100px; */
+  /* border-color: transparent transparent #007bff transparent; */
+}
+
+/* line 136, ../sass/screen.scss */
+div.current {
+  padding: 5px;
+  background-color: red;
+}
+
+/* line 142, ../sass/screen.scss */
 div.indexImage img {
   /*   max-width : 400px; */
   max-height: 200px;
@@ -201,7 +222,7 @@ div.indexImage img {
 }
 
 @media screen and (min-width: 1000px) {
-  /* line 134, ../sass/screen.scss */
+  /* line 154, ../sass/screen.scss */
   #controls {
     bottom: 20px;
     height: 100px;

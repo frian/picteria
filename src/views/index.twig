@@ -2,19 +2,22 @@
 
 {% block title %}home{% endblock %}
 
-{% block picteria_javascripts %}<script src="/js/index.js"></script>{% endblock %}
+{% block picteria_javascripts %}<script src="../../web/js/index.js"></script>{% endblock %}
 
 {% block content %}
+
+
 <section id="indexContainer">
   {% for gallery, img in galleriesData %}
-
-<div class="imageContainer">
+<div class="imageContainer {{ loop.index }}">
   <div class="indexImage">  
-    <a href="/{{ gallery }}"><img src="{{ img }}"></a>
+    <a class="{{ loop.index }}" href="/{{ gallery }}"><img src="{{ img }}"></a>
   </div>
   <div class="galleryTitle">{{ gallery }}</div>
+  <div id="{{ loop.index }}" class="active hide"><br /><div class="current"></div></div>
 </div>
-
   {% endfor %}
 </section>
+
+
 {% endblock %}

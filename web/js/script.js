@@ -20,15 +20,16 @@ $(function() {
 
   
   // -- show first image on page load -----------------------------------------
-  setTimeout(function(){showImage(currentImgId, mode);}, 10);
+  showImage(currentImgId, mode);
 
   // -- show previews on page load --------------------------------------------
-  setTimeout(function(){showPreviews(previews);},10);
+  showPreviews(previews);
 
 
   // -- handle screen resize --------------------------------------------------
   $(window).resize(function() {
-    mode == 'screen' ? fullScreen(currentImgId, 'resize') : fullImage(currentImgId);
+    showImage(currentImgId, mode);
+//    mode == 'screen' ? fullScreen(currentImgId, 'resize') : fullImage(currentImgId);
     showPreviews(previews);
   });
 
@@ -56,8 +57,7 @@ $(function() {
       type: "get",
       success: function(data){
         $("#container").html(data);
-        setTimeout(function(){showImage('#picteria-1', mode);},20);
-          
+        showImage('#picteria-1', mode); 
       },
       error:function(){
         $("#container").html('There is error while submit');
@@ -142,7 +142,7 @@ function nextImage(gal, currentImgNumber, mode) {
     type: "get",
     success: function(data){
       $("#container").html(data);
-      setTimeout(function(){showImage('#picteria-1', mode);},20);
+      showImage('#picteria-1', mode);
     },
     error:function(){
       $("#container").html('There is error while submit');
@@ -165,7 +165,7 @@ function prevImage(gal, currentImgNumber, mode) {
     type: "get",
     success: function(data){
       $("#container").html(data);
-      setTimeout(function(){showImage('#picteria-1', mode);},20);
+      showImage('#picteria-1', mode);
     },
     error:function(){
       $("#container").html('There is error while submit');
@@ -221,53 +221,57 @@ function switchMode(currentImgId, mode) {
 
 
 function showImage(currentImgId, mode) {
-  mode == 'screen' ? fullScreen(currentImgId) : fullImage(currentImgId);
+
+  setTimeout(function(){
+    mode == 'screen' ? fullScreen(currentImgId) : fullImage(currentImgId);
+  }, 50);
+
 }
 
 
 function showPreviews(previews, offset) {
 
-  if ( !offset ) {
-    offset = 0;
-  }
+  setTimeout(function() {
+    if ( !offset ) {
+      offset = 0;
+    }
+    
+    $.each(previews, function(index, item) {
+      $('#' + item).addClass('hide');
+    });
   
-  $.each(previews, function(index, item) {
-    $('#' + item).addClass('hide');
-  });
-
-  var screenWidth = getWidth() - 400; // 100px for the resize button
-  var previewWidth = 0;
-
-  $.each(previews, function(index, item) {
-
-    // skip items before offset
-    if ( index <  offset  ) {
-      return true;
-    }
-
-    // finish when screen is full
-    current = $('#' + item);
-    previewWidth += current.width();
-    if ( previewWidth >= screenWidth ) {
-      return false;
-    }
-
-    // finish when we have no more previews
-    if ( index >= previews.length ) {
-      return false;
-    }
-
-    // show item
-    current.removeClass('hide');
-  });
+    var screenWidth = getWidth() - 400; // 100px for the resize button
+    var previewWidth = 0;
+  
+    $.each(previews, function(index, item) {
+  
+      // skip items before offset
+      if ( index <  offset  ) {
+        return true;
+      }
+  
+      // finish when screen is full
+      current = $('#' + item);
+      previewWidth += current.width();
+      if ( previewWidth >= screenWidth ) {
+        return false;
+      }
+  
+      // finish when we have no more previews
+      if ( index >= previews.length ) {
+        return false;
+      }
+  
+      // show item
+      current.removeClass('hide');
+    });
+  }, 50);
 }
 
 
 function fullImage(currentImgId) {
   
   var item = $(currentImgId);
-  
-  console.log( 'item : ' + currentImgId  );
   
   item.css( 'max-width',  '100%' );
   item.css( 'max-height', '100%' );

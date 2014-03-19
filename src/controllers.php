@@ -7,22 +7,32 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
+// infomaniak subdomain
+// $galsDir = '/picteria/web/galleries/';
 $galsDir = 'web/galleries/';
-
 
 /**
  * -- galleries index ---------------------------------------------------------
  */
 $app->get('/', function () use ($app, $galsDir) {
 
+  $galleriesPath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
+  
   // get galleries list
-  $galleries = glob($_SERVER['DOCUMENT_ROOT'].$galsDir.'*' , GLOB_ONLYDIR);
+  $galleries = glob($galleriesPath.'*' , GLOB_ONLYDIR);
 
   // galleriesData
   $galleriesData = array();
 
+  // get the first pic of the gallery
   foreach ( $galleries as $gal ) {
-    $galleriesData[basename($gal)] = '/'.$galsDir.basename($gal).'/001.jpg'.PHP_EOL;
+    $prevPics = array();
+    foreach (glob($gal . "/prev-*") as $prevPic) {
+      array_push( $prevPics, basename($prevPic).PHP_EOL);
+      break;
+    }
+    $pic = preg_replace("/prev-*/", '', $prevPics[0]);
+    $galleriesData[basename($gal)] = '/'.$galsDir.basename($gal).'/'.$pic.PHP_EOL;
   }
   
   return $app['twig']->render('index.twig', array( 'galleriesData' => $galleriesData ));
@@ -36,14 +46,14 @@ $app->get('/', function () use ($app, $galsDir) {
 $app->get('/{gallery}', function ($gallery) use ($app, $galsDir) {
 
   $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
-  
+
   // if gallery does not exist => 404
   if (!is_dir($galleryPath)) {
     return $app['twig']->render('errors/404.twig', array( 'code' => 404 ));
   }
 
   $prevPics = array();
-  
+
   foreach (glob($galleryPath . "/prev-*") as $prevPic) {
     array_push( $prevPics, basename($prevPic).PHP_EOL);
   }
@@ -92,17 +102,17 @@ $app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDi
  */
 $app->error(function (\Exception $e, $code) use ($app) {
 
-    if ($app['debug']) {
-        return;
-    }
+  if ($app['debug']) {
+    return;
+  }
 
-    // 404.html, 40x.html, 4xx.html, 500.html 5xx.html, default.html
-    $templates = array(
-        'errors/'.$code.'.twig',
-        'errors/'.substr($code, 0, 2).'x.twig',
-        'errors/'.substr($code, 0, 1).'xx.twig',
-        'errors/default.twig',
-    );
+  // 404.html, 40x.html, 4xx.html, 500.html 5xx.html, default.html
+  $templates = array(
+    'errors/'.$code.'.twig',
+    'errors/'.substr($code, 0, 2).'x.twig',
+    'errors/'.substr($code, 0, 1).'xx.twig',
+    'errors/default.twig',
+  );
 
-    return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
+  return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
 });

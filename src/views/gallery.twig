@@ -2,11 +2,11 @@
 
 {% block title %}{{ gallery }}{% endblock %}
 
-{% block picteria_javascripts %}<script src="/js/script.js"></script>{% endblock %}
+{% block picteria_javascripts %}<script src="../../web/js/script.js"></script>{% endblock %}
 
 {% block content %}
   <section id="container">
-    <img id="picteria-1" class="picteria hide" src="/galleries/{{ gallery }}/{{ pics.0 }}" alt="" >
+    <img id="picteria-1" class="picteria hide" src="/web/galleries/{{ gallery }}/{{ pics.0 }}" alt="" >
 {#     <img id="picteria-2" class="picteria hide" src="/galleries/buds/002.jpg" alt="" >#}
   </section>
   
@@ -16,7 +16,7 @@
       <img class="" id="prev" src="/img/arrow-left.png" alt="previous" data-offset="0" title="previous">
 
   {% for prevPic in prevPics %}
-      <img class="preview hide" id="picteria-{{ loop.index }}-prev" src="/galleries/{{ gallery }}/{{ prevPic }}" alt="" >
+      <img class="preview hide" id="picteria-{{ loop.index }}-prev" src="/web/galleries/{{ gallery }}/{{ prevPic }}" alt="" >
   {% endfor %}
 
       <img class="" id="next" src="/img/arrow-right.png" alt="next" data-offset="0" title="next">

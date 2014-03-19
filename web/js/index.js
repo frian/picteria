@@ -1,8 +1,10 @@
 $(function() {
-  var indexImages = $('#indexContainer').find('a').map(function() { return this; }).get();
+  var indexImages = $('#indexContainer').find('a').map(function() { return $(this); }).get();
   var galleryNum = 0;
 
   indexImages[galleryNum].focus();
+  $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
+//  $('.' + indexImages[galleryNum].attr("class")).css('border' , '1px solid red');
   
   // -- keyboard shortcuts ----------------------------------------------------
   // right arrow : focus on next gallery
@@ -10,14 +12,42 @@ $(function() {
   $(document).keydown(function(e) {
     console.log(e.which);
     if ( e.which == 39 ) {
+
+      // remove active state style at previous gallery
+//      $('.' + indexImages[galleryNum].attr("class")).css('border' , 'none');
+      $('#' + indexImages[galleryNum].attr("class")).css('display' , 'none');
+
+      // current gallery
       galleryNum++;
+
+      // if last gallery go to first
       if ( galleryNum >= indexImages.length ) { galleryNum = 0; }
+
+      // set link as active
       indexImages[galleryNum].focus();
+      
+      // set active style
+//      $('.' + indexImages[galleryNum].attr("class")).css('border' , '1px solid red');
+      $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
     }
     else if ( e.which == 37 ) {
+
+      // remove active state style at previous gallery
+//      $('.' + indexImages[galleryNum].attr("class")).css('border' , 'none');
+      $('#' + indexImages[galleryNum].attr("class")).css('display' , 'none');
+
+      // current gallery
       galleryNum--;
+      
+      // if first gallery go to last
       if ( galleryNum < 0 ) { galleryNum = indexImages.length - 1; }
+
+      // set link as active
       indexImages[galleryNum].focus();
+
+      // set active style
+//      $('.' + indexImages[galleryNum].attr("class")).css('border' , '1px solid red');
+      $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
     }
   });
 });
