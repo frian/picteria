@@ -96,13 +96,13 @@ $(function() {
 
   // -- Handle next previews --------------------------------------------------
   $('#next').click(function() {
-    nextPreviews(previews);
+    nextPreviews(previews, numPreviews);
   });
 
 
   // -- Handle previous previews ----------------------------------------------
   $('#prev').click(function() {
-    prevPreviews(previews);
+    prevPreviews(previews, numPreviews);
   });
 
 
@@ -126,10 +126,10 @@ $(function() {
       mode = switchMode(currentImgId, mode);
     }
     else if ( e.which == 38 ) {
-      nextPreviews(previews);
+      nextPreviews(previews, numPreviews);
     }
     else if ( e.which == 40 ) {
-      prevPreviews(previews);
+      prevPreviews(previews, numPreviews);
     }
     else if ( e.which == 39 ) {
       console.log( 'countPreviews : ' + numPreviews );
@@ -409,7 +409,7 @@ function getHeight() {
 
 function getOrientation() {
 
-  if ( getWidth() * 0.75 > getHeight() ) {
+  if ( getWidth() * 0.80 > getHeight() ) {
     return 'l';
   }
   return 'p';
