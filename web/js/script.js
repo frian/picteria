@@ -134,13 +134,12 @@ $(function() {
       prevPreviews(previews, numPreviews);
     }
     else if ( e.which == 39 ) {
-//      console.log( 'countPreviews : ' + numPreviews );
-      if ( ( currentImgNumber ) % numPreviews == 0) {
-        previewShowed;
+      if ( ( currentImgNumber - previewShowed ) % numPreviews == 0) {
+        previewShowed += numPreviews;
         nextPreviews(previews, numPreviews);
-        console.log('numPreviews in next' + numPreviews);
-        console.log(' currentImgNumber in next' +  currentImgNumber);
-        numPreviews = countPreviews(previews);
+        setTimeout(function() {
+          numPreviews = countPreviews(previews);
+        }, 60);
       }
       currentImgNumber = nextImage(gal, currentImgNumber, mode);
     }
@@ -174,11 +173,16 @@ function countPreviews(previews) {
 
 function nextImage(gal, currentImgNumber, mode) {
 
+  if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
+    return currentImgNumber;
+  }
+
   // remove active state style from previous preview
   $('#picteria-' + currentImgNumber + '-prev').css('border', 'none');
   
   currentImgNumber++;
-//  console.log(currentImgNumber);
+
+  console.log( 'currentImgNumber : ' + currentImgNumber);
   $.ajax({
     url: gal + '/' + currentImgNumber,
     type: "get",
@@ -199,6 +203,10 @@ function nextImage(gal, currentImgNumber, mode) {
 
 
 function prevImage(gal, currentImgNumber, mode) {
+
+  if ($('#picteria-' + ( parseInt(currentImgNumber) - 1 ) + '-prev').length == 0) {
+    return currentImgNumber;
+  }
 
   // remove active state style from previous preview
   $('#picteria-' + currentImgNumber + '-prev').css('border', 'none');
