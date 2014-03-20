@@ -135,8 +135,8 @@ $(function() {
     }
     else if ( e.which == 39 ) {
 //      console.log( 'countPreviews : ' + numPreviews );
-      if ( ( currentImgNumber ) % numPreviews == 0) {
-        previewShowed;
+      if ( ( currentImgNumber - previewShowed ) % numPreviews == 0) {
+        previewShowed
         nextPreviews(previews, numPreviews);
         console.log('numPreviews in next' + numPreviews);
         console.log(' currentImgNumber in next' +  currentImgNumber);
@@ -263,16 +263,16 @@ function switchMode(currentImgId, mode) {
   mode == 'screen' ? mode='image': mode='screen';
   var icon = 'resize';
   if ( mode == 'image' ) { icon = 'fullscreen'; }
-  showImage('#picteria-1', mode, 'resize');
+  showImage('#picteria-1', mode);
   $('#mode').attr('src', '/img/' + icon + '.png');
   return mode;
 }
 
 
-function showImage(currentImgId, mode, resize) {
+function showImage(currentImgId, mode) {
 
   setTimeout(function(){
-    mode == 'screen' ? fullScreen(currentImgId, resize) : fullImage(currentImgId, resize);
+    mode == 'screen' ? fullScreen(currentImgId) : fullImage(currentImgId);
   }, 50);
 
 }
@@ -321,46 +321,21 @@ function showPreviews(previews, offset) {
     console.log(numPreviews);
     // end setTimeout
   }, 50);
+
+  
+
 }
 
 
-function fullImage(currentImgId, resize) {
+function fullImage(currentImgId) {
   
   var item = $(currentImgId);
 
-  if (!resize) {
+  var imgPath = item.attr( 'src' );
 
-    var imgPath = item.attr( 'src' );
-    var img = new Image();
+  var img = new Image();
+  img.onload = function() {
 
-    img.onload = function() {
-
-      item.css( 'max-width',  '100%' );
-      item.css( 'max-height', '100%' );
-
-      item.removeClass('hide');
-      
-      var orientation = getOrientation();
-
-      // remove css added by fullScreen
-      item.css('width', '');
-      item.css('height', '');
-
-      if ( orientation == 'l' ) {
-        var leftPos = (getWidth() - item.width()) / 2;
-        item.css('left', leftPos);
-        item.css('top', 0);
-      }
-      else {
-        var topPos = (getHeight() - item.height()) / 2;
-        item.css('top', topPos);
-        item.css('left', 0);
-      }
-    };
-    
-    img.src = imgPath;
-  }
-  else {
     item.css( 'max-width',  '100%' );
     item.css( 'max-height', '100%' );
 
@@ -382,12 +357,17 @@ function fullImage(currentImgId, resize) {
       item.css('top', topPos);
       item.css('left', 0);
     }
-  }
+  };
   
+  img.src = imgPath;
+
+  console.log( imgPath );
+  
+
 }
 
 
-function fullScreen(currentImgId, resize) {
+function fullScreen(currentImgId) {
 
   var item = $(currentImgId);
 
@@ -396,84 +376,41 @@ function fullScreen(currentImgId, resize) {
   var screenWidth = getWidth();
   var screenHeight = getHeight();
   var orientation = getOrientation();
+  
+  //remove css added by fullImage
+  item.css( 'max-width',  '' );
+  item.css( 'max-height', '' );
 
-  if (!resize) {
-
-    var imgPath = item.attr( 'src' );
-    var img = new Image();
-
-    img.onload = function() {
-
-      //remove css added by fullImage
-      item.css( 'max-width',  '' );
-      item.css( 'max-height', '' );
-
-      item.css('width', '');
-      item.css('height', '');
-
-      OriginalImageWidth = item.width();
-      OriginalImageHeigth = item.height();
-
-    //  console.log(OriginalImageWidth + ' ' + OriginalImageHeigth);
-
-      if ( orientation == 'l' ) {
-        var imgHeight = screenWidth / OriginalImageWidth * OriginalImageHeigth;
-        console.log( 'imgHeight : ' + imgHeight );
-        console.log( 'screenHeight : ' + screenHeight );
-        
-        var topPos = ( screenHeight - imgHeight) / 2;
-        item.css('width', screenWidth);
-        item.css('height', imgHeight);
-        item.css( 'top', topPos );
-        item.css( 'left', 0 );
-        
-      }
-      else {
-        var imgWidth = screenHeight / OriginalImageHeigth * OriginalImageWidth;
-    //    console.log( 'imgHeight : ' + imgHeight );
-        var leftPos = ( screenWidth - imgWidth) / 2;
-        item.css('height', screenHeight);
-        item.css('width', imgWidth);
-        item.css( 'left', leftPos );
-        item.css( 'top', 0 );
-      }
-    };
+  item.css('width', '');
+  item.css('height', '');
+  
+  OriginalImageWidth = item.width();
+  OriginalImageHeigth = item.height();
+  
+//  console.log(OriginalImageWidth + ' ' + OriginalImageHeigth);
+  
+  if ( orientation == 'l' ) {
+    var imgHeight = screenWidth / OriginalImageWidth * OriginalImageHeigth;
+    console.log( 'imgHeight : ' + imgHeight );
+    console.log( 'screenHeight : ' + screenHeight );
+    
+    var topPos = ( screenHeight - imgHeight) / 2;
+    item.css('width', screenWidth);
+    item.css('height', imgHeight);
+    item.css( 'top', topPos );
+    item.css( 'left', 0 );
+    
   }
   else {
-    //remove css added by fullImage
-    item.css( 'max-width',  '' );
-    item.css( 'max-height', '' );
-
-    item.css('width', '');
-    item.css('height', '');
-
-    OriginalImageWidth = item.width();
-    OriginalImageHeigth = item.height();
-
-  //  console.log(OriginalImageWidth + ' ' + OriginalImageHeigth);
-
-    if ( orientation == 'l' ) {
-      var imgHeight = screenWidth / OriginalImageWidth * OriginalImageHeigth;
-      console.log( 'imgHeight : ' + imgHeight );
-      console.log( 'screenHeight : ' + screenHeight );
-      
-      var topPos = ( screenHeight - imgHeight) / 2;
-      item.css('width', screenWidth);
-      item.css('height', imgHeight);
-      item.css( 'top', topPos );
-      item.css( 'left', 0 );
-      
-    }
-    else {
-      var imgWidth = screenHeight / OriginalImageHeigth * OriginalImageWidth;
-  //    console.log( 'imgHeight : ' + imgHeight );
-      var leftPos = ( screenWidth - imgWidth) / 2;
-      item.css('height', screenHeight);
-      item.css('width', imgWidth);
-      item.css( 'left', leftPos );
-      item.css( 'top', 0 );
-    }
+    var imgWidth = screenHeight / OriginalImageHeigth * OriginalImageWidth;
+//    console.log( 'imgHeight : ' + imgHeight );
+    var leftPos = ( screenWidth - imgWidth) / 2;
+    item.css('height', screenHeight);
+    item.css('width', imgWidth);
+    item.css( 'left', leftPos );
+    item.css( 'top', 0 );
   }
+
   item.removeClass('hide');
 }
 
