@@ -1,6 +1,16 @@
 $(function() {
+
   var indexImages = $('#indexContainer').find('a').map(function() { return $(this); }).get();
   var galleryNum = 0;
+
+  $('#indexContainer a').click(function(e) {
+
+    e.preventDefault();
+    var link = $(this).attr('href');
+    var url = link + '/' + $(document).width() + '/' + '1';
+    window.location.href = url;
+    console.log( 'clicked on gallery ' + url );
+  });
 
   indexImages[galleryNum].focus();
   $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');

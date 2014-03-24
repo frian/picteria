@@ -13,8 +13,12 @@ $(function() {
   var currentImgId = '#' + images[0];
 
   // place holder for the current image number
-  var currentImgNumber = 1;
-  
+  var currentImgNumber = previews[0];
+  currentImgNumber = currentImgNumber.replace('picteria-', '');
+  currentImgNumber = currentImgNumber.replace('-prev', '');
+  console.log( 'currentImgNumber : ' + currentImgNumber);
+
+
   // image mode : screen / image
   var mode = 'image';
 
@@ -23,7 +27,9 @@ $(function() {
 
   // number of previews showed in previous previews screens
   var previewShowed = 0;
+
   
+  var PreviousNumPreviews = 0;
 
   // -- show first image on page load -----------------------------------------
   showImage(currentImgId, mode);
@@ -34,12 +40,15 @@ $(function() {
 
 
   setTimeout(function() {
+    PreviousNumPreviews = numPreviews;
     numPreviews = countPreviews(previews);
   }, 60);
   
 
   // add active state style
-  $(currentImgId + '-prev').css('border', '1px solid white');
+  console.log( 'currentImgId : ' + currentImgId );
+  $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+//  $(currentImgId + '-prev').css('border', '1px solid white');
 
 
   // -- handle screen resize --------------------------------------------------
@@ -71,7 +80,7 @@ $(function() {
     currentImgNumber = img.replace('picteria-', '');
 
     $.ajax({
-      url: gal + '/' + currentImgNumber,
+      url: '/' + gal + '/' + currentImgNumber,
       type: "get",
       success: function(data){
         $("#container").html(data);
@@ -98,15 +107,20 @@ $(function() {
 
   // -- Handle next previews --------------------------------------------------
   $('#next').click(function() {
-    setTimeout(function() {
-      numPreviews = countPreviews(previews);
-    }, 60);
+    
+//    console.log('');
+    
+//    setTimeout(function() {
+//      PreviousNumPreviews = numPreviews;
+//      numPreviews = countPreviews(previews);
+//    }, 60);
   });
 
 
   // -- Handle previous previews ----------------------------------------------
   $('#prev').click(function() {
     setTimeout(function() {
+      PreviousNumPreviews = numPreviews;
       numPreviews = countPreviews(previews);
     }, 60);
   });
@@ -138,20 +152,35 @@ $(function() {
       prevPreviews(previews, numPreviews);
     }
     else if ( e.which == 39 ) {
-      if ( ( currentImgNumber - previewShowed ) % numPreviews == 0) {
-        previewShowed += numPreviews;
-        nextPreviews(previews, numPreviews);
-        setTimeout(function() {
-          numPreviews = countPreviews(previews);
-        }, 60);
+      
+      if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
+
+        var galItems = $('#controls').attr('data-galItems');
+        
+        if ( currentImgNumber == galItems ) {
+          return false;
+        }
+        
+        url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) + 1 );
+        window.location.href = url;
+
       }
-      currentImgNumber = nextImage(gal, currentImgNumber, mode);
+      else {
+        currentImgNumber = nextImage(gal, currentImgNumber, mode);
+      }
     }
     else if ( e.which == 37 ) {
-      if ( currentImgNumber % numPreviews == 1) {
+      
+      if ( ( currentImgNumber - previewShowed ) % numPreviews == 0) {
+
+        previewShowed -= numPreviews;
+        if ( previewShowed < 0 ) { previewShowed = 0; };
+
         prevPreviews(previews, numPreviews);
-        console.log('numPreviews in prev' + numPreviews);
-        numPreviews = countPreviews(previews);
+        setTimeout(function() {
+//          PreviousNumPreviews = numPreviews;
+          numPreviews = countPreviews(previews);
+        }, 60);
       }
       currentImgNumber = prevImage(gal, currentImgNumber, mode);
     }
@@ -187,9 +216,8 @@ function nextImage(gal, currentImgNumber, mode) {
   
   currentImgNumber++;
 
-  console.log( 'currentImgNumber : ' + currentImgNumber);
   $.ajax({
-    url: gal + '/' + currentImgNumber,
+    url: '/' + gal + '/' + currentImgNumber,
     type: "get",
     success: function(data){
       $("#container").html(data);
@@ -202,7 +230,7 @@ function nextImage(gal, currentImgNumber, mode) {
   
   // add active state style to current preview
   $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
-
+//  console.log('currentImgNumber in next image' + currentImgNumber);
   return currentImgNumber;
 }
 
@@ -220,7 +248,7 @@ function prevImage(gal, currentImgNumber, mode) {
   if (currentImgNumber < 1) { currentImgNumber = 1; }
 
   $.ajax({
-    url: gal + '/' + currentImgNumber,
+    url: '/' + gal + '/' + currentImgNumber,
     type: "get",
     success: function(data){
       $("#container").html(data);
@@ -233,7 +261,9 @@ function prevImage(gal, currentImgNumber, mode) {
 
   // add active state style to current preview
   $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
-
+  
+  console.log( 'currentImgNumber in prev image : ' + currentImgNumber);
+  
   return currentImgNumber;
 }
 
@@ -298,45 +328,47 @@ function showImage(currentImgId, mode, resize) {
 
 function showPreviews(previews, offset) {
 
-  setTimeout(function() {
-    if ( !offset ) {
-      offset = 0;
-    }
-    
-    $.each(previews, function(index, item) {
-      $('#' + item).addClass('hide');
-    });
-  
-    var screenWidth = getWidth() - 400; // place for navigation buttons
-    var previewWidth = 0;
-    
-    var numPreviews = 0;
-    
-    $.each(previews, function(index, item) {
-
-      // skip items before offset
-      if ( index <  offset  ) {
-        return true;
-      }
-
-      numPreviews++;
-
-      // finish when screen is full
-      current = $('#' + item);
-      previewWidth += current.width();
-      if ( previewWidth >= screenWidth ) {
-        return false;
-      }
-
-      // finish when we have no more previews
-      if ( index >= previews.length ) {
-        return false;
-      }
-
-      // show item
-      current.removeClass('hide');
-    });
-  }, 50);
+//  setTimeout(function() {
+//    if ( !offset ) {
+//      offset = 0;
+//    }
+//    
+//    $.each(previews, function(index, item) {
+//      $('#' + item).addClass('hide');
+//    });
+//  
+//    var screenWidth = getWidth() - 400; // place for navigation buttons
+//    var previewWidth = 0;
+//    
+//    var numPreviews = 0;
+//    
+//    $.each(previews, function(index, item) {
+//
+//      // skip items before offset
+//      if ( index <  offset  ) {
+//        return true;
+//      }
+//
+//      numPreviews++;
+//
+//      current = $('#' + item);
+//      previewWidth += current.width();
+//
+//      // finish when screen is full
+//      if ( previewWidth >= screenWidth ) {
+//        return false;
+//      }
+//
+//      // finish when we have no more previews
+//      if ( index >= previews.length ) {
+//        return false;
+//      }
+//
+//      // show item
+//      console.log(item);
+//      current.removeClass('hide');
+//    });
+//  }, 50);
 }
 
 

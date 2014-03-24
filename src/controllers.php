@@ -43,8 +43,12 @@ $app->get('/', function () use ($app, $galsDir) {
 /**
  * -- show gallery ------------------------------------------------------------
  */
-$app->get('/{gallery}', function ($gallery) use ($app, $galsDir) {
+$app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir) {
 
+
+  $screenWidth = $size - 400;
+  $previewsWidth = 0;
+  
   $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
 
   // if gallery does not exist => 404
@@ -52,20 +56,46 @@ $app->get('/{gallery}', function ($gallery) use ($app, $galsDir) {
     return $app['twig']->render('errors/404.twig', array( 'code' => 404 ));
   }
 
+  $allPrevPics = array();
   $prevPics = array();
+  $picCount = 1;
+
+  $firstPic = 0;
 
   foreach (glob($galleryPath . "/prev-*") as $prevPic) {
-    array_push( $prevPics, basename($prevPic).PHP_EOL);
+    array_push($allPrevPics, $prevPic);
   }
 
-  $pics = array();
-  $pics[0] = preg_replace("/prev-*/", '', $prevPics[0]);
-  $pics[1] = preg_replace("/prev-*/", '', $prevPics[1]);
+  $galItems = count($allPrevPics);
+
+  foreach ($allPrevPics as $prevPic) {
+
+    // skip items before offset
+    if ( $picCount <  $id  ) {
+      $picCount++;
+      continue;
+    }
+    
+    $previewsWidth += getimagesize($prevPic)[0];
+    
+    if ( $previewsWidth > $screenWidth ) {
+      break;
+    }
+    
+    $prevPics[$picCount] = basename($prevPic).PHP_EOL;
+    
+    $picCount++;
+  }
+
+  $first = reset($prevPics);
+  
+  $pic = preg_replace("/prev-*/", '', $first);
 
   return $app['twig']->render('gallery.twig', array( 
     'prevPics' => $prevPics,
-    'pics'     => $pics,
-    'gallery'  => $gallery
+    'pic'      => $pic,
+    'gallery'  => $gallery,
+    'galItems' => $galItems
   ));
 });
 
