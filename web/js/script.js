@@ -17,7 +17,7 @@ $(function() {
 //  var currentImgNumber = $(previews).get(-1);
   currentImgNumber = currentImgNumber.replace('picteria-', '');
   currentImgNumber = currentImgNumber.replace('-prev', '');
-  console.log( 'currentImgNumber : ' + currentImgNumber);
+  console.log( 'on load currentImgNumber : ' + currentImgNumber);
 
 
   // image mode : screen / image
@@ -49,12 +49,11 @@ $(function() {
   // -- handle screen resize --------------------------------------------------
   $(window).resize(function() {
     showImage(currentImgId, mode);
-    showPreviews(previews);
   });
 
 
   // -- Handle show image -----------------------------------------------------
-  $('.preview').click(function() {
+    $(document).on("click", '#controlsContainer .preview', function() {
 
 //    $.each(images, function(index, item) {
 //      $('#' + item).addClass('hide');
@@ -64,7 +63,7 @@ $(function() {
     
     // get clicked element id    
     var id = $(this).attr('id');
-
+console.log(id);
     // get corresponding img id
     var img = id.replace('-prev', '');
 
@@ -74,22 +73,25 @@ $(function() {
     
     currentImgNumber = img.replace('picteria-', '');
 
+    console.log('currentImgNumber : ' + currentImgNumber );
+    
     $.ajax({
       url: '/' + gal + '/' + currentImgNumber,
       type: "get",
       success: function(data){
         $("#container").html(data);
-        showImage('#picteria-1', mode); 
+        showImage('#picteria-1', mode);
+//        console.log('currentImgNumber : ' + currentImgNumber)
       },
-      error:function(){
+      error:function() {
         $("#container").html('There is error while submit');
       }
-    });
+    }); 
     
 //    $.each(images, function(index, item) {
 //      if ( item == img ) {
 
-    showImage('#picteria-1', mode);
+//    showImage('#picteria-1', mode);
     $('#picteria-1').removeClass('hide');
         
 //      }
@@ -147,24 +149,23 @@ $(function() {
       prevPreviews(previews, numPreviews);
     }
     else if ( e.which == 39 ) {
-      
+
       if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
 
         var galItems = $('#controls').attr('data-galItems');
-        
+
         if ( currentImgNumber == galItems ) {
           return false;
         }
-        
+
         url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) + 1 );
-        
-        console.log('url : ' + url);
+
         $.ajax({
           url: url,
           type: "get",
           success: function(data){
             $("body").html(data);
-            showImage(currentImgId, mode);
+            showImage('#picteria-1', mode);
             $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
           },
           error:function() {
@@ -186,7 +187,20 @@ $(function() {
         }
 
         url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) - 1 );
-        window.location.href = url;
+
+        $.ajax({
+          url: url,
+          type: "get",
+          success: function(data){
+            $("body").html(data);
+            showImage('#picteria-1', mode);
+            $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+          },
+          error:function() {
+            $("#container").html('There is error while submit');
+          }
+        });
+        currentImgNumber--;
       }
       else {
         currentImgNumber = prevImage(gal, currentImgNumber, mode);
@@ -199,6 +213,7 @@ $(function() {
 
 
 });
+
 
 function countPreviews(previews) {
 
@@ -230,7 +245,7 @@ function nextImage(gal, currentImgNumber, mode) {
     success: function(data){
       $("#container").html(data);
       showImage('#picteria-1', mode);
-      console.log('currentImgNumber : ' + currentImgNumber)
+//      console.log('currentImgNumber : ' + currentImgNumber)
     },
     error:function() {
       $("#container").html('There is error while submit');
@@ -339,7 +354,7 @@ function showImage(currentImgId, mode, resize) {
 
 
 function fullImage(currentImgId, resize) {
-  
+  console.log('currentImgId in full image : ' + currentImgId );
   var item = $(currentImgId);
 
   if (!resize) {
