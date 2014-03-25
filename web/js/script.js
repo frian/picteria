@@ -14,6 +14,7 @@ $(function() {
 
   // place holder for the current image number
   var currentImgNumber = previews[0];
+//  var currentImgNumber = $(previews).get(-1);
   currentImgNumber = currentImgNumber.replace('picteria-', '');
   currentImgNumber = currentImgNumber.replace('-prev', '');
   console.log( 'currentImgNumber : ' + currentImgNumber);
@@ -171,18 +172,18 @@ $(function() {
     }
     else if ( e.which == 37 ) {
       
-      if ( ( currentImgNumber - previewShowed ) % numPreviews == 0) {
+      if ($('#picteria-' + ( parseInt(currentImgNumber) - 1 ) + '-prev').length == 0) {
 
-        previewShowed -= numPreviews;
-        if ( previewShowed < 0 ) { previewShowed = 0; };
+        if ( currentImgNumber == 1 ) {
+          return false;
+        }
 
-        prevPreviews(previews, numPreviews);
-        setTimeout(function() {
-//          PreviousNumPreviews = numPreviews;
-          numPreviews = countPreviews(previews);
-        }, 60);
+        url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) - 1 );
+        window.location.href = url;
       }
-      currentImgNumber = prevImage(gal, currentImgNumber, mode);
+      else {
+        currentImgNumber = prevImage(gal, currentImgNumber, mode);
+      }
     }
     else if ( e.which == 66 ) {
       window.location.href = "http://picteria/index.php/";

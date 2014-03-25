@@ -45,47 +45,7 @@ $app->get('/', function () use ($app, $galsDir) {
  */
 $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir) {
 
-
-  $screenWidth = $size - 400;
-  $previewsWidth = 0;
-  
-  $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
-
-  // if gallery does not exist => 404
-  if (!is_dir($galleryPath)) {
-    return $app['twig']->render('errors/404.twig', array( 'code' => 404 ));
-  }
-
-  $allPrevPics = array();
-  $prevPics = array();
-  $picCount = 1;
-
-  $firstPic = 0;
-
-  foreach (glob($galleryPath . "/prev-*") as $prevPic) {
-    array_push($allPrevPics, $prevPic);
-  }
-
-  $galItems = count($allPrevPics);
-
-  foreach ($allPrevPics as $prevPic) {
-
-    // skip items before offset
-    if ( $picCount <  $id  ) {
-      $picCount++;
-      continue;
-    }
-    
-    $previewsWidth += getimagesize($prevPic)[0];
-    
-    if ( $previewsWidth > $screenWidth ) {
-      break;
-    }
-    
-    $prevPics[$picCount] = basename($prevPic).PHP_EOL;
-    
-    $picCount++;
-  }
+  list($prevPics, $picCount) = showPreviews($size, $galsDir, $gallery, $id); 
 
   $first = reset($prevPics);
   
@@ -95,7 +55,7 @@ $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $
     'prevPics' => $prevPics,
     'pic'      => $pic,
     'gallery'  => $gallery,
-    'galItems' => $galItems
+    'galItems' => $picCount - 1
   ));
 });
 
