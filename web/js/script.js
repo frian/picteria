@@ -44,7 +44,6 @@ $(function() {
   // add active state style
   console.log( 'currentImgId : ' + currentImgId );
   $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
-//  $(currentImgId + '-prev').css('border', '1px solid white');
 
 
   // -- handle screen resize --------------------------------------------------
@@ -165,7 +164,7 @@ $(function() {
           type: "get",
           success: function(data){
             $("body").html(data);
-            console.log('-> currentImgNumber : ' + currentImgNumber)
+            $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
           },
           error:function() {
             $("#container").html('There is error while submit');
