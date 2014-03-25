@@ -1,0 +1,18 @@
+<section id="container">
+  <img id="picteria-1" class="picteria hide" src="/web/galleries/{{ gallery }}/{{ pic }}" alt="" >
+{#     <img id="picteria-2" class="picteria hide" src="/galleries/buds/002.jpg" alt="" >#}
+</section>
+
+
+<div id="controls" data-galItems="{{ galItems }}">
+  <div id="controlsContainer">
+    <img class="" id="prev" src="../../web/img/arrow-left.png" alt="previous" data-offset="0" title="previous">
+
+{% for picCount, prevPic in prevPics %}
+    <img class="preview" id="picteria-{{ picCount }}-prev" src="/web/galleries/{{ gallery }}/{{ prevPic }}" alt="" >
+{% endfor %}
+
+    <img class="" id="next" src="../../web/img/arrow-right.png" alt="next" data-offset="0" title="next">
+    <img class="" id="mode" src="../../web/img/fullscreen.png" alt="">
+  <div>
+</div>

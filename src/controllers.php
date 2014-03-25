@@ -51,12 +51,23 @@ $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $
   
   $pic = preg_replace("/prev-*/", '', $first);
 
+  
+  if ( $app['request']->isXmlHttpRequest() ) {
+    return $app['twig']->render('galleryContent.twig', array(
+        'prevPics' => $prevPics,
+        'pic'      => $pic,
+        'gallery'  => $gallery,
+        'galItems' => $picCount - 1
+    ));
+  }
+
   return $app['twig']->render('gallery.twig', array( 
     'prevPics' => $prevPics,
     'pic'      => $pic,
     'gallery'  => $gallery,
     'galItems' => $picCount - 1
   ));
+
 });
 
 
@@ -65,6 +76,7 @@ $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $
  */
 $app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDir) {
   
+ 
   $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
   
   $pics = scandir($galleryPath);

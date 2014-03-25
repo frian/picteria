@@ -35,11 +35,6 @@ $(function() {
   // -- show first image on page load -----------------------------------------
   showImage(currentImgId, mode);
 
-
-  // -- show previews on page load --------------------------------------------
-  showPreviews(previews);
-
-
   setTimeout(function() {
     PreviousNumPreviews = numPreviews;
     numPreviews = countPreviews(previews);
@@ -163,8 +158,20 @@ $(function() {
         }
         
         url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) + 1 );
-        window.location.href = url;
-
+        
+        console.log('url : ' + url);
+        $.ajax({
+          url: url,
+          type: "get",
+          success: function(data){
+            $("body").html(data);
+            console.log('-> currentImgNumber : ' + currentImgNumber)
+          },
+          error:function() {
+            $("#container").html('There is error while submit');
+          }
+        });
+        currentImgNumber++;
       }
       else {
         currentImgNumber = nextImage(gal, currentImgNumber, mode);
@@ -223,8 +230,9 @@ function nextImage(gal, currentImgNumber, mode) {
     success: function(data){
       $("#container").html(data);
       showImage('#picteria-1', mode);
+      console.log('currentImgNumber : ' + currentImgNumber)
     },
-    error:function(){
+    error:function() {
       $("#container").html('There is error while submit');
     }
   });
@@ -327,50 +335,7 @@ function showImage(currentImgId, mode, resize) {
 }
 
 
-function showPreviews(previews, offset) {
 
-//  setTimeout(function() {
-//    if ( !offset ) {
-//      offset = 0;
-//    }
-//    
-//    $.each(previews, function(index, item) {
-//      $('#' + item).addClass('hide');
-//    });
-//  
-//    var screenWidth = getWidth() - 400; // place for navigation buttons
-//    var previewWidth = 0;
-//    
-//    var numPreviews = 0;
-//    
-//    $.each(previews, function(index, item) {
-//
-//      // skip items before offset
-//      if ( index <  offset  ) {
-//        return true;
-//      }
-//
-//      numPreviews++;
-//
-//      current = $('#' + item);
-//      previewWidth += current.width();
-//
-//      // finish when screen is full
-//      if ( previewWidth >= screenWidth ) {
-//        return false;
-//      }
-//
-//      // finish when we have no more previews
-//      if ( index >= previews.length ) {
-//        return false;
-//      }
-//
-//      // show item
-//      console.log(item);
-//      current.removeClass('hide');
-//    });
-//  }, 50);
-}
 
 
 function fullImage(currentImgId, resize) {

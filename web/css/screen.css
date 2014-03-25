@@ -118,23 +118,26 @@ img.preview {
   height: 90px;
   margin: 5px 0;
   cursor: pointer;
+  /*   @include debug(red); */
 }
 
-/* line 50, ../sass/screen.scss */
+/* line 51, ../sass/screen.scss */
 #mode {
   width: 90px;
   margin: 5px 0;
   cursor: pointer;
+  /*   @include debug(red); */
 }
 
-/* line 56, ../sass/screen.scss */
+/* line 58, ../sass/screen.scss */
 #next, #prev {
   height: 90px;
   margin: 5px 0;
   cursor: pointer;
+  /*   @include debug(red); */
 }
 
-/* line 62, ../sass/screen.scss */
+/* line 65, ../sass/screen.scss */
 #controls {
   color: black;
   position: absolute;
@@ -149,13 +152,13 @@ img.preview {
   background-image: -ms-linear-gradient(top left, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
 }
 
-/* line 78, ../sass/screen.scss */
+/* line 81, ../sass/screen.scss */
 #controlsContainer {
   margin: auto;
   display: table;
 }
 
-/* line 84, ../sass/screen.scss */
+/* line 87, ../sass/screen.scss */
 #indexContainer {
   width: 80%;
   margin: auto;
@@ -164,7 +167,7 @@ img.preview {
   /*   @include debug(red); */
 }
 
-/* line 93, ../sass/screen.scss */
+/* line 96, ../sass/screen.scss */
 div.imageContainer {
   display: inline-block;
   background-color: white;
@@ -174,7 +177,7 @@ div.imageContainer {
   overflow: auto;
 }
 
-/* line 103, ../sass/screen.scss */
+/* line 106, ../sass/screen.scss */
 div.indexImage {
   width: 200px;
   height: 200px;
@@ -183,7 +186,7 @@ div.indexImage {
   /*   @include debug(red); */
 }
 
-/* line 113, ../sass/screen.scss */
+/* line 116, ../sass/screen.scss */
 div.galleryTitle {
   font-family: 'Courgette',cursive;
   padding: 5px;
@@ -194,7 +197,7 @@ div.galleryTitle {
   /*   @include debug(); */
 }
 
-/* line 123, ../sass/screen.scss */
+/* line 126, ../sass/screen.scss */
 div.active {
   /*   padding : 5px; */
   /*   margin : 0 5px; */
@@ -208,13 +211,13 @@ div.active {
   /* border-color: transparent transparent #007bff transparent; */
 }
 
-/* line 136, ../sass/screen.scss */
+/* line 139, ../sass/screen.scss */
 div.current {
   padding: 5px;
   background-color: red;
 }
 
-/* line 142, ../sass/screen.scss */
+/* line 145, ../sass/screen.scss */
 div.indexImage img {
   /*   max-width : 400px; */
   max-height: 200px;
@@ -222,7 +225,7 @@ div.indexImage img {
 }
 
 @media screen and (min-width: 1000px) {
-  /* line 154, ../sass/screen.scss */
+  /* line 157, ../sass/screen.scss */
   #controls {
     bottom: 20px;
     height: 100px;

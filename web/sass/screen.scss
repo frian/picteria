@@ -45,18 +45,21 @@ img.preview {
   height :    90px;
   margin :   5px 0;
   cursor : pointer;
+/*   @include debug(red); */
 }
 
 #mode {
   width :     90px;
   margin :   5px 0;
   cursor : pointer;
+/*   @include debug(red); */
 }
 
 #next, #prev {
   height :    90px;
   margin :   5px 0;
   cursor : pointer;
+/*   @include debug(red); */
 }
 
 #controls {

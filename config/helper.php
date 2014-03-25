@@ -2,7 +2,7 @@
 
 function showPreviews($size, $galsDir, $gallery, $id) {
 
-  $screenWidth = $size - 400;
+  $screenWidth = $size - 300;
   $previewsWidth = 0;
 
   $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
@@ -23,10 +23,8 @@ function showPreviews($size, $galsDir, $gallery, $id) {
   foreach (glob($galleryPath . "/prev-*") as $prevPic) {
 
     $buffer = getimagesize($prevPic);
-    $previewsWidth += $buffer[0];
-
-    if ( $previewsWidth > $screenWidth ) {
-
+    $previewsWidth += $buffer[0] + 15; // + 15 fixed spacing issue
+    if ( $previewsWidth + 90 > $screenWidth ) {
       $pagesInfos[] = array( $screenNo, $firstPic, $picCount - 1 );
       $screenNo++;
       $previewsWidth = 0;
@@ -49,10 +47,9 @@ function showPreviews($size, $galsDir, $gallery, $id) {
   // load corresponding previews
   foreach ($picsInfos as $pic) {
     if ( $pic[0] == $screenNo ) {
-      $prevPics[$pic[1]]= $pic[2];
+      $prevPics[$pic[1]] = $pic[2];
     }
   }
-
   return array($prevPics, $picCount);
 }
 
