@@ -35,11 +35,6 @@ $(function() {
   // -- show first image on page load -----------------------------------------
   showImage(currentImgId, mode);
 
-  setTimeout(function() {
-    PreviousNumPreviews = numPreviews;
-    numPreviews = countPreviews(previews);
-  }, 60);
-  
 
   // add active state style
   console.log( 'currentImgId : ' + currentImgId );
@@ -63,10 +58,11 @@ $(function() {
     
     // get clicked element id    
     var id = $(this).attr('id');
-console.log(id);
+
     // get corresponding img id
     var img = id.replace('-prev', '');
 
+    
     currentImgId = '#' + img;
 
     $(currentImgId + '-prev').css('border', '1px solid white');
@@ -81,19 +77,18 @@ console.log(id);
       success: function(data){
         $("#container").html(data);
         showImage('#picteria-1', mode);
-//        console.log('currentImgNumber : ' + currentImgNumber)
+        
       },
       error:function() {
         $("#container").html('There is error while submit');
       }
     }); 
+
+    $('#picteria-1').removeClass('hide');
     
 //    $.each(images, function(index, item) {
 //      if ( item == img ) {
-
-//    showImage('#picteria-1', mode);
-    $('#picteria-1').removeClass('hide');
-        
+//        showImage('#picteria-1', mode);
 //      }
 //      else {
 //        $('#' + item).addClass('hide');
@@ -104,22 +99,13 @@ console.log(id);
 
   // -- Handle next previews --------------------------------------------------
   $('#next').click(function() {
-    
-//    console.log('');
-    
-//    setTimeout(function() {
-//      PreviousNumPreviews = numPreviews;
-//      numPreviews = countPreviews(previews);
-//    }, 60);
+
   });
 
 
   // -- Handle previous previews ----------------------------------------------
   $('#prev').click(function() {
-    setTimeout(function() {
-      PreviousNumPreviews = numPreviews;
-      numPreviews = countPreviews(previews);
-    }, 60);
+
   });
 
 
@@ -215,19 +201,6 @@ console.log(id);
 });
 
 
-function countPreviews(previews) {
-
-  var numPreviews = 0;
-  
-  $.each(previews, function(index, item) {
-   current = $('#' + item).attr('class');
-   if ( current.match(/hide/) ) { return true; }; 
-   numPreviews++;
-  });
-  return numPreviews;
-}
-
-
 function nextImage(gal, currentImgNumber, mode) {
 
   if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
@@ -245,7 +218,6 @@ function nextImage(gal, currentImgNumber, mode) {
     success: function(data){
       $("#container").html(data);
       showImage('#picteria-1', mode);
-//      console.log('currentImgNumber : ' + currentImgNumber)
     },
     error:function() {
       $("#container").html('There is error while submit');
@@ -254,7 +226,7 @@ function nextImage(gal, currentImgNumber, mode) {
   
   // add active state style to current preview
   $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
-//  console.log('currentImgNumber in next image' + currentImgNumber);
+
   return currentImgNumber;
 }
 
@@ -286,41 +258,17 @@ function prevImage(gal, currentImgNumber, mode) {
   // add active state style to current preview
   $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
   
-  console.log( 'currentImgNumber in prev image : ' + currentImgNumber);
-  
   return currentImgNumber;
 }
 
 
 function nextPreviews(previews, step) {
 
-  offset = parseInt($('#next').attr('data-offset'));
-  offset += step;
-  
-  if ( offset >= previews.length ) {
-    return false;
-  }
-  
-  showPreviews(previews, offset);
-  $('#next').attr('data-offset', offset);
-  $('#prev').attr('data-offset', offset);
-//  console.log( offset );
 }
 
 
 function prevPreviews(previews, step) {
 
-  offset = parseInt($('#prev').attr('data-offset'));
-  offset -= step;
-  
-  if ( offset < 0 ) {
-    return false;
-  }
-  
-  showPreviews(previews, offset);
-  $('#next').attr('data-offset', offset);
-  $('#prev').attr('data-offset', offset);
-//  console.log( offset );
 }
 
 
@@ -350,9 +298,6 @@ function showImage(currentImgId, mode, resize) {
 }
 
 
-
-
-
 function fullImage(currentImgId, resize) {
   console.log('currentImgId in full image : ' + currentImgId );
   var item = $(currentImgId);
@@ -371,6 +316,7 @@ function fullImage(currentImgId, resize) {
     _handleFullImageCss(item);
   }
 }
+
 
 function _handleFullImageCss(item) {
 
