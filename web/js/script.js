@@ -164,6 +164,7 @@ $(function() {
           type: "get",
           success: function(data){
             $("body").html(data);
+            showImage(currentImgId, mode);
             $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
           },
           error:function() {
