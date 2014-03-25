@@ -13,12 +13,9 @@ $(function() {
   var currentImgId = '#' + images[0];
 
   // place holder for the current image number
-  var currentImgNumber = previews[0];
-//  var currentImgNumber = $(previews).get(-1);
-  currentImgNumber = currentImgNumber.replace('picteria-', '');
-  currentImgNumber = currentImgNumber.replace('-prev', '');
-  console.log( 'on load currentImgNumber : ' + currentImgNumber);
-
+  var currentImgNumber = 1;
+//  currentImgNumber = currentImgNumber.replace('picteria-', '');
+//  currentImgNumber = currentImgNumber.replace('-prev', '');
 
   // image mode : screen / image
   var mode = 'image';
@@ -26,18 +23,12 @@ $(function() {
   // total number of previews
   var numPreviews = 0;
 
-  // number of previews showed in previous previews screens
-  var previewShowed = 0;
-
-  
-  var PreviousNumPreviews = 0;
 
   // -- show first image on page load -----------------------------------------
   showImage(currentImgId, mode);
 
 
   // add active state style
-  console.log( 'currentImgId : ' + currentImgId );
   $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
 
 
@@ -48,12 +39,13 @@ $(function() {
 
 
   // -- Handle show image -----------------------------------------------------
-    $(document).on("click", '#controlsContainer .preview', function() {
+  $(document).on("click", '#controlsContainer .preview', function() {
 
 //    $.each(images, function(index, item) {
 //      $('#' + item).addClass('hide');
 //    });
 
+    // remove active state from previous preview
     $(currentImgId + '-prev').css('border', 'none');
     
     // get clicked element id    
@@ -62,28 +54,29 @@ $(function() {
     // get corresponding img id
     var img = id.replace('-prev', '');
 
-    
+    // get corresponding id tag
     currentImgId = '#' + img;
 
+    // add active state to current preview
     $(currentImgId + '-prev').css('border', '1px solid white');
-    
+
+    // get image number
     currentImgNumber = img.replace('picteria-', '');
 
-    console.log('currentImgNumber : ' + currentImgNumber );
-    
+    // get new pic
     $.ajax({
       url: '/' + gal + '/' + currentImgNumber,
       type: "get",
       success: function(data){
         $("#container").html(data);
         showImage('#picteria-1', mode);
-        
       },
       error:function() {
         $("#container").html('There is error while submit');
       }
     }); 
 
+    // show new pic
     $('#picteria-1').removeClass('hide');
     
 //    $.each(images, function(index, item) {
