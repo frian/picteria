@@ -130,6 +130,7 @@ $(function() {
     else if ( e.which == 39 ) {
 
       if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
+
         currentImgNumber = nextPage(gal, currentImgNumber, mode);
       }
       else {
@@ -139,6 +140,7 @@ $(function() {
     else if ( e.which == 37 ) {
       
       if ($('#picteria-' + ( parseInt(currentImgNumber) - 1 ) + '-prev').length == 0) {
+
         currentImgNumber = prevPage(gal, currentImgNumber, mode);
       }
       else {
@@ -272,34 +274,6 @@ function prevImage(gal, currentImgNumber, mode) {
 }
 
 
-function nextPreviews(previews, step) {
-
-}
-
-
-function prevPreviews(previews, step) {
-
-}
-
-
-function switchMode(currentImgId, mode) {
-
-  mode == 'screen' ? mode='image': mode='screen';
-
-  // set icon to display
-  var icon = 'resize';
-  if ( mode == 'image' ) { icon = 'fullscreen'; }
-  
-  // show image
-  showImage('#picteria-1', mode, 'resize');
-
-  // show icon
-  $('#mode').attr('src', '/img/' + icon + '.png');
-
-  return mode;
-}
-
-
 function showImage(currentImgId, mode, resize) {
 
   setTimeout(function(){
@@ -410,6 +384,34 @@ function _handleFullScreenCss(item) {
     item.css( 'left', leftPos );
     item.css( 'top', 0 );
   }
+}
+
+
+function nextPreviews(previews, step) {
+
+}
+
+
+function prevPreviews(previews, step) {
+
+}
+
+
+function switchMode(currentImgId, mode) {
+
+  mode == 'screen' ? mode='image': mode='screen';
+
+  // set icon to display
+  var icon = 'resize';
+  if ( mode == 'image' ) { icon = 'fullscreen'; }
+  
+  // show image
+  showImage('#picteria-1', mode, 'resize');
+
+  // show icon
+  $('#mode').attr('src', '/img/' + icon + '.png');
+
+  return mode;
 }
 
 
