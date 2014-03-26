@@ -13,12 +13,14 @@ $(function() {
   var currentImgId = '#' + images[0];
 
   // place holder for the current image number
-  var currentImgNumber = 1;
+  var currentImgNumber = previews[0];
+  currentImgNumber = currentImgNumber.replace('picteria-', '');
+  currentImgNumber = currentImgNumber.replace('-prev', '');
 
   // image mode : screen / image
   var mode = 'image';
 
-
+  
   // -- show first image on page load -----------------------------------------
   showImage(mode);
 
