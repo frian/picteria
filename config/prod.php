@@ -5,11 +5,12 @@
  * 
  */
 
+// load helper
+require __DIR__.'/../src/helper.php';
+
 // enable http caching
 use Silex\Provider\HttpCacheServiceProvider;
 $app->register(new HttpCacheServiceProvider());
-
-require __DIR__.'/helper.php';
 
 // configure caching
 
