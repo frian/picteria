@@ -45,27 +45,31 @@ $app->get('/', function () use ($app, $galsDir) {
  */
 $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir) {
 
+  // get the previews
   list($prevPics, $picCount) = showPreviews($size, $galsDir, $gallery, $id); 
 
-  $first = reset($prevPics);
-  
-  $pic = preg_replace("/prev-*/", '', $first);
+  // get the first preview
+  $firstPreview = reset($prevPics);
 
-  
+  // get pic name from preview
+  $pic = preg_replace("/prev-/", '', $firstPreview);
+
+  // ajax
   if ( $app['request']->isXmlHttpRequest() ) {
     return $app['twig']->render('galleryContent.twig', array(
         'prevPics' => $prevPics,
         'pic'      => $pic,
         'gallery'  => $gallery,
-        'galItems' => $picCount - 1
+        'galItems' => $picCount
     ));
   }
 
+  // no ajax
   return $app['twig']->render('gallery.twig', array( 
     'prevPics' => $prevPics,
     'pic'      => $pic,
     'gallery'  => $gallery,
-    'galItems' => $picCount - 1
+    'galItems' => $picCount
   ));
 
 });
