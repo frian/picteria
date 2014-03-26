@@ -127,7 +127,7 @@ div.active {
 /*   padding : 5px; */
 /*   margin : 0 5px; */
 /* height : 20px; */
-  background-color : black;
+  background-color : none;
 /*   width : 190px; */
 /* width: 0px; */
 /* height: 0px; */
@@ -137,10 +137,14 @@ div.active {
 }
 
 div.current {
-    padding : 5px;
+  padding : 5px;
   background-color : red;
 }
 
+div.currentPreview {
+  padding : 1px;
+  background-color : red;
+}
 
 div.indexImage img {
 /*   max-width : 400px; */

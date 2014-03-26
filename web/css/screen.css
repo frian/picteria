@@ -202,7 +202,7 @@ div.active {
   /*   padding : 5px; */
   /*   margin : 0 5px; */
   /* height : 20px; */
-  background-color: black;
+  background-color: none;
   /*   width : 190px; */
   /* width: 0px; */
   /* height: 0px; */
@@ -217,7 +217,13 @@ div.current {
   background-color: red;
 }
 
-/* line 145, ../sass/screen.scss */
+/* line 144, ../sass/screen.scss */
+div.currentPreview {
+  padding: 1px;
+  background-color: red;
+}
+
+/* line 149, ../sass/screen.scss */
 div.indexImage img {
   /*   max-width : 400px; */
   max-height: 200px;
@@ -225,7 +231,7 @@ div.indexImage img {
 }
 
 @media screen and (min-width: 1000px) {
-  /* line 157, ../sass/screen.scss */
+  /* line 161, ../sass/screen.scss */
   #controls {
     bottom: 20px;
     height: 100px;

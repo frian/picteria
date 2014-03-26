@@ -14,7 +14,6 @@ $(function() {
 
   indexImages[galleryNum].focus();
   $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
-//  $('.' + indexImages[galleryNum].attr("class")).css('border' , '1px solid red');
   
   // -- keyboard shortcuts ----------------------------------------------------
   // right arrow : focus on next gallery
@@ -24,7 +23,6 @@ $(function() {
     if ( e.which == 39 ) {
 
       // remove active state style at previous gallery
-//      $('.' + indexImages[galleryNum].attr("class")).css('border' , 'none');
       $('#' + indexImages[galleryNum].attr("class")).css('display' , 'none');
 
       // current gallery
@@ -37,13 +35,11 @@ $(function() {
       indexImages[galleryNum].focus();
       
       // set active style
-//      $('.' + indexImages[galleryNum].attr("class")).css('border' , '1px solid red');
       $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
     }
     else if ( e.which == 37 ) {
 
       // remove active state style at previous gallery
-//      $('.' + indexImages[galleryNum].attr("class")).css('border' , 'none');
       $('#' + indexImages[galleryNum].attr("class")).css('display' , 'none');
 
       // current gallery
@@ -56,7 +52,6 @@ $(function() {
       indexImages[galleryNum].focus();
 
       // set active style
-//      $('.' + indexImages[galleryNum].attr("class")).css('border' , '1px solid red');
       $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
     }
   });

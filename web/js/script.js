@@ -20,10 +20,8 @@ $(function() {
   // image mode : screen / image
   var mode = 'image';
 
-  
   // -- show first image on page load -----------------------------------------
   showImage(mode);
-
 
   // add active state style
   addActiveStyleCss(currentImgNumber);
@@ -43,7 +41,7 @@ $(function() {
 //    });
 
     // remove active state from previous preview
-    $(currentImgId + '-prev').css('border', 'none');
+    removeActiveStyleCss(currentImgNumber);
     
     // get clicked element id    
     var id = $(this).attr('id');
@@ -138,7 +136,12 @@ $(function() {
 
 
 function addActiveStyleCss(currentImgNumber) {
-  $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+  $('#' +  currentImgNumber ).css('display' , 'block');
+}
+
+
+function removeActiveStyleCss(currentImgNumber) {
+  $('#' +  currentImgNumber ).css('display' , 'none');
 }
 
 
@@ -233,7 +236,7 @@ function nextImage(gal, currentImgNumber, mode) {
   }
 
   // remove active state style from previous preview
-  $('#picteria-' + currentImgNumber + '-prev').css('border', 'none');
+  removeActiveStyleCss(currentImgNumber);
   
   currentImgNumber++;
 
@@ -263,7 +266,7 @@ function prevImage(gal, currentImgNumber, mode) {
   }
 
   // remove active state style from previous preview
-  $('#picteria-' + currentImgNumber + '-prev').css('border', 'none');
+  removeActiveStyleCss(currentImgNumber);
 
   currentImgNumber--;
   if (currentImgNumber < 1) { currentImgNumber = 1; }
@@ -419,7 +422,7 @@ function switchMode(mode) {
   if ( mode == 'image' ) { icon = 'fullscreen'; }
   
   // show image
-  (mode, 'resize');
+  showImage(mode, 'resize');
 
   // show icon
   $('#mode').attr('src', '/img/' + icon + '.png');
