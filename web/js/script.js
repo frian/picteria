@@ -110,12 +110,12 @@ $(function() {
 
 
   // -- keyboard shortcuts ----------------------------------------------------
-  // r :           switch mode
-  // up arrow :    show next previews
-  // down arrow :  show previous previews
-  // right arrow : show next image
-  // left arrow  : show previous image
-  // b :           back to galleries index
+  // r :              switch mode                82
+  // up arrow :       show next previews         38
+  // down arrow :     show previous previews     40
+  // right arrow :    show next image            39
+  // left arrow  :    show previous image        37
+  // b :              back to galleries index    66
   $(document).keydown(function(e) {
 //    console.log(e.which);
     if ( e.which == 82 ) {
@@ -130,28 +130,7 @@ $(function() {
     else if ( e.which == 39 ) {
 
       if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
-
-        var galItems = $('#controls').attr('data-galItems');
-
-        if ( currentImgNumber == galItems ) {
-          return false;
-        }
-
-        url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) + 1 );
-
-        $.ajax({
-          url: url,
-          type: "get",
-          success: function(data){
-            $("body").html(data);
-            showImage('#picteria-1', mode);
-            $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
-          },
-          error:function() {
-            $("#container").html('There is error while submit');
-          }
-        });
-        currentImgNumber++;
+        currentImgNumber = nextPage(gal, currentImgNumber, mode);
       }
       else {
         currentImgNumber = nextImage(gal, currentImgNumber, mode);
@@ -160,38 +139,76 @@ $(function() {
     else if ( e.which == 37 ) {
       
       if ($('#picteria-' + ( parseInt(currentImgNumber) - 1 ) + '-prev').length == 0) {
-
-        if ( currentImgNumber == 1 ) {
-          return false;
-        }
-
-        url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) - 1 );
-
-        $.ajax({
-          url: url,
-          type: "get",
-          success: function(data){
-            $("body").html(data);
-            showImage('#picteria-1', mode);
-            $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
-          },
-          error:function() {
-            $("#container").html('There is error while submit');
-          }
-        });
-        currentImgNumber--;
+        currentImgNumber = prevPage(gal, currentImgNumber, mode);
       }
       else {
         currentImgNumber = prevImage(gal, currentImgNumber, mode);
       }
+
     }
     else if ( e.which == 66 ) {
-      window.location.href = "http://picteria/index.php/";
+      window.location.href = "/";
     }
   });
 
 
 });
+
+
+function nextPage(gal, currentImgNumber, mode) {
+
+  var galItems = $('#controls').attr('data-galItems');
+  
+  if ( currentImgNumber == galItems ) {
+    return currentImgNumber;
+  }
+  
+  currentImgNumber++;
+  
+  url = '/' + gal + '/' + getWidth() + '/' + currentImgNumber;
+  
+  $.ajax({
+    url: url,
+    type: "get",
+    success: function(data){
+      $("body").html(data);
+      showImage('#picteria-1', mode);
+      $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+    },
+    error:function() {
+      $("#container").html('There is error while submit');
+    }
+  });
+
+  return currentImgNumber;
+}
+
+
+function prevPage(gal, currentImgNumber, mode) {
+
+  if ( currentImgNumber == 1 ) {
+    return currentImgNumber;
+  }
+
+  currentImgNumber--;
+
+  url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) - 1 );
+
+  $.ajax({
+    url: url,
+    type: "get",
+    success: function(data){
+      $("body").html(data);
+      showImage('#picteria-1', mode);
+      $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+    },
+    error:function() {
+      $("#container").html('There is error while submit');
+    }
+  });
+  
+  return currentImgNumber;
+}
 
 
 function nextImage(gal, currentImgNumber, mode) {
