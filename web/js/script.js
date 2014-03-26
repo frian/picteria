@@ -14,14 +14,9 @@ $(function() {
 
   // place holder for the current image number
   var currentImgNumber = 1;
-//  currentImgNumber = currentImgNumber.replace('picteria-', '');
-//  currentImgNumber = currentImgNumber.replace('-prev', '');
 
   // image mode : screen / image
   var mode = 'image';
-
-  // total number of previews
-  var numPreviews = 0;
 
 
   // -- show first image on page load -----------------------------------------
@@ -29,7 +24,7 @@ $(function() {
 
 
   // add active state style
-  $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+  addActiveStyleCss(currentImgNumber);
 
 
   // -- handle screen resize --------------------------------------------------
@@ -57,11 +52,11 @@ $(function() {
     // get corresponding id tag
     currentImgId = '#' + img;
 
-    // add active state to current preview
-    $(currentImgId + '-prev').css('border', '1px solid white');
-
     // get image number
     currentImgNumber = img.replace('picteria-', '');
+
+    // add active state to current preview
+    addActiveStyleCss(currentImgNumber);
 
     // get new pic
     $.ajax({
@@ -122,10 +117,10 @@ $(function() {
       mode = switchMode(mode);
     }
     else if ( e.which == 38 ) {
-      nextPreviews(previews, numPreviews);
+      nextPreviews();
     }
     else if ( e.which == 40 ) {
-      prevPreviews(previews, numPreviews);
+      prevPreviews();
     }
     else if ( e.which == 39 ) {
       currentImgNumber = nextImageHandler(gal, currentImgNumber, mode);
@@ -137,9 +132,12 @@ $(function() {
       window.location.href = "/";
     }
   });
-
-
 });
+
+
+function addActiveStyleCss(currentImgNumber) {
+  $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+}
 
 
 function nextImageHandler(gal, currentImgNumber, mode) {
@@ -188,7 +186,7 @@ function nextPage(gal, currentImgNumber, mode) {
     success: function(data){
       $("body").html(data);
       showImage(mode);
-      $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+      addActiveStyleCss(currentImgNumber);
     },
     error:function() {
       $("#container").html('There is error while submit');
@@ -215,7 +213,7 @@ function prevPage(gal, currentImgNumber, mode) {
     success: function(data){
       $("body").html(data);
       showImage(mode);
-      $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+      addActiveStyleCss(currentImgNumber);
     },
     error:function() {
       $("#container").html('There is error while submit');
@@ -250,7 +248,7 @@ function nextImage(gal, currentImgNumber, mode) {
   });
   
   // add active state style to current preview
-  $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+  addActiveStyleCss(currentImgNumber);
 
   return currentImgNumber;
 }
@@ -281,7 +279,7 @@ function prevImage(gal, currentImgNumber, mode) {
   });
 
   // add active state style to current preview
-  $('#picteria-' + currentImgNumber + '-prev').css('border', '1px solid white');
+  addActiveStyleCss(currentImgNumber);
   
   return currentImgNumber;
 }
@@ -419,7 +417,7 @@ function switchMode(mode) {
   if ( mode == 'image' ) { icon = 'fullscreen'; }
   
   // show image
-  showImage(mode, 'resize');
+  (mode, 'resize');
 
   // show icon
   $('#mode').attr('src', '/img/' + icon + '.png');
