@@ -27,7 +27,7 @@ function showPreviews($size, $galsDir, $gallery, $id) {
     $picCount++;
     $buffer = getimagesize($prevPic);
     if ( $buffer[0] == 90 ) {$buffer[0] = 120;}
-    $previewsWidth += $buffer[0] + $margin; // was : + 15 fixed spacing issue
+    $previewsWidth += $buffer[0] + $margin; // fixes spacing issue
 
     if ( $previewsWidth + 120 + $margin > $screenWidth ) { // was : +90
       $pagesInfos[] = array( $screenNo, $firstPic, $picCount - 1 );

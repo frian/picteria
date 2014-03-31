@@ -3,6 +3,10 @@ $(function() {
   var indexImages = $('#indexContainer').find('a').map(function() { return $(this); }).get();
   var galleryNum = 0;
 
+  indexImages[galleryNum].focus();
+  $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
+
+  
   $('#indexContainer a').click(function(e) {
 
     e.preventDefault();
@@ -12,8 +16,21 @@ $(function() {
     console.log( 'clicked on gallery ' + url );
   });
 
-  indexImages[galleryNum].focus();
-  $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
+  $('#helpButton').click(function() {
+    $('#helpButton').removeClass('showHelpButton');
+    $('#helpButton').addClass('hideHelpButton');
+    $('#help').removeClass('hideHelp');
+    $('#help').addClass('showHelp');
+  });
+
+  $('#helpButtonClose').click(function() {
+
+    $('#help').removeClass('showHelp');    
+    $('#help').addClass('hideHelp');
+    $('#helpButton').addClass('showHelpButton');
+    $('#helpButton').removeClass('hideHelpButton');
+  });
+
   
   // -- keyboard shortcuts ----------------------------------------------------
   // right arrow : focus on next gallery

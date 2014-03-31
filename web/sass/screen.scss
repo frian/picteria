@@ -5,7 +5,7 @@
 
 @import "base";
 
-@import url(http://fonts.googleapis.com/css?family=Courgette);
+@import url(http://fonts.googleapis.com/css?family=Courgette|Muli);
 
 html, body { height : 100% }
 
@@ -20,6 +20,73 @@ body {
         rgba( 255, 255, 255, 0)
     )
   );
+}
+
+
+#help {
+  @include posabs();
+  height : 100%;
+  background-color : black;
+  font-family: 'Muli', sans-serif;
+/*   @include debug(red); */
+}
+
+.hideHelpButton {
+  @include single-transition(all, 0ms, linear, 225ms);
+  @include opacity(0);
+}
+
+.showHelpButton {
+  @include single-transition(all, 0ms, linear, 375ms);
+  @include opacity(1);
+}
+
+.showHelp {
+  @include single-transition(all, 1s);
+  left : 0!important;
+}
+
+.hideHelp {
+  @include single-transition(all, 1s);
+  left : auto;
+}
+
+#help h1 {
+  font-size : 160%;
+  margin : 20px 0 10px;
+}
+
+#help h2 {
+  font-size : 120%;
+  margin : 5px 0;
+}
+
+#help p {
+  font-size : 110%;
+  margin : 5px 5px;
+}
+
+#help table {
+  margin : 10px 0;
+  @include debug(red);  
+}
+
+#help table td {
+  padding : 5px; 
+}
+
+
+#helpButton, #helpButtonClose {
+  @include posabs();
+  cursor : pointer;
+}
+
+#helpButton {
+  z-index : 2;
+}
+
+#helpHeader {
+  height : 80px;
 }
 
 #container {
@@ -90,7 +157,6 @@ img.preview {
   margin : auto;
   padding : 20px;
   text-align : center;
-/*   @include debug(red); */
 }
 
 
@@ -162,6 +228,26 @@ div.indexImage img {
   #controls {
     bottom : 20px;
     height : 100px;
+  }
+
+  #help {
+    left : -20%;
+    width : 20%;
+  }
+
+
+  #helpButton {
+    top :    20px;
+    left :   20px;
+    width :  90px;
+    height : 90px;
+  }
+
+  #helpButtonClose {
+    top :    20px;
+    right :   20px;
+    width :  90px;
+    height : 90px;
   }
 }
 
