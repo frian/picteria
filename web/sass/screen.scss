@@ -26,28 +26,42 @@ body {
 #help {
   @include posabs();
   height : 100%;
-  background-color : black;
+  background : rgba(0, 0, 0, .95);
   font-family: 'Muli', sans-serif;
 /*   @include debug(red); */
 }
 
+$delay-show : 375ms;
+$delay-hide : 900ms;
+
+
 .hideHelpButton {
-  @include single-transition(all, 0ms, linear, 225ms);
+  @include single-transition(all, 0ms, linear, $delay-show);
   @include opacity(0);
 }
 
 .showHelpButton {
-  @include single-transition(all, 0ms, linear, 375ms);
+  @include single-transition(all, 0ms, linear, $delay-hide);
+  @include opacity(1);
+}
+
+.hideHelpButtonClose {
+  @include single-transition(all, 0ms, linear, $delay-hide);
+  @include opacity(0);
+}
+
+.showHelpButtonClose {
+  @include single-transition(all, 0ms, linear, $delay-show);
   @include opacity(1);
 }
 
 .showHelp {
-  @include single-transition(all, 1s);
+  @include single-transition(all, 2s);
   left : 0!important;
 }
 
 .hideHelp {
-  @include single-transition(all, 1s);
+  @include single-transition(all, 2s);
   left : auto;
 }
 
@@ -83,6 +97,10 @@ body {
 
 #helpButton {
   z-index : 2;
+}
+
+#helpButtonClose {
+/*   @include opacity(0); */
 }
 
 #helpHeader {
@@ -231,8 +249,8 @@ div.indexImage img {
   }
 
   #help {
-    left : -20%;
-    width : 20%;
+    left : -500px;
+    width : 500px;
   }
 
 

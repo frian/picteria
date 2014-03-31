@@ -21,14 +21,24 @@ $(function() {
     $('#helpButton').addClass('hideHelpButton');
     $('#help').removeClass('hideHelp');
     $('#help').addClass('showHelp');
+    $('#helpButtonClose').removeClass('hideHelpButtonClose');
+    $('#helpButtonClose').addClass('showHelpButtonClose');
+
+    setTimeout(function(){
+      $('#helpButtonClose').attr('src', '/img/back.png');
+    }, 2200);
   });
 
+ 
   $('#helpButtonClose').click(function() {
 
+    $('#helpButtonClose').attr('src', '/img/help.png');
     $('#help').removeClass('showHelp');    
     $('#help').addClass('hideHelp');
     $('#helpButton').addClass('showHelpButton');
     $('#helpButton').removeClass('hideHelpButton');
+    $('#helpButtonClose').removeClass('showHelpButtonClose');
+    $('#helpButtonClose').addClass('hideHelpButtonClose');
   });
 
   

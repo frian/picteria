@@ -30,6 +30,7 @@
   background-image: -ms-#{$image}; // Vendor prefixes for IE 10.
 }
 
+
 @mixin keyframes( $animationName )
 {
     @-webkit-keyframes $animationName {
