@@ -14,6 +14,7 @@ $(function() {
 
   // place holder for the current image number
   var currentImgNumber = previews[0];
+
   currentImgNumber = currentImgNumber.replace('picteria-', '');
   currentImgNumber = currentImgNumber.replace('-prev', '');
 
@@ -28,8 +29,11 @@ $(function() {
 
 
   // -- handle screen resize --------------------------------------------------
+  var lastExec = 0;
+
+  
   $(window).resize(function() {
-    showImage(mode);
+    lastExec = updatePreviews(lastExec, gal, currentImgNumber);
   });
 
 
@@ -86,14 +90,14 @@ $(function() {
 
 
   // -- Handle next previews --------------------------------------------------
-  $('#next').click(function() {
-
+  $(document).on("click", '#next', function() {
+    nextPreviews(gal);
   });
 
 
   // -- Handle previous previews ----------------------------------------------
   $('#prev').click(function() {
-
+    prevPreviews(gal);
   });
 
 
@@ -118,10 +122,10 @@ $(function() {
       mode = switchMode(mode);
     }
     else if ( e.which == 38 ) {
-      nextPreviews();
+      nextPreviews(gal);
     }
     else if ( e.which == 40 ) {
-      prevPreviews();
+      prevPreviews(gal);
     }
     else if ( e.which == 39 ) {
       currentImgNumber = nextImageHandler(gal, currentImgNumber, mode);
@@ -138,6 +142,31 @@ $(function() {
   });
 });
 
+
+function updatePreviews(lastExec, gal, currentImgNumber) {
+
+  var delay = 500;
+
+  if(Date.now() - lastExec > delay ) {
+    url = '/prev/' + gal + '/' + getWidth() + '/' + parseInt(currentImgNumber) ;
+
+    $.ajax({
+      url: url,
+      type: "get",
+      success: function(data){
+        $("#controlsContainer").html(data);
+        showImage(mode);
+        addActiveStyleCss(currentImgNumber);
+      },
+      error:function() {
+        $("#controlsContainer").html('There is error while submit');
+      }
+    });
+
+    lastExec = Date.now();
+  }
+  return lastExec;
+}
 
 function addActiveStyleCss(currentImgNumber) {
   $('#' +  currentImgNumber ).css('display' , 'block');
@@ -407,13 +436,43 @@ function _handleFullScreenCss(item) {
 }
 
 
-function nextPreviews() {
+function nextPreviews(gal) {
 
+  var previews = $('#controls').find('img.preview').map(function() { return this.id; }).get();
+
+  var lastImage = previews[previews.length - 1];
+  lastImage = lastImage.replace('picteria-', '');
+  lastImage = lastImage.replace('-prev', '');
+
+  var galItems = $('#controls').attr('data-galItems');
+
+  // next image
+  lastImage++;
+
+  if ( lastImage > galItems ) {
+    return false;
+  }
+
+  updatePreviews(0, gal, lastImage);
 }
 
 
-function prevPreviews() {
+function prevPreviews(gal) {
 
+  var previews = $('#controls').find('img.preview').map(function() { return this.id; }).get();
+
+  var firstImage = previews[0];
+  firstImage = firstImage.replace('picteria-', '');
+  firstImage = firstImage.replace('-prev', '');
+
+  // previous image
+  firstImage--;
+
+  if ( firstImage <= 0 ) {
+    return false;
+  }
+
+  updatePreviews(0, gal, firstImage);
 }
 
 
@@ -454,6 +513,16 @@ function getOrientation() {
 }
 
 
+function debouncer( func , timeout ) {
+  var timeoutID , timeout = timeout || 50;
+  return function () {
+     var scope = this , args = arguments;
+     clearTimeout( timeoutID );
+     timeoutID = setTimeout( function () {
+         func.apply( scope , Array.prototype.slice.call( args ) );
+     } , timeout );
+  }
+}
 //function getSize() {
 //return getWidth() + 'x' + getHeight();
 //}

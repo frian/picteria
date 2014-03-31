@@ -36,7 +36,7 @@ $app->get('/', function () use ($app, $galsDir) {
       break;
     }
     $pic = preg_replace("/prev-*/", '', $prevPics[0]);
-    echo $galsDir.basename($gal).'/'.$pic.PHP_EOL . "<br>";
+
     $galleriesData[basename($gal)] = $galsDir.basename($gal).'/'.$pic.PHP_EOL;
   }
   
@@ -120,6 +120,7 @@ $app->get('/prev/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($a
   if ( $app['request']->isXmlHttpRequest() ) {
     return $app['twig']->render('galleryContentPreviews.twig', array(
         'prevPics' => $prevPics,
+        'gallery'  => $gallery
     ));
   }
 
