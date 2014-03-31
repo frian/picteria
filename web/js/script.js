@@ -111,6 +111,7 @@ $(function() {
   // right arrow :    show next image            39
   // left arrow  :    show previous image        37
   // b :              back to galleries index    66
+  // h :              show /hide controls        72
   $(document).keydown(function(e) {
 //    console.log(e.which);
     if ( e.which == 82 ) {
@@ -130,6 +131,9 @@ $(function() {
     }
     else if ( e.which == 66 ) {
       window.location.href = "/";
+    }
+    else if ( e.which == 72 ) {
+      $('#controls').toggleClass('hide');
     }
   });
 });

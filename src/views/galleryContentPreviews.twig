@@ -1,0 +1,6 @@
+{% for picCount, prevPic in prevPics %}
+<div style="display: inline-block; margin : 0; padding : 0">
+    <img class="preview" id="picteria-{{ picCount }}-prev" src="/web/galleries/{{ gallery }}/{{ prevPic }}" alt="" >
+    <div id="{{ picCount }}" class="active hide"><div class="currentPreview"></div></div>
+</div>
+{% endfor %}

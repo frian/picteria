@@ -17,7 +17,8 @@ function showPreviews($size, $galsDir, $gallery, $id) {
   $picCount = 0;
   $screenNo = 1;
   $pagesInfos = array();
-
+  $margin = 5;
+  
   $firstPic = 1;
 
   // get pics per page
@@ -25,15 +26,15 @@ function showPreviews($size, $galsDir, $gallery, $id) {
 
     $picCount++;
     $buffer = getimagesize($prevPic);
-    $previewsWidth += $buffer[0] + 30 ; // was : + 15 fixed spacing issue
+    if ( $buffer[0] == 90 ) {$buffer[0] = 120;}
+    $previewsWidth += $buffer[0] ; // was : + 15 fixed spacing issue
 
-    if ( $previewsWidth + 120 > $screenWidth ) { // was : +90
+    if ( $previewsWidth + 120 + $margin > $screenWidth ) { // was : +90
       $pagesInfos[] = array( $screenNo, $firstPic, $picCount - 1 );
       $screenNo++;
       $previewsWidth = 0;
       $firstPic = $picCount;
     }
-
     $picsInfos[] = array( $screenNo, $picCount, basename($prevPic).PHP_EOL );
   }
 

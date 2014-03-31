@@ -9,13 +9,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 // infomaniak subdomain
 // $galsDir = '/picteria/web/galleries/';
-$galsDir = 'web/galleries/';
+$galsDir = '/web/galleries/';
 
 /**
  * -- galleries index ---------------------------------------------------------
  */
 $app->get('/', function () use ($app, $galsDir) {
 
+  $rootDir = $_SERVER['DOCUMENT_ROOT'];
+  
+  $rootDir = preg_replace( "/\/$/", '', $rootDir);
+  
   $galleriesPath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
   
   // get galleries list
@@ -32,7 +36,8 @@ $app->get('/', function () use ($app, $galsDir) {
       break;
     }
     $pic = preg_replace("/prev-*/", '', $prevPics[0]);
-    $galleriesData[basename($gal)] = '/'.$galsDir.basename($gal).'/'.$pic.PHP_EOL;
+    echo $galsDir.basename($gal).'/'.$pic.PHP_EOL . "<br>";
+    $galleriesData[basename($gal)] = $galsDir.basename($gal).'/'.$pic.PHP_EOL;
   }
   
   return $app['twig']->render('index.twig', array( 'galleriesData' => $galleriesData ));
@@ -100,6 +105,24 @@ $app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDi
     'pic'     => $pics[ $picNum - 1 ]
   ));
   
+});
+
+
+/**
+ * -- show previews only ------------------------------------------------------
+ */
+$app->get('/prev/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir) {
+
+  // get the previews
+  list($prevPics, $picCount) = showPreviews($size, $galsDir, $gallery, $id);
+
+  // ajax
+  if ( $app['request']->isXmlHttpRequest() ) {
+    return $app['twig']->render('galleryContentPreviews.twig', array(
+        'prevPics' => $prevPics,
+    ));
+  }
+
 });
 
 
