@@ -24,6 +24,17 @@ body {
 
 a { color : white; text-decoration : none }
 
+#error {
+  width : 100%;
+  height : 100%;
+  @include debug(red);
+}
+
+#error td {
+  font-family: 'Muli', sans-serif;
+  font-size : 400%;
+  text-align : center;
+}
 
 /* ----------------------------------------------------------------------------
    help screen

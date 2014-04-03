@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 // infomaniak subdomain
 // $galsDir = '/picteria/web/galleries/';
-$galsDir = '/web/galleries/';
+// $galsDir = '/web/galleries/';
 
 /**
  * -- galleries index ---------------------------------------------------------
@@ -21,6 +21,10 @@ $app->get('/', function () use ($app, $galsDir) {
   $rootDir = preg_replace( "/\/$/", '', $rootDir);
   
   $galleriesPath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
+  
+  if (!is_dir($galleriesPath)) {
+    return $app['twig']->render('errors/config.twig');
+  }
   
   // get galleries list
   $galleries = glob($galleriesPath.'*' , GLOB_ONLYDIR);

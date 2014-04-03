@@ -5,6 +5,24 @@
  * 
  */
 
+/*
+ *  Gallery directory
+ * 
+ *    standard configuration
+ *    should work in most cases
+ *    if not commment the following line
+ *    and uncomment line 21 below 
+ */
+// $galsDir = '/web/galleries/';
+
+/*
+ *  configuration for some subdomains (provider dependent)
+ *  
+ *    $galsDir = '/<subdomain>/web/galleries/';
+*/
+$galsDir = '/picteria/web/galleries/';
+
+
 // load helper
 require __DIR__.'/../src/helper.php';
 
