@@ -16,18 +16,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 $app->get('/', function () use ($app, $galsDir) {
 
-  $rootDir = $_SERVER['DOCUMENT_ROOT'];
+  // get root dir and remove ending slash
+  $rootDir = preg_replace( "/\/$/", '', $_SERVER['DOCUMENT_ROOT']);
+
+  $galleriesBasePath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
   
-  $rootDir = preg_replace( "/\/$/", '', $rootDir);
-  
-  $galleriesPath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
-  
-  if (!is_dir($galleriesPath)) {
+  if (!is_dir($galleriesBasePath)) {
     return $app['twig']->render('errors/config.twig');
   }
   
   // get galleries list
-  $galleries = glob($galleriesPath.'*' , GLOB_ONLYDIR);
+  $galleries = glob($galleriesBasePath.'*' , GLOB_ONLYDIR);
 
   // galleriesData
   $galleriesData = array();
@@ -54,16 +53,26 @@ $app->get('/', function () use ($app, $galsDir) {
  */
 $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir) {
 
-  $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
   
-  // if gallery does not exist => 404
-  if (!is_dir($galleryPath)) {
+  // get root dir and remove ending slash
+  $rootDir = preg_replace( "/\/$/", '', $_SERVER['DOCUMENT_ROOT']);
 
-    $referer = $app['request']->headers->get('referer');
-
-    return $app['twig']->render('errors/config.twig', array( 'referer' => $referer?$referer:'/' ));
+  $galleriesBasePath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
+  
+  if (!is_dir($galleriesBasePath)) {
+    return $app['twig']->render('errors/config.twig');
   }
 
+  $galleryPath = $galleriesBasePath.$gallery;
+
+  // if gallery does not exist => 404
+  if (!is_dir($galleryPath)) {
+    $referer = $app['request']->headers->get('referer');
+    return $app['twig']->render('errors/404.twig');
+  }
+
+  
+  
   // get the previews
   list($prevPics, $picCount) = showPreviews($size, $galleryPath, $gallery, $id); 
 
