@@ -13,14 +13,14 @@
  *    if not commment the following line
  *    and uncomment line 21 below 
  */
-// $galsDir = '/web/galleries/';
+$galsDir = '/web/galleries/';
 
 /*
  *  configuration for some subdomains (provider dependent)
  *  
  *    $galsDir = '/<subdomain>/web/galleries/';
 */
-$galsDir = '/picteria/web/galleries/';
+// $galsDir = '/picteria/web/galleries/';
 
 
 // load helper

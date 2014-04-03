@@ -1,16 +1,9 @@
 <?php
 
-function showPreviews($size, $galsDir, $gallery, $id) {
+function showPreviews($size, $galleryPath, $gallery, $id) {
 
   $screenWidth = $size - 180;
   $previewsWidth = 0;
-
-  $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
-
-  // if gallery does not exist => 404
-  if (!is_dir($galleryPath)) {
-    return $app['twig']->render('errors/404.twig', array( 'code' => 404 ));
-  }
 
   $picInfos = array();
   $prevPics = array();

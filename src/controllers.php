@@ -54,8 +54,18 @@ $app->get('/', function () use ($app, $galsDir) {
  */
 $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir) {
 
+  $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
+  
+  // if gallery does not exist => 404
+  if (!is_dir($galleryPath)) {
+
+    $referer = $app['request']->headers->get('referer');
+
+    return $app['twig']->render('errors/config.twig', array( 'referer' => $referer?$referer:'/' ));
+  }
+
   // get the previews
-  list($prevPics, $picCount) = showPreviews($size, $galsDir, $gallery, $id); 
+  list($prevPics, $picCount) = showPreviews($size, $galleryPath, $gallery, $id); 
 
   // get the first preview
   $firstPreview = reset($prevPics);
@@ -136,9 +146,10 @@ $app->get('/prev/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($a
  */
 $app->error(function (\Exception $e, $code) use ($app) {
 
-  if ($app['debug']) {
+  echo $code;
+//   if ($app['debug']) {
     return;
-  }
+//   }
 
   // 404.html, 40x.html, 4xx.html, 500.html 5xx.html, default.html
   $templates = array(
@@ -148,5 +159,5 @@ $app->error(function (\Exception $e, $code) use ($app) {
     'errors/default.twig',
   );
 
-  return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
+  return new Response($app['twig']->resolveTemplate($templates)->render());
 });
