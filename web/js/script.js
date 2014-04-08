@@ -138,7 +138,7 @@ $(function() {
       currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
     }
     else if ( e.which == 37 ) {
-      currentImgNumber = prevImageHandler(gal, currentImgNumber, mode);
+      currentImgNumber = prevImageHandler(gal, currentImgNumber, mode, controlsState);
     }
     else if ( e.which == 66 ) {
       window.location.href = "/";
@@ -234,11 +234,11 @@ function nextImageHandler(gal, currentImgNumber, mode, controlsState) {
 }
 
 
-function prevImageHandler(gal, currentImgNumber, mode) {
+function prevImageHandler(gal, currentImgNumber, mode, controlsState) {
 
   if ($('#picteria-' + ( parseInt(currentImgNumber) - 1 ) + '-prev').length == 0) {
 
-    currentImgNumber = prevPage(gal, currentImgNumber, mode);
+    currentImgNumber = prevPage(gal, currentImgNumber, mode, controlsState);
   }
   else {
     currentImgNumber = prevImage(gal, currentImgNumber, mode);
@@ -282,7 +282,7 @@ function nextPage(gal, currentImgNumber, mode, controlsState) {
 }
 
 
-function prevPage(gal, currentImgNumber, mode) {
+function prevPage(gal, currentImgNumber, mode, controlsState) {
 
   if ( currentImgNumber == 1 ) {
     return currentImgNumber;
@@ -299,6 +299,9 @@ function prevPage(gal, currentImgNumber, mode) {
       $("body").html(data);
       showImage(mode);
       addActiveStyleCss(currentImgNumber);
+      if ( controlsState == 'hide' ) {
+        $('#controls').toggleClass('hide');
+      }
     },
     error:function() {
       $("#container").html('There is error while submit');
