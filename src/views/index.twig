@@ -17,153 +17,24 @@
   <ul id="accordeon">
 
     <!-- english help ----------------------------------------------------- -->
-    <li><a href="#" class="title">help</a></li>
-    <li class="content">
-      <h2>desktop screen</h2>
-      <p>
-        you can navigate with the mouse as usual
-      </p>
-      <p>
-        or you can use the following keyboard shotcuts :
-      </p>
-      <div>
-        <table>
-          <tr>
-            <td>
-              <ul>
-      	    	<li class="key"><span><img src="/img/key-arrow-left.png"></span></li>
-            </td>
-            <td>previous image or gallery</td>
-          </tr>
-          <tr>
-            <td>
-              <ul>
-      	    	<li class="key"><span><img src="/img/key-arrow-right.png"></span></li>
-            </td>
-            <td>next image or gallery</td>
-          </tr>
-          <tr>
-            <td>
-              <ul>
-      	    	<li class="key"><span><img src="/img/key-arrow-up.png"></span></li>
-            </td>
-            <td>next previews</td>
-          </tr>
-          <tr>
-            <td>
-              <ul>
-      	    	<li class="key"><span><img src="/img/key-arrow-down.png"></span></li>
-            </td>
-            <td>previous previews</td>
-          </tr>
-          <tr>
-            <td>
-              <ul>
-      	    	<li><a href="#" class="key c65"><span>r</span></a></li>
-            </td>
-            <td>switch between full image and fill screen</td>
-          </tr>
-          <tr>
-            <td>
-              <ul>
-      	    	<li><a href="#" class="key c65"><span>b</span></a></li>
-            </td>
-            <td>back to index</td>
-          </tr>
-          <tr>
-            <td>
-              <ul>
-      	    	<li><a href="#" class="key c65"><span>h</span></a></li>
-            </td>
-            <td>show / hide controls</td>
-          </tr>
-        </table>
-      </div>
-
-      <h2>touch screen</h2>
-    </li>            
+    {% include 'help.en.twig' %}
 
     <!-- french help ------------------------------------------------------ -->
-    <li><a href="#" class="title">aide</a></li>        
-    <li class="content">
-      <h2>écran de bureau</h2>
-      <p>
-        vous pouvez naviguer avec la souris comme d'habitude
-      </p>
-      <p>
-        ou vous pouvez utiliser les raccourcis clavier suivants :
-      </p>
-      <div>
-        <table>
-          <tr>
-            <td>
-              <ul class="cf" id="asdfg">
-      	    	<li class="key"><span><img src="/img/key-arrow-left.png"></span></li>
-            </td>
-            <td>image ou galerie précédente</td>
-          </tr>
-          <tr>
-            <td>
-              <ul class="cf" id="asdfg">
-      	    	<li class="key"><span><img src="/img/key-arrow-right.png"></span></li>
-            </td>
-            <td>image ou galerie suivante</td>
-          </tr>
-          <tr>
-            <td>
-              <ul class="cf" id="asdfg">
-      	    	<li class="key"><span><img src="/img/key-arrow-up.png"></span></li>
-            </td>
-            <td>aperçus suivants</td>
-          </tr>
-          <tr>
-            <td>
-              <ul class="cf" id="asdfg">
-      	    	<li class="key"><span><img src="/img/key-arrow-down.png"></span></li>
-            </td>
-            <td>aperçus précédents</td>
-          </tr>
-          <tr>
-            <td>
-              <ul class="cf" id="asdfg">
-      	    	<li><a href="#" class="key c65"><span>r</span></a></li>
-            </td>
-            <td>passer du mode image complète au mode remplir l'écran</td>
-          </tr>
-          <tr>
-            <td>
-              <ul class="cf" id="asdfg">
-      	    	<li><a href="#" class="key c65"><span>b</span></a></li>
-            </td>
-            <td>retour à l'index des galeries</td>
-          </tr>
-          <tr>
-            <td>
-              <ul class="cf" id="asdfg">
-      	    	<li><a href="#" class="key c65"><span>h</span></a></li>
-            </td>
-            <td>afficher / cacher la barre de controle</td>
-          </tr>
-        </table>
-      </div>
-      
-      <h2>écran tactile</h2>
-    </li>            
-                  
-  </ul>
+    {% include 'help.fr.twig' %}
 
+  </ul>
 </div>
 
 
 <section id="indexContainer">
   {% for gallery, img in galleriesData %}
-<div class="imageContainer {{ loop.index }}">
-  <div class="indexImage">  
-    <a class="{{ loop.index }}" href="/{{ gallery }}"><img src="{{ img }}"></a>
+  <div class="imageContainer {{ loop.index }}">
+    <div class="indexImage">  
+      <a class="{{ loop.index }}" href="/{{ gallery }}"><img src="{{ img }}"></a>
+    </div>
+    <div class="galleryTitle">{{ gallery }}</div>
+    <div id="{{ loop.index }}" class="active hide"><div class="current"></div></div>
   </div>
-  <div class="galleryTitle">{{ gallery }}</div>
-  <div id="{{ loop.index }}" class="active hide"><div class="current"></div></div>
-</div>
   {% endfor %}
 </section>
 

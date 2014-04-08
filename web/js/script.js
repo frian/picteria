@@ -27,7 +27,7 @@ $(function() {
   // controls state
   var controlsState = 'show';
 
-
+  
 
   // -- show first image on page load -----------------------------------------
   showImage(mode);
@@ -52,6 +52,9 @@ $(function() {
 //      $('#' + item).addClass('hide');
 //    });
 
+//    console.log(currentImgNumber);
+
+
     // remove active state from previous preview
     removeActiveStyleCss(currentImgNumber);
     
@@ -67,8 +70,6 @@ $(function() {
     // get image number
     currentImgNumber = img.replace('picteria-', '');
 
-    // add active state to current preview
-    addActiveStyleCss(currentImgNumber);
 
     // get new pic
     $.ajax({
@@ -77,6 +78,7 @@ $(function() {
       success: function(data){
         $("#container").html(data);
         showImage(mode);
+        addActiveStyleCss(currentImgNumber);
       },
       error:function() {
         $("#container").html('There is error while submit');
@@ -99,20 +101,22 @@ $(function() {
 
   // -- Handle next previews --------------------------------------------------
   $(document).on("click", '#next', function() {
+    console.log(currentImgNumber);
     nextPreviews(gal);
   });
 
 
   // -- Handle previous previews ----------------------------------------------
-  $('#prev').click(function() {
+  $(document).on("click", '#prev', function() {
+    console.log(currentImgNumber);
     prevPreviews(gal);
   });
 
 
   // -- Handle mode change ----------------------------------------------------
-  $('#mode').click(function() {
+  $(document).on("click", '#mode', function() {
     mode = switchMode(mode);
-    return mode;
+//    return mode;
   });
 
   // -- keyboard shortcuts ----------------------------------------------------
@@ -157,25 +161,21 @@ $(function() {
         Timer = startSlider();
       }
       else {
-        stopSlider(Timer);
+        clearInterval(Timer);
       }
     }
   });
 
 
   // -- handle diaporama ------------------------------------------------------
-  function setTimer(){
+  function setTimer() {
     Timer = setInterval(function() {
-        currentImgNumber = nextImageHandler(gal, currentImgNumber, mode)
+        currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState)
       },1000
     );
     return Timer;
   }
 
-  function stopSlider(Timer) {
-    clearInterval(Timer);
-  }
-  
   function startSlider() {
     Timer = setTimer();
     return Timer;
@@ -198,7 +198,7 @@ function updatePreviews(lastExec, gal, currentImgNumber) {
       success: function(data){
         $("#controlsContainer").html(data);
         showImage(mode);
-        addActiveStyleCss(currentImgNumber);
+//        addActiveStyleCss(currentImgNumber);
       },
       error:function() {
         $("#controlsContainer").html('There is error while submit');
@@ -222,6 +222,8 @@ function removeActiveStyleCss(currentImgNumber) {
 
 function nextImageHandler(gal, currentImgNumber, mode, controlsState) {
 
+  console.log( 'tic' );
+  
   if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
 
     currentImgNumber = nextPage(gal, currentImgNumber, mode, controlsState);
@@ -253,6 +255,7 @@ function nextPage(gal, currentImgNumber, mode, controlsState) {
   var galItems = $('#controls').attr('data-galItems');
   
   if ( currentImgNumber == galItems ) {
+    clearInterval(Timer);
     return currentImgNumber;
   }
   
@@ -315,9 +318,12 @@ function prevPage(gal, currentImgNumber, mode, controlsState) {
 function nextImage(gal, currentImgNumber, mode) {
 
   if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
+    clearInterval(Timer);
+    console.log( 'tac' );
     return currentImgNumber;
   }
-
+  
+  console.log( 'toc' );
   // remove active state style from previous preview
   removeActiveStyleCss(currentImgNumber);
   
