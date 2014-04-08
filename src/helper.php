@@ -1,5 +1,24 @@
 <?php
 
+function checkGalleryPath($galsDir, $gallery, $rootDir, $app) {
+
+  $galleriesBasePath = $rootDir.$galsDir;
+
+  if (!is_dir($galleriesBasePath)) {
+    return 'configError';
+  }
+
+  $galleryPath = $galleriesBasePath.$gallery;
+  
+  // if gallery does not exist => 404
+  if (!is_dir($galleryPath)) {
+    $referer = $app['request']->headers->get('referer');
+    return '404Error';
+  }
+
+  return $galleryPath;
+}
+
 function showPreviews($size, $galleryPath, $gallery, $id) {
 
   $screenWidth = $size - 180;

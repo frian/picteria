@@ -41,3 +41,8 @@ $app['http_cache.cache_dir'] = $app['cache.path'] . '/http';
 
 $app['twig.path'] = array(__DIR__.'/../src/views');
 // $app['twig.options'] = array('cache' => __DIR__.'/../var/cache/twig');
+
+
+// get root dir and remove ending slash
+$rootDir = preg_replace( "/\/$/", '', $_SERVER['DOCUMENT_ROOT']);
+

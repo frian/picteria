@@ -51,27 +51,16 @@ $app->get('/', function () use ($app, $galsDir) {
 /**
  * -- show gallery ------------------------------------------------------------
  */
-$app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir) {
+$app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir, $rootDir) {
 
-  
-  // get root dir and remove ending slash
-  $rootDir = preg_replace( "/\/$/", '', $_SERVER['DOCUMENT_ROOT']);
+  $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
 
-  $galleriesBasePath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
-  
-  if (!is_dir($galleriesBasePath)) {
+  if ( $galleryPath == 'configError' ) {
     return $app['twig']->render('errors/config.twig');
   }
-
-  $galleryPath = $galleriesBasePath.$gallery;
-
-  // if gallery does not exist => 404
-  if (!is_dir($galleryPath)) {
-    $referer = $app['request']->headers->get('referer');
+  else if ( $galleryPath == '404Error' ) {
     return $app['twig']->render('errors/404.twig');
   }
-
-  
   
   // get the previews
   list($prevPics, $picCount) = showPreviews($size, $galleryPath, $gallery, $id); 
@@ -106,11 +95,17 @@ $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $
 /**
  * -- show pic ----------------------------------------------------------------
  */
-$app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDir) {
-  
- 
-  $galleryPath =  $_SERVER['DOCUMENT_ROOT'].$galsDir.$gallery;
-  
+$app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDir, $rootDir) {
+
+  $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
+
+  if ( $galleryPath == 'configError' ) {
+    return $app['twig']->render('errors/config.twig');
+  }
+  else if ( $galleryPath == '404Error' ) {
+    return $app['twig']->render('errors/404.twig');
+  }
+
   $pics = scandir($galleryPath);
   
   foreach ($pics as $pic) {
@@ -134,10 +129,20 @@ $app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDi
 /**
  * -- show previews only ------------------------------------------------------
  */
-$app->get('/prev/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir) {
+$app->get('/prev/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir, $rootDir) {
+
+  $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
+
+  if ( $galleryPath == 'configError' ) {
+    return $app['twig']->render('errors/config.twig');
+  }
+  else if ( $galleryPath == '404Error' ) {
+    return $app['twig']->render('errors/404.twig');
+  }
+
 
   // get the previews
-  list($prevPics, $picCount) = showPreviews($size, $galsDir, $gallery, $id);
+  list($prevPics, $picCount) = showPreviews($size, $galleryPath, $gallery, $id);
 
   // ajax
   if ( $app['request']->isXmlHttpRequest() ) {
