@@ -21,6 +21,14 @@ $(function() {
   // image mode : screen / image
   var mode = 'image';
 
+  // diaporama state
+  var diaState = 'off';
+
+  // controls state
+  var controlsState = 'show';
+
+
+
   // -- show first image on page load -----------------------------------------
   showImage(mode);
 
@@ -28,10 +36,10 @@ $(function() {
   addActiveStyleCss(currentImgNumber);
 
 
+
   // -- handle screen resize --------------------------------------------------
   var lastExec = 0;
 
-  
   $(window).resize(function() {
     lastExec = updatePreviews(lastExec, gal, currentImgNumber);
   });
@@ -107,7 +115,6 @@ $(function() {
     return mode;
   });
 
-
   // -- keyboard shortcuts ----------------------------------------------------
   // r :              switch mode                82
   // up arrow :       show next previews         38
@@ -128,7 +135,7 @@ $(function() {
       prevPreviews(gal);
     }
     else if ( e.which == 39 ) {
-      currentImgNumber = nextImageHandler(gal, currentImgNumber, mode);
+      currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
     }
     else if ( e.which == 37 ) {
       currentImgNumber = prevImageHandler(gal, currentImgNumber, mode);
@@ -138,9 +145,44 @@ $(function() {
     }
     else if ( e.which == 72 ) {
       $('#controls').toggleClass('hide');
+      // switch state
+      controlsState == 'show' ? controlsState='hide': controlsState='show';
+    }
+    else if ( e.which == 83 ) {
+
+      // switch state
+      diaState == 'off' ? diaState = 'on' : diaState = 'off';
+
+      if ( diaState == 'on' ) {
+        Timer = startSlider();
+      }
+      else {
+        stopSlider(Timer);
+      }
     }
   });
+
+
+  // -- handle diaporama ------------------------------------------------------
+  function setTimer(){
+    Timer = setInterval(function() {
+        currentImgNumber = nextImageHandler(gal, currentImgNumber, mode)
+      },1000
+    );
+    return Timer;
+  }
+
+  function stopSlider(Timer) {
+    clearInterval(Timer);
+  }
+  
+  function startSlider() {
+    Timer = setTimer();
+    return Timer;
+  }
+  
 });
+
 
 
 function updatePreviews(lastExec, gal, currentImgNumber) {
@@ -178,11 +220,11 @@ function removeActiveStyleCss(currentImgNumber) {
 }
 
 
-function nextImageHandler(gal, currentImgNumber, mode) {
+function nextImageHandler(gal, currentImgNumber, mode, controlsState) {
 
   if ($('#picteria-' + ( parseInt(currentImgNumber) + 1 ) + '-prev').length == 0) {
 
-    currentImgNumber = nextPage(gal, currentImgNumber, mode);
+    currentImgNumber = nextPage(gal, currentImgNumber, mode, controlsState);
   }
   else {
     currentImgNumber = nextImage(gal, currentImgNumber, mode);
@@ -206,7 +248,7 @@ function prevImageHandler(gal, currentImgNumber, mode) {
 }
 
 
-function nextPage(gal, currentImgNumber, mode) {
+function nextPage(gal, currentImgNumber, mode, controlsState) {
 
   var galItems = $('#controls').attr('data-galItems');
   
@@ -218,6 +260,8 @@ function nextPage(gal, currentImgNumber, mode) {
   
   url = '/' + gal + '/' + getWidth() + '/' + currentImgNumber;
   
+  console.log( 'controlsState in nextPage : ' + controlsState );
+
   $.ajax({
     url: url,
     type: "get",
@@ -225,6 +269,9 @@ function nextPage(gal, currentImgNumber, mode) {
       $("body").html(data);
       showImage(mode);
       addActiveStyleCss(currentImgNumber);
+      if ( controlsState == 'hide' ) {
+        $('#controls').toggleClass('hide');
+      }
     },
     error:function() {
       $("#container").html('There is error while submit');
@@ -257,7 +304,7 @@ function prevPage(gal, currentImgNumber, mode) {
       $("#container").html('There is error while submit');
     }
   });
-  
+
   return currentImgNumber;
 }
 
