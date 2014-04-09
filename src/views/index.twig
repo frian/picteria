@@ -30,7 +30,7 @@
   {% for gallery, img in galleriesData %}
   <div class="imageContainer {{ loop.index }}">
     <div class="indexImage">  
-      <a class="{{ loop.index }}" href="/{{ gallery }}"><img src="{{ img }}"></a>
+      <a class="{{ loop.index }}" href="/{{ gallery }}"><img src="/web/galleries/{{ img }}"></a>
     </div>
     <div class="galleryTitle">{{ gallery }}</div>
     <div id="{{ loop.index }}" class="active hide"><div class="current"></div></div>

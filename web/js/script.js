@@ -27,14 +27,13 @@ $(function() {
   // controls state
   var controlsState = 'show';
 
-  
 
   // -- show first image on page load -----------------------------------------
   showImage(mode);
 
+  
   // add active state style
   addActiveStyleCss(currentImgNumber);
-
 
 
   // -- handle screen resize --------------------------------------------------
@@ -112,7 +111,19 @@ $(function() {
     prevPreviews(gal, currentImgNumber);
   });
 
+//  $(document).on("swipeleft", function(e) {
+//    currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
+//  });
 
+  Hammer(document.getElementById("container")).on("swipeleft", function() {
+    currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
+  });
+  
+  Hammer(document.getElementById("container")).on("swiperight", function() {
+    currentImgNumber = prevImageHandler(gal, currentImgNumber, mode, controlsState);
+  });
+  
+  
   // -- Handle mode change ----------------------------------------------------
   $(document).on("click", '#mode', function() {
     mode = switchMode(mode);

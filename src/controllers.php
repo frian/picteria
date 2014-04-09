@@ -40,7 +40,7 @@ $app->get('/', function () use ($app, $galsDir) {
     }
     $pic = preg_replace("/prev-*/", '', $prevPics[0]);
 
-    $galleriesData[basename($gal)] = $galsDir.basename($gal).'/'.$pic.PHP_EOL;
+    $galleriesData[basename($gal)] = basename($gal).'/'.$pic.PHP_EOL;
   }
   
   return $app['twig']->render('index.twig', array( 'galleriesData' => $galleriesData ));
