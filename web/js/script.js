@@ -8,7 +8,7 @@ $(function() {
 
   // get previews list
   var previews = $('#controls').find('img.preview').map(function() { return this.id; }).get();
-  
+
   // get id of current image
   var currentImgId = '#' + images[0];
 
@@ -41,7 +41,7 @@ $(function() {
   var lastExec = 0;
 
   $(window).resize(function() {
-    lastExec = updatePreviews(lastExec, gal, currentImgNumber);
+    lastExec = updatePreviews(lastExec, gal, currentImgNumber, currentImgNumber);
   });
 
 
@@ -102,14 +102,14 @@ $(function() {
   // -- Handle next previews --------------------------------------------------
   $(document).on("click", '#next', function() {
     console.log(currentImgNumber);
-    nextPreviews(gal);
+    nextPreviews(gal, currentImgNumber);
   });
 
 
   // -- Handle previous previews ----------------------------------------------
   $(document).on("click", '#prev', function() {
     console.log(currentImgNumber);
-    prevPreviews(gal);
+    prevPreviews(gal, currentImgNumber);
   });
 
 
@@ -133,10 +133,10 @@ $(function() {
       mode = switchMode(mode);
     }
     else if ( e.which == 38 ) {
-      nextPreviews(gal);
+      nextPreviews(gal, currentImgNumber);
     }
     else if ( e.which == 40 ) {
-      prevPreviews(gal);
+      prevPreviews(gal, currentImgNumber);
     }
     else if ( e.which == 39 ) {
       currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
@@ -158,57 +158,20 @@ $(function() {
       diaState == 'off' ? diaState = 'on' : diaState = 'off';
 
       if ( diaState == 'on' ) {
-        Timer = startSlider();
+        Timer = setInterval(function() {
+            currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState)
+          },1000
+        );
       }
       else {
         clearInterval(Timer);
       }
     }
   });
-
-
-  // -- handle diaporama ------------------------------------------------------
-  function setTimer() {
-    Timer = setInterval(function() {
-        currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState)
-      },1000
-    );
-    return Timer;
-  }
-
-  function startSlider() {
-    Timer = setTimer();
-    return Timer;
-  }
   
 });
 
 
-
-function updatePreviews(lastExec, gal, currentImgNumber) {
-
-  var delay = 500;
-
-  if(Date.now() - lastExec > delay ) {
-    url = '/prev/' + gal + '/' + getWidth() + '/' + parseInt(currentImgNumber) ;
-
-    $.ajax({
-      url: url,
-      type: "get",
-      success: function(data){
-        $("#controlsContainer").html(data);
-        showImage(mode);
-//        addActiveStyleCss(currentImgNumber);
-      },
-      error:function() {
-        $("#controlsContainer").html('There is error while submit');
-      }
-    });
-
-    lastExec = Date.now();
-  }
-  return lastExec;
-}
 
 function addActiveStyleCss(currentImgNumber) {
   $('#' +  currentImgNumber ).css('display' , 'block');
@@ -492,7 +455,34 @@ function _handleFullScreenCss(item) {
 }
 
 
-function nextPreviews(gal) {
+function updatePreviews(lastExec, gal, imgNumber, currentImgNumber) {
+
+  var delay = 500;
+
+  if(Date.now() - lastExec > delay ) {
+    url = '/prev/' + gal + '/' + getWidth() + '/' + parseInt(imgNumber) ;
+
+    $.ajax({
+      url: url,
+      type: "get",
+      success: function(data){
+        $("#controlsContainer").html(data);
+        showImage(mode);
+        console.log('currentImgNumber : ' + currentImgNumber);
+        addActiveStyleCss(currentImgNumber);
+      },
+      error:function() {
+        $("#controlsContainer").html('There is error while submit');
+      }
+    });
+
+    lastExec = Date.now();
+  }
+  return lastExec;
+}
+
+
+function nextPreviews(gal, currentImgNumber) {
 
   var previews = $('#controls').find('img.preview').map(function() { return this.id; }).get();
 
@@ -509,11 +499,11 @@ function nextPreviews(gal) {
     return false;
   }
 
-  updatePreviews(0, gal, lastImage);
+  updatePreviews(0, gal, lastImage, currentImgNumber);
 }
 
 
-function prevPreviews(gal) {
+function prevPreviews(gal, currentImgNumber) {
 
   var previews = $('#controls').find('img.preview').map(function() { return this.id; }).get();
 
@@ -528,7 +518,7 @@ function prevPreviews(gal) {
     return false;
   }
 
-  updatePreviews(0, gal, firstImage);
+  updatePreviews(0, gal, firstImage, currentImgNumber);
 }
 
 
