@@ -7,12 +7,12 @@
 
 @import url(http://fonts.googleapis.com/css?family=Courgette|Muli);
 
-html, body { height : 100% }
+html, body { min-height : 100% }
 
 body {
   color :              white;
   background :    rgb(0,0,0);
-  overflow :          hidden;
+/*   overflow :          hidden; */
   @include my-background-image(
     linear-gradient(
       top left, 
@@ -44,13 +44,13 @@ a.error { color : white; text-decoration : underline }
 ---------------------------------------------------------------------------- */
 #help {
   @include posabs();
+  top :           0;
   height :     100%;
-  padding :    20px;
+  z-index :       1;
+  padding :  0 20px;
   background : rgba(0, 0, 0, .95);
   font-family: 'Muli', sans-serif;
-  z-index : 1;
   @include box-shadow(rgba(255,0,0,.4) 10px 0 20px);
-/*   @include debug(red); */
 }
 
 $delay-show : 188ms;
@@ -169,6 +169,7 @@ ul li a {
    index screen
 ---------------------------------------------------------------------------- */
 #indexContainer {
+
   width : 80%;
   margin : auto;
   padding : 20px;
@@ -218,6 +219,37 @@ div.current {
   background-color : red;
 }
 
+
+#previews {
+  @include posabs();
+  top :           0;
+  width :      100%;
+  min-height : 100%;
+/*   overflow : hidden !important; */
+  @include my-background-image(
+    linear-gradient(
+      top left, 
+        rgba( 0, 0, 0, .7),
+        rgba( 0, 0, 0, .8)
+    )
+  );
+  z-index : 2;
+  
+}
+
+#previewsContainer {
+
+  padding : 4%;
+  width : 92%;
+  text-align : center;
+}
+
+
+#previews img {
+  height : 110px;
+  margin : 3px;
+  border : 1px solid #666;
+}
 
 /* ----------------------------------------------------------------------------
    gallery screen

@@ -67,7 +67,8 @@ $(function() {
   
   
   
-  
+  var previewsState = 'off';
+  var currentGallery = '';
   
   
   // -- keyboard shortcuts ----------------------------------------------------
@@ -75,8 +76,11 @@ $(function() {
   // left arrow  : focus on prev gallery
   $(document).keydown(function(e) {
     console.log(e.which);
+    
     if ( e.which == 39 ) {
 
+      e.preventDefault();
+      
       // remove active state style at previous gallery
       $('#' + indexImages[galleryNum].attr("class")).css('display' , 'none');
 
@@ -89,11 +93,43 @@ $(function() {
       // set link as active
       indexImages[galleryNum].focus();
       
+      console.log('prout' + indexImages[galleryNum].attr('class'));
+      
       // set active style
       $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
+
+      
+      if (previewsState == 'on') {
+        var id = $(document.activeElement).attr( 'href' );
+        id = id.replace( '/gallery/', '' );
+        
+        
+        url = '/preview/' + id;
+        
+        $.ajax({
+          url: url,
+          type: "get",
+          success: function(data) {
+            $('#previews').remove();
+            $("body"  ).append(data);
+            // set link as active
+            indexImages[galleryNum].focus();
+            // set active style
+            $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
+
+          },
+          error:function() {
+            $("#indexContainer").html('There is error while submit');
+          }
+        });
+        currentGallery = id;
+      }
+     
     }
     else if ( e.which == 37 ) {
 
+      e.preventDefault();
+      
       // remove active state style at previous gallery
       $('#' + indexImages[galleryNum].attr("class")).css('display' , 'none');
 
@@ -108,6 +144,40 @@ $(function() {
 
       // set active style
       $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
+    }
+    else if ( e.which == 32 ) {
+
+      e.preventDefault();
+
+      previewsState == 'off' ? previewsState = 'on' : previewsState = 'off';
+
+      var id = $(document.activeElement).attr( 'href' );
+      id = id.replace( '/gallery/', '' );
+
+      if ( previewsState == 'off' && id == currentGallery ) {
+        console.log('match');
+        $('#previews').remove();
+//        $("#previews-" + galleryNum).toggleClass('hide');
+      }
+      else {
+      
+        url = '/preview/' + id;
+
+        $.ajax({
+          url: url,
+          type: "get",
+          success: function(data) {
+            $('#previews').remove();
+//            $("#previews-" + galleryNum).toggleClass('hide');
+            $("body").append(data);
+          },
+          error:function() {
+            $("#indexContainer").html('There is error while submit');
+          }
+        });
+      }
+      
+      currentGallery = id;
     }
   });
 });

@@ -47,11 +47,12 @@ $app->get('/', function () use ($app, $galsDir) {
 })
 ->bind('home');
 
-
+ 
 /**
  * -- show gallery ------------------------------------------------------------
  */
-$app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir, $rootDir) {
+$gallery = $app['controllers_factory'];
+$gallery->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir, $rootDir) {
 
   $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
 
@@ -95,7 +96,8 @@ $app->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $
 /**
  * -- show pic ----------------------------------------------------------------
  */
-$app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDir, $rootDir) {
+$image = $app['controllers_factory'];
+$image->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDir, $rootDir) {
 
   $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
 
@@ -129,7 +131,9 @@ $app->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDi
 /**
  * -- show previews only ------------------------------------------------------
  */
-$app->get('/prev/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir, $rootDir) {
+$preview = $app['controllers_factory'];
+
+$preview->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($app, $galsDir, $rootDir) {
 
   $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
 
@@ -155,6 +159,27 @@ $app->get('/prev/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($a
 });
 
 
+$preview->get('/{gallery}', function ($gallery) use ($app, $galsDir, $rootDir) {
+  
+  $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
+  $previewsFileName = glob($galleryPath . "/prev-*");
+  $previews = array();
+  
+  foreach ($previewsFileName as $prevPic) {
+    array_push($previews, basename($prevPic).PHP_EOL);
+//     print $galsDir.basename($prevPic)."<br>";
+  }
+//   return 'prout';
+  // ajax
+//   if ( $app['request']->isXmlHttpRequest() ) {
+    return $app['twig']->render('previews.twig', array(
+        'previews' => $previews,
+        'gallery'  => $gallery
+    ));
+//   }
+});
+
+
 /**
  * -- handle errors -----------------------------------------------------------
  */
@@ -175,3 +200,10 @@ $app->error(function (\Exception $e, $code) use ($app) {
 
   return new Response($app['twig']->resolveTemplate($templates)->render());
 });
+
+
+$app->mount('/gallery', $gallery);
+$app->mount('/image',   $image);
+$app->mount('/preview', $preview);
+
+

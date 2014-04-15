@@ -72,7 +72,7 @@ $(function() {
 
     // get new pic
     $.ajax({
-      url: '/' + gal + '/' + currentImgNumber,
+      url: '/image/' + gal + '/' + currentImgNumber,
       type: "get",
       success: function(data){
         $("#container").html(data);
@@ -111,15 +111,25 @@ $(function() {
     prevPreviews(gal, currentImgNumber);
   });
 
-//  $(document).on("swipeleft", function(e) {
+//  $(document).on("swipeleft", '#container' , function(e) {
+//    $( '#debug' ).html('swipeleft jquery');
 //    currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
+//  });
+//
+//  $(document).on("swiperight", '#container', function(e) {
+//    $( '#debug' ).html('swiperight jquery');
+//    currentImgNumber = prevImageHandler(gal, currentImgNumber, mode, controlsState);
 //  });
 
   Hammer(document.getElementById("container")).on("swipeleft", function() {
+    console.log('swipeleft');
+    $( '#debug' ).html('swipeleft hammer');
     currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
   });
   
   Hammer(document.getElementById("container")).on("swiperight", function() {
+    console.log('swiperight');
+    $( '#debug' ).html('swiperight hammer');
     currentImgNumber = prevImageHandler(gal, currentImgNumber, mode, controlsState);
   });
   
@@ -235,7 +245,7 @@ function nextPage(gal, currentImgNumber, mode, controlsState) {
   
   currentImgNumber++;
   
-  url = '/' + gal + '/' + getWidth() + '/' + currentImgNumber;
+  url = '/gallery/' + gal + '/' + getWidth() + '/' + currentImgNumber;
   
   console.log( 'controlsState in nextPage : ' + controlsState );
 
@@ -267,7 +277,7 @@ function prevPage(gal, currentImgNumber, mode, controlsState) {
 
   currentImgNumber--;
 
-  url = '/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) - 1 );
+  url = '/gallery' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) - 1 );
 
   $.ajax({
     url: url,
@@ -304,7 +314,7 @@ function nextImage(gal, currentImgNumber, mode) {
   currentImgNumber++;
 
   $.ajax({
-    url: '/' + gal + '/' + currentImgNumber,
+    url: '/image/' + gal + '/' + currentImgNumber,
     type: "get",
     success: function(data){
       $("#container").html(data);
@@ -335,7 +345,7 @@ function prevImage(gal, currentImgNumber, mode) {
   if (currentImgNumber < 1) { currentImgNumber = 1; }
 
   $.ajax({
-    url: '/' + gal + '/' + currentImgNumber,
+    url: '/image/' + gal + '/' + currentImgNumber,
     type: "get",
     success: function(data){
       $("#container").html(data);
@@ -471,7 +481,7 @@ function updatePreviews(lastExec, gal, imgNumber, currentImgNumber) {
   var delay = 500;
 
   if(Date.now() - lastExec > delay ) {
-    url = '/prev/' + gal + '/' + getWidth() + '/' + parseInt(imgNumber) ;
+    url = '/preview/' + gal + '/' + getWidth() + '/' + parseInt(imgNumber) ;
 
     $.ajax({
       url: url,

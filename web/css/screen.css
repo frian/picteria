@@ -74,14 +74,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /* Simple animation with named arguments */
 /* line 10, ../sass/screen.scss */
 html, body {
-  height: 100%;
+  min-height: 100%;
 }
 
 /* line 12, ../sass/screen.scss */
 body {
   color: white;
   background: black;
-  overflow: hidden;
+  /*   overflow :          hidden; */
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, rgba(255, 255, 255, 0.1)), color-stop(100%, rgba(255, 255, 255, 0)));
   background-image: -webkit-linear-gradient(top left, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
   background-image: -moz-linear-gradient(top left, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
@@ -122,15 +122,15 @@ a.error {
 /* line 45, ../sass/screen.scss */
 #help {
   position: absolute;
+  top: 0;
   height: 100%;
-  padding: 20px;
+  z-index: 1;
+  padding: 0 20px;
   background: rgba(0, 0, 0, 0.95);
   font-family: 'Muli', sans-serif;
-  z-index: 1;
   -webkit-box-shadow: rgba(255, 0, 0, 0.4) 10px 0 20px;
   -moz-box-shadow: rgba(255, 0, 0, 0.4) 10px 0 20px;
   box-shadow: rgba(255, 0, 0, 0.4) 10px 0 20px;
-  /*   @include debug(red); */
 }
 
 /* line 59, ../sass/screen.scss */
@@ -297,7 +297,7 @@ ul li a {
   text-align: center;
 }
 
-/* line 178, ../sass/screen.scss */
+/* line 179, ../sass/screen.scss */
 div.imageContainer {
   width: 210px;
   margin: 20px;
@@ -306,7 +306,7 @@ div.imageContainer {
   background-color: white;
 }
 
-/* line 188, ../sass/screen.scss */
+/* line 189, ../sass/screen.scss */
 div.indexImage {
   width: 200px;
   height: 200px;
@@ -315,7 +315,7 @@ div.indexImage {
   /*   @include debug(red); */
 }
 
-/* line 197, ../sass/screen.scss */
+/* line 198, ../sass/screen.scss */
 div.galleryTitle {
   padding: 5px;
   height: 30px;
@@ -325,27 +325,57 @@ div.galleryTitle {
   font-family: 'Courgette',cursive;
 }
 
-/* line 207, ../sass/screen.scss */
+/* line 208, ../sass/screen.scss */
 div.indexImage img {
   max-height: 200px;
   margin-left: -50px;
 }
 
-/* line 212, ../sass/screen.scss */
+/* line 213, ../sass/screen.scss */
 div.active {
   background-color: none;
 }
 
-/* line 216, ../sass/screen.scss */
+/* line 217, ../sass/screen.scss */
 div.current {
   padding: 5px;
   background-color: red;
 }
 
+/* line 223, ../sass/screen.scss */
+#previews {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  /*   overflow : hidden !important; */
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, rgba(0, 0, 0, 0.7)), color-stop(100%, rgba(0, 0, 0, 0.8)));
+  background-image: -webkit-linear-gradient(top left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+  background-image: -moz-linear-gradient(top left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+  background-image: -o-linear-gradient(top left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+  background-image: linear-gradient(top left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+  background-image: -ms-linear-gradient(top left, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+  z-index: 2;
+}
+
+/* line 240, ../sass/screen.scss */
+#previewsContainer {
+  padding: 4%;
+  width: 92%;
+  text-align: center;
+}
+
+/* line 248, ../sass/screen.scss */
+#previews img {
+  height: 110px;
+  margin: 3px;
+  border: 1px solid #666;
+}
+
 /* ----------------------------------------------------------------------------
    gallery screen
 ---------------------------------------------------------------------------- */
-/* line 225, ../sass/screen.scss */
+/* line 257, ../sass/screen.scss */
 #container {
   position: absolute;
   width: 100%;
@@ -353,7 +383,7 @@ div.current {
   overflow: hidden !important;
 }
 
-/* line 232, ../sass/screen.scss */
+/* line 264, ../sass/screen.scss */
 img.picteria {
   position: relative;
   -webkit-box-shadow: rgba(255, 255, 255, 0.4) 10px 0 20px, rgba(255, 255, 255, 0.4) -5px 0 20px;
@@ -361,7 +391,7 @@ img.picteria {
   box-shadow: rgba(255, 255, 255, 0.4) 10px 0 20px, rgba(255, 255, 255, 0.4) -5px 0 20px;
 }
 
-/* line 240, ../sass/screen.scss */
+/* line 272, ../sass/screen.scss */
 .hide {
   display: none;
 }
@@ -369,7 +399,7 @@ img.picteria {
 /* ----------------------------------------------------------------------------
    controls bar
 ---------------------------------------------------------------------------- */
-/* line 248, ../sass/screen.scss */
+/* line 280, ../sass/screen.scss */
 #controls {
   color: black;
   position: absolute;
@@ -384,33 +414,33 @@ img.picteria {
   background-image: -ms-linear-gradient(top left, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
 }
 
-/* line 263, ../sass/screen.scss */
+/* line 295, ../sass/screen.scss */
 #controlsContainer {
   margin: auto;
   display: table;
 }
 
-/* line 268, ../sass/screen.scss */
+/* line 300, ../sass/screen.scss */
 img.preview {
   height: 90px;
   margin: 5px 0;
   cursor: pointer;
 }
 
-/* line 274, ../sass/screen.scss */
+/* line 306, ../sass/screen.scss */
 div.currentPreview {
   padding: 2px;
   background-color: red;
 }
 
-/* line 279, ../sass/screen.scss */
+/* line 311, ../sass/screen.scss */
 #mode {
   width: 90px;
   margin: 5px 0;
   cursor: pointer;
 }
 
-/* line 285, ../sass/screen.scss */
+/* line 317, ../sass/screen.scss */
 #next, #prev {
   height: 90px;
   margin: 5px 0;
@@ -421,19 +451,19 @@ div.currentPreview {
    media queries
 ---------------------------------------------------------------------------- */
 @media screen and (min-width: 1000px) {
-  /* line 301, ../sass/screen.scss */
+  /* line 333, ../sass/screen.scss */
   #controls {
     bottom: 20px;
     height: 100px;
   }
 
-  /* line 306, ../sass/screen.scss */
+  /* line 338, ../sass/screen.scss */
   #help {
     left: -520px;
     width: 480px;
   }
 
-  /* line 312, ../sass/screen.scss */
+  /* line 344, ../sass/screen.scss */
   #helpButton {
     top: 20px;
     left: 20px;
@@ -441,7 +471,7 @@ div.currentPreview {
     height: 90px;
   }
 
-  /* line 319, ../sass/screen.scss */
+  /* line 351, ../sass/screen.scss */
   #helpButtonClose {
     top: 20px;
     right: 20px;

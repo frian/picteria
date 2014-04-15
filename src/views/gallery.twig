@@ -2,9 +2,10 @@
 
 {% block title %}{{ gallery }}{% endblock %}
 
-{% block picteria_javascripts %}<script src="../../web/js/script.js"></script>{% endblock %}
+{% block picteria_javascripts %}<script src="/js/script.js"></script>{% endblock %}
 
   
 {% block content %}
+<div id="debug">{{ debug }}</div>
 {% include 'galleryContent.twig' %}
 {% endblock %}
