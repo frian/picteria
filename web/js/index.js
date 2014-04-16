@@ -8,6 +8,7 @@ $(function() {
   indexImages[galleryNum].focus();
   $('#' + indexImages[galleryNum].attr("class")).css('display' , 'block');
 
+
   // clic on a gallery
   $('#indexContainer a').click(function(e) {
     e.preventDefault();
@@ -16,14 +17,21 @@ $(function() {
     window.location.href = url;
   });
 
+  
+  // store help status
+  var helpStatus = 'hide';
+
   // clic on help button
   $('#helpButton').click(function() {
     showHelp();
+    helpStatus = 'show';
   });
 
   // clic on clode help button
   $('#helpButtonClose').click(function() {
     hideHelp();
+    indexImages[galleryNum].focus();
+    helpStatus = 'hide';
   });
 
   
@@ -45,6 +53,7 @@ $(function() {
     }
     else {
       accordion_body.slideUp('normal');
+      $(this).blur();
     }
   });
 
@@ -58,6 +67,7 @@ $(function() {
   // right arrow : focus on next gallery         39
   // left arrow  : focus on prev gallery         37
   // show gallery preview                        32
+  // show / hide help                            72
   $(document).keydown(function(e) {
 //    console.log(e.which);
     if ( e.which == 39 ) {
@@ -67,20 +77,18 @@ $(function() {
       galleryNum = focusNextGallery(indexImages, galleryNum);
       
       if (previewsState == 'on') {
-
-        var id = $(document.activeElement).attr( 'href' ).replace( '/gallery/', '' );
-
-        showGalPreview(id);
-
-        currentGallery = id;
+        currentGallery = navGalPreview();
       }
-     
     }
     else if ( e.which == 37 ) {
 
       e.preventDefault();
       
       galleryNum = focusPrevGallery(indexImages, galleryNum);
+      
+      if (previewsState == 'on') {
+        currentGallery = navGalPreview();
+      }
 
     }
     else if ( e.which == 32 ) {
@@ -100,8 +108,26 @@ $(function() {
 
       currentGallery = id;
     }
+    else if ( e.which == 72 ) {
+
+      if (helpStatus == 'hide') {
+        showHelp();
+      }
+      else {
+        hideHelp();
+        indexImages[galleryNum].focus();
+      }
+      helpStatus == 'hide' ? helpStatus = 'show' : helpStatus = 'hide';
+    }
   });
 });
+
+function navGalPreview() {
+  
+  var id = $(document.activeElement).attr( 'href' ).replace( '/gallery/', '' );
+  showGalPreview(id);
+  return id;
+}
 
 
 function showGalPreview(id) {
