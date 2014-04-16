@@ -147,9 +147,9 @@ $(function() {
   // right arrow :    show next image            39
   // left arrow  :    show previous image        37
   // b :              back to galleries index    66
-  // h :              show /hide controls        72
+  // c :              show /hide controls        67
   $(document).keydown(function(e) {
-//    console.log(e.which);
+    console.log(e.which);
     if ( e.which == 82 ) {
       mode = switchMode(mode);
     }
@@ -168,7 +168,7 @@ $(function() {
     else if ( e.which == 66 ) {
       window.location.href = "/";
     }
-    else if ( e.which == 72 ) {
+    else if ( e.which == 67 ) {
       $('#controls').toggleClass('hide');
       // switch state
       controlsState == 'show' ? controlsState='hide': controlsState='show';
