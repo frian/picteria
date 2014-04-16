@@ -53,6 +53,7 @@ $(function() {
     }
     else {
       accordion_body.slideUp('normal');
+      $(this).removeClass('active');
       $(this).blur();
     }
   });

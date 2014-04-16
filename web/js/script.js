@@ -277,7 +277,7 @@ function prevPage(gal, currentImgNumber, mode, controlsState) {
 
   currentImgNumber--;
 
-  url = '/gallery' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) - 1 );
+  url = '/gallery/' + gal + '/' + getWidth() + '/' + ( parseInt(currentImgNumber) - 1 );
 
   $.ajax({
     url: url,
