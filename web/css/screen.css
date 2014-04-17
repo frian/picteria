@@ -217,10 +217,11 @@ a.error {
 
 /* line 107, ../sass/screen.scss */
 #help table td {
-  padding: 0 5px;
+  /*   padding : 0 5px;  */
+  /*   @include debug(red) */
 }
 
-/* line 111, ../sass/screen.scss */
+/* line 112, ../sass/screen.scss */
 #helpButton, #helpButtonClose {
   position: absolute;
   top: 10px;
@@ -230,49 +231,49 @@ a.error {
   cursor: pointer;
 }
 
-/* line 120, ../sass/screen.scss */
+/* line 121, ../sass/screen.scss */
 #helpButton {
   left: 20px;
   z-index: 2;
 }
 
-/* line 125, ../sass/screen.scss */
+/* line 126, ../sass/screen.scss */
 #helpButtonClose {
   right: 20px;
 }
 
-/* line 129, ../sass/screen.scss */
+/* line 130, ../sass/screen.scss */
 #helpHeader {
   height: 40px;
 }
 
-/* line 133, ../sass/screen.scss */
+/* line 134, ../sass/screen.scss */
 #accordeon li, #accordeon ul {
   list-style: none;
 }
 
-/* line 134, ../sass/screen.scss */
+/* line 135, ../sass/screen.scss */
 #accordeon li.content {
   display: none;
 }
 
-/* line 136, ../sass/screen.scss */
+/* line 137, ../sass/screen.scss */
 ul li a {
   display: block;
   font-size: 160%;
   margin: 20px 0 10px;
 }
 
-/* line 143, ../sass/screen.scss */
+/* line 144, ../sass/screen.scss */
 .key {
-  display: block;
+  display: inline-block;
   color: #eee;
   font: bold 9pt arial;
   text-decoration: none;
   text-align: center;
   width: 33px;
   height: 30px;
-  margin: 5px;
+  margin: 2px 0;
   background: #333;
   border-top: 1px solid #999;
   -webkit-border-radius: 8px 8px;
@@ -285,29 +286,33 @@ ul li a {
   text-shadow: 0 1px 0 0 whitesmoke, 0 1px 0 0 whitesmoke;
 }
 
-/* line 166, ../sass/screen.scss */
+/* line 167, ../sass/screen.scss */
 .enter {
   width: 60px;
   font-size: 10px;
 }
 
-/* line 171, ../sass/screen.scss */
-.text {
+/* line 172, ../sass/screen.scss */
+#help li span {
   display: block;
-  vertical-align: middle;
-  line-height: 30px;
-  text-transform: uppercase;
+  line-height: 36px;
+  height: 36px;
+  /*   @include debug(red) */
 }
 
-/* line 179, ../sass/screen.scss */
-#help li span {
+/* line 180, ../sass/screen.scss */
+#help li.text {
+  display: block;
+  vertical-align: middle;
   line-height: 36px;
+  height: 36px;
+  text-transform: uppercase;
 }
 
 /* ----------------------------------------------------------------------------
    index screen
 ---------------------------------------------------------------------------- */
-/* line 187, ../sass/screen.scss */
+/* line 193, ../sass/screen.scss */
 #indexContainer {
   width: 80%;
   margin: auto;
@@ -315,7 +320,7 @@ ul li a {
   text-align: center;
 }
 
-/* line 195, ../sass/screen.scss */
+/* line 201, ../sass/screen.scss */
 div.imageContainer {
   width: 210px;
   margin: 20px;
@@ -324,7 +329,7 @@ div.imageContainer {
   background-color: white;
 }
 
-/* line 205, ../sass/screen.scss */
+/* line 211, ../sass/screen.scss */
 div.indexImage {
   width: 200px;
   height: 200px;
@@ -333,7 +338,7 @@ div.indexImage {
   /*   @include debug(red); */
 }
 
-/* line 214, ../sass/screen.scss */
+/* line 220, ../sass/screen.scss */
 div.galleryTitle {
   padding: 5px;
   height: 30px;
@@ -343,24 +348,24 @@ div.galleryTitle {
   font-family: 'Courgette',cursive;
 }
 
-/* line 224, ../sass/screen.scss */
+/* line 230, ../sass/screen.scss */
 div.indexImage img {
   max-height: 200px;
   margin-left: -50px;
 }
 
-/* line 229, ../sass/screen.scss */
+/* line 235, ../sass/screen.scss */
 div.active {
   background-color: none;
 }
 
-/* line 233, ../sass/screen.scss */
+/* line 239, ../sass/screen.scss */
 div.current {
   padding: 5px;
   background-color: red;
 }
 
-/* line 239, ../sass/screen.scss */
+/* line 245, ../sass/screen.scss */
 #previews {
   position: absolute;
   top: 0;
@@ -376,14 +381,14 @@ div.current {
   z-index: 2;
 }
 
-/* line 256, ../sass/screen.scss */
+/* line 262, ../sass/screen.scss */
 #previewsContainer {
   padding: 4%;
   width: 92%;
   text-align: center;
 }
 
-/* line 264, ../sass/screen.scss */
+/* line 270, ../sass/screen.scss */
 #previews img {
   height: 110px;
   margin: 3px;
@@ -393,7 +398,7 @@ div.current {
 /* ----------------------------------------------------------------------------
    gallery screen
 ---------------------------------------------------------------------------- */
-/* line 273, ../sass/screen.scss */
+/* line 279, ../sass/screen.scss */
 #container {
   position: absolute;
   width: 100%;
@@ -401,7 +406,7 @@ div.current {
   overflow: hidden !important;
 }
 
-/* line 280, ../sass/screen.scss */
+/* line 286, ../sass/screen.scss */
 img.picteria {
   position: relative;
   -webkit-box-shadow: rgba(255, 255, 255, 0.4) 10px 0 20px, rgba(255, 255, 255, 0.4) -5px 0 20px;
@@ -409,7 +414,7 @@ img.picteria {
   box-shadow: rgba(255, 255, 255, 0.4) 10px 0 20px, rgba(255, 255, 255, 0.4) -5px 0 20px;
 }
 
-/* line 288, ../sass/screen.scss */
+/* line 294, ../sass/screen.scss */
 .hide {
   display: none;
 }
@@ -417,7 +422,7 @@ img.picteria {
 /* ----------------------------------------------------------------------------
    controls bar
 ---------------------------------------------------------------------------- */
-/* line 296, ../sass/screen.scss */
+/* line 302, ../sass/screen.scss */
 #controls {
   color: black;
   position: absolute;
@@ -432,33 +437,33 @@ img.picteria {
   background-image: -ms-linear-gradient(top left, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
 }
 
-/* line 311, ../sass/screen.scss */
+/* line 317, ../sass/screen.scss */
 #controlsContainer {
   margin: auto;
   display: table;
 }
 
-/* line 316, ../sass/screen.scss */
+/* line 322, ../sass/screen.scss */
 img.preview {
   height: 90px;
   margin: 5px 0;
   cursor: pointer;
 }
 
-/* line 322, ../sass/screen.scss */
+/* line 328, ../sass/screen.scss */
 div.currentPreview {
   padding: 2px;
   background-color: red;
 }
 
-/* line 327, ../sass/screen.scss */
+/* line 333, ../sass/screen.scss */
 #mode {
   width: 90px;
   margin: 5px 0;
   cursor: pointer;
 }
 
-/* line 333, ../sass/screen.scss */
+/* line 339, ../sass/screen.scss */
 #next, #prev {
   height: 90px;
   margin: 5px 0;
@@ -469,33 +474,33 @@ div.currentPreview {
    media queries
 ---------------------------------------------------------------------------- */
 @media screen and (min-width: 480px) {
-  /* line 345, ../sass/screen.scss */
+  /* line 351, ../sass/screen.scss */
   #help {
     left: -480px;
     width: 440px;
   }
 }
 @media screen and (min-width: 640px) {
-  /* line 355, ../sass/screen.scss */
+  /* line 361, ../sass/screen.scss */
   #help {
     left: -520px;
     width: 480px;
   }
 
-  /* line 360, ../sass/screen.scss */
+  /* line 366, ../sass/screen.scss */
   #helpButton, #helpButtonClose {
     width: 75px;
     height: 75px;
   }
 }
 @media screen and (min-width: 1000px) {
-  /* line 369, ../sass/screen.scss */
+  /* line 375, ../sass/screen.scss */
   #controls {
     bottom: 20px;
     height: 100px;
   }
 
-  /* line 374, ../sass/screen.scss */
+  /* line 380, ../sass/screen.scss */
   #helpButton {
     top: 20px;
     left: 20px;
@@ -503,7 +508,7 @@ div.currentPreview {
     height: 90px;
   }
 
-  /* line 381, ../sass/screen.scss */
+  /* line 387, ../sass/screen.scss */
   #helpButtonClose {
     top: 20px;
     right: 20px;

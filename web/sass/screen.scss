@@ -105,7 +105,8 @@ $delay-hide : 475ms;
 }
 
 #help table td {
-  padding : 0 5px; 
+/*   padding : 0 5px;  */
+/*   @include debug(red) */
 }
 
 #helpButton, #helpButtonClose {
@@ -141,14 +142,14 @@ ul li a {
 
 
 .key {
-  display:        block;
+  display:        inline-block;
   color:           #eee;
   font:  bold 9pt arial;
   text-decoration: none;
   text-align:    center;
   width:           33px;
   height:          30px;
-  margin:           5px;
+  margin:         2px 0;
   background:      #333;
   border-top: 1px solid #999;
 
@@ -168,16 +169,21 @@ ul li a {
     font-size : 10px;
 }
 
-.text{
+#help li span {
+  display :           block;
+  line-height : 36px;
+  height : 36px;
+/*   @include debug(red) */
+}
+
+
+#help li.text{
 
   display :           block;
   vertical-align :   middle;
-  line-height :        30px;
+  line-height :        36px;
+  height : 36px;
   text-transform: uppercase;
-}
-
-#help li span {
-  line-height : 36px;
 }
 
 

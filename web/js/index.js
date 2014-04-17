@@ -38,7 +38,11 @@ $(function() {
   // help accordion 
   var accordion_head = $('#accordeon li a.title');
   var accordion_body = $('#accordeon li.content');
+  
+  // set first as active
+  accordion_head.first().addClass('active').parent().next().slideDown('normal');
 
+  
   // handle clic
   accordion_head.on('click', function(event) {
 
