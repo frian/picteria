@@ -40,7 +40,7 @@ $(function() {
   var accordion_body = $('#accordeon li.content');
   
   // set first as active
-  accordion_head.first().addClass('active').parent().next().slideDown('normal');
+  accordion_head.slice(1).addClass('active').parent().next().slideDown('normal');
 
   
   // handle clic
