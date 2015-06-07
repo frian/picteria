@@ -19,8 +19,8 @@ $app->register(new MonologServiceProvider(), array(
 ));
 
 // register WebProfiler
-$app->register($p = new WebProfilerServiceProvider(), array(
-    'profiler.cache_dir' => __DIR__.'/../var/cache/profiler',
-));
+// $app->register($p = new WebProfilerServiceProvider(), array(
+//     'profiler.cache_dir' => __DIR__.'/../var/cache/profiler',
+// ));
 
-$app->mount('/_profiler', $p);
+// $app->mount('/_profiler', $p);

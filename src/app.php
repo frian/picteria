@@ -10,7 +10,7 @@ use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 
 
-$app = new Application();
+$app = new Silex\Application();
 
 /*
  *  -- register service controller --------------------------------------------

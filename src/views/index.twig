@@ -2,15 +2,15 @@
 
 {% block title %}home{% endblock %}
 
-{% block picteria_javascripts %}<script src="../../web/js/index.js"></script>{% endblock %}
+{% block picteria_javascripts %}<script src="/js/index.js"></script>{% endblock %}
 
 {% block content %}
 
-<img id="helpButton" src="../../web/img/help.png" />
+<img id="helpButton" src="/img/help.png" />
 
 <div id="help">
 
-  <img id="helpButtonClose" class="hideHelpButtonClose" src="../../web/img/help.png" />
+  <img id="helpButtonClose" class="hideHelpButtonClose" src="/img/help.png" />
   
   <div id="helpHeader"></div>
 
@@ -30,7 +30,7 @@
   {% for gallery, img in galleriesData %}
   <div class="imageContainer {{ loop.index }}">
     <div class="indexImage">  
-      <a class="{{ loop.index }}" href="/gallery/{{ gallery }}"><img src="/web/galleries/{{ img }}"></a>
+      <a class="{{ loop.index }}" href="/gallery/{{ gallery }}"><img src="/galleries/{{ img }}"></a>
     </div>
     <div class="galleryTitle">{{ gallery }}</div>
     <div id="{{ loop.index }}" class="active hide"><div class="current"></div></div>

@@ -13,7 +13,7 @@
  *    if not commment the following line
  *    and uncomment line 21 below 
  */
-$galsDir = '/web/galleries/';
+$galsDir = '/galleries/';
 
 /*
  *  configuration for some subdomains (provider dependent)
