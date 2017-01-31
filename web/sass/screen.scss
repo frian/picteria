@@ -15,7 +15,7 @@ body {
 /*   overflow :          hidden; */
   @include my-background-image(
     linear-gradient(
-      top left, 
+      top left,
         rgba( 255, 255, 255, .1),
         rgba( 255, 255, 255, 0)
     )
@@ -126,7 +126,7 @@ $delay-hide : 475ms;
 #helpButtonClose {
   right :   20px;
 }
-  
+
 #helpHeader {
   height : 40px;
 }
@@ -232,7 +232,7 @@ div.indexImage img {
   margin-left : -$indexDivSize / 4;
 }
 
-div.active {  
+div.active {
   background-color : none;
 }
 
@@ -250,13 +250,13 @@ div.current {
 /*   overflow : hidden !important; */
   @include my-background-image(
     linear-gradient(
-      top left, 
+      top left,
         rgba( 0, 0, 0, .7),
         rgba( 0, 0, 0, .8)
     )
   );
   z-index : 2;
-  
+
 }
 
 #previewsContainer {
@@ -286,7 +286,7 @@ div.current {
 img.picteria {
   position : relative;
   @include box-shadow(
-    rgba(255,255,255,.4) 10px 0 20px, 
+    rgba(255,255,255,.4) 10px 0 20px,
     rgba(255,255,255,.4) -5px 0 20px
   );
 }
@@ -307,7 +307,7 @@ img.picteria {
   bottom :     10px;
   @include my-background-image(
     linear-gradient(
-      top left, 
+      top left,
         rgba( 255, 255, 255, .4),
         rgba( 255, 255, 255, .2)
     )
