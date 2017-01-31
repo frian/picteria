@@ -2,22 +2,22 @@
 
 /*
  * configuration for production environment
- * 
+ *
  */
 
 /*
  *  Gallery directory
- * 
+ *
  *    standard configuration
  *    should work in most cases
  *    if not commment the following line
- *    and uncomment line 21 below 
+ *    and uncomment line 21 below
  */
 $galsDir = '/galleries/';
 
 /*
  *  configuration for some subdomains (provider dependent)
- *  
+ *
  *    $galsDir = '/<subdomain>/web/galleries/';
 */
 // $galsDir = '/picteria/web/galleries/';
@@ -45,4 +45,3 @@ $app['twig.path'] = array(__DIR__.'/../src/views');
 
 // get root dir and remove ending slash
 $rootDir = preg_replace( "/\/$/", '', $_SERVER['DOCUMENT_ROOT']);
-
