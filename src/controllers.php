@@ -20,11 +20,11 @@ $app->get('/', function () use ($app, $galsDir) {
   $rootDir = preg_replace( "/\/$/", '', $_SERVER['DOCUMENT_ROOT']);
 
   $galleriesBasePath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
-  
+
   if (!is_dir($galleriesBasePath)) {
     return $app['twig']->render('errors/config.twig');
   }
-  
+
   // get galleries list
   $galleries = glob($galleriesBasePath.'*' , GLOB_ONLYDIR);
 
@@ -42,12 +42,12 @@ $app->get('/', function () use ($app, $galsDir) {
 
     $galleriesData[basename($gal)] = basename($gal).'/'.$pic.PHP_EOL;
   }
-  
+
   return $app['twig']->render('index.twig', array( 'galleriesData' => $galleriesData ));
 })
 ->bind('home');
 
- 
+
 /**
  * -- show gallery ------------------------------------------------------------
  */
@@ -62,9 +62,9 @@ $gallery->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($ap
   else if ( $galleryPath == '404Error' ) {
     return $app['twig']->render('errors/404.twig');
   }
-  
+
   // get the previews
-  list($prevPics, $picCount) = showPreviews($size, $galleryPath, $gallery, $id); 
+  list($prevPics, $picCount) = showPreviews($size, $galleryPath, $gallery, $id);
 
   // get the first preview
   $firstPreview = reset($prevPics);
@@ -83,7 +83,7 @@ $gallery->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($ap
   }
 
   // no ajax
-  return $app['twig']->render('gallery.twig', array( 
+  return $app['twig']->render('gallery.twig', array(
     'prevPics' => $prevPics,
     'pic'      => $pic,
     'gallery'  => $gallery,
@@ -109,22 +109,22 @@ $image->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $gals
   }
 
   $pics = scandir($galleryPath);
-  
+
   foreach ($pics as $pic) {
     if ( preg_match('/^\.\.?$/', $pic) ) { array_shift($pics);  }
   }
 
   $numPics = count($pics);
-  
+
   if ( $picNum > $numPics / 2 ) {
     $picNum = $numPics / 2;
   }
-  
+
   return $app['twig']->render('image.twig', array(
     'gallery' => $gallery,
     'pic'     => $pics[ $picNum - 1 ]
   ));
-  
+
 });
 
 
@@ -160,11 +160,11 @@ $preview->get('/{gallery}/{size}/{id}', function ($gallery, $size, $id) use ($ap
 
 
 $preview->get('/{gallery}', function ($gallery) use ($app, $galsDir, $rootDir) {
-  
+
   $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
   $previewsFileName = glob($galleryPath . "/prev-*");
   $previews = array();
-  
+
   foreach ($previewsFileName as $prevPic) {
     array_push($previews, basename($prevPic).PHP_EOL);
 //     print $galsDir.basename($prevPic)."<br>";
@@ -205,5 +205,3 @@ $app->error(function (\Exception $e, $code) use ($app) {
 $app->mount('/gallery', $gallery);
 $app->mount('/image',   $image);
 $app->mount('/preview', $preview);
-
-
