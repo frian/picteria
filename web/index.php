@@ -1,8 +1,5 @@
 <?php
 
-// PHP settings
-ini_set('display_errors', 0);
-
 // load Silex
 require_once __DIR__.'/../vendor/autoload.php';
 

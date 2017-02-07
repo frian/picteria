@@ -15,7 +15,7 @@ $app->get('/', function () use ($app, $galsDir) {
     // get root dir and remove ending slash
     $rootDir = preg_replace("/\/$/", '', $_SERVER['DOCUMENT_ROOT']);
 
-    $galleriesBasePath = $_SERVER['DOCUMENT_ROOT'].$galsDir;
+    $galleriesBasePath = $rootDir.$galsDir;
 
     if (!is_dir($galleriesBasePath)) {
         return $app['twig']->render('errors/config.twig');
@@ -141,7 +141,7 @@ $preview->get('/{gallery}/{size}/{id}', function (Request $request, $gallery, $s
 
 
     // get the previews
-    list($prevPics, $picCount) = showPreviews($size, $galleryPath, $gallery, $id);
+    list($prevPics, ) = showPreviews($size, $galleryPath, $gallery, $id);
 
     // ajax
     if ($request->isXmlHttpRequest()) {

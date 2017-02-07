@@ -1,6 +1,6 @@
 <?php
 
-function checkGalleryPath($galsDir, $gallery, $rootDir, $app)
+function checkGalleryPath($galsDir, $gallery, $rootDir)
 {
     $galleriesBasePath = $rootDir.$galsDir;
 
@@ -18,12 +18,11 @@ function checkGalleryPath($galsDir, $gallery, $rootDir, $app)
     return $galleryPath;
 }
 
-function showPreviews($size, $galleryPath, $gallery, $id)
+function showPreviews($size, $galleryPath, $id)
 {
     $screenWidth = $size - 180;
     $previewsWidth = 0;
 
-    $picInfos = array();
     $prevPics = array();
     $picCount = 0;
     $screenNo = 1;
