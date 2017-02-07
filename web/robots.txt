@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /css/
+Disallow: /img/
+Disallow: /js/
+Disallow: /sass/
+Disallow: /config.rb
+Disallow: /index.php
+Disallow: /index_dev.php

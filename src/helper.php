@@ -12,7 +12,6 @@ function checkGalleryPath($galsDir, $gallery, $rootDir, $app)
 
     // if gallery does not exist => 404
     if (!is_dir($galleryPath)) {
-        $referer = $app['request']->headers->get('referer');
         return '404Error';
     }
 
