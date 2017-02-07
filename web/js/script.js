@@ -114,40 +114,39 @@ $(function() {
 	// left arrow :  show previous image 37
 	// b :           back to galleries index 66
 	// c :           show / hide controls 67
-	$(document).keydown(
-			function(e) {
-				console.log(e.which);
-				if (e.which == 82) {
-					mode = switchMode(mode);
-				} else if (e.which == 38) {
-					nextPreviews(gal, currentImgNumber);
-				} else if (e.which == 40) {
-					prevPreviews(gal, currentImgNumber);
-				} else if (e.which == 39) {
-					currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
-				} else if (e.which == 37) {
-					currentImgNumber = prevImageHandler(gal, currentImgNumber, mode, controlsState);
-				} else if (e.which == 66) {
-					window.location.href = "/";
-				} else if (e.which == 67) {
-					$('#controls').toggleClass('hide');
-					// -- switch state
-					controlsState == 'show' ? controlsState = 'hide'
-							: controlsState = 'show';
-				} else if (e.which == 83) {
+	$(document).keydown(function(e) {
+		console.log(e.which);
+		if (e.which == 82) {
+			mode = switchMode(mode);
+		} else if (e.which == 38) {
+			nextPreviews(gal, currentImgNumber);
+		} else if (e.which == 40) {
+			prevPreviews(gal, currentImgNumber);
+		} else if (e.which == 39) {
+			currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
+		} else if (e.which == 37) {
+			currentImgNumber = prevImageHandler(gal, currentImgNumber, mode, controlsState);
+		} else if (e.which == 66) {
+			window.location.href = "/";
+		} else if (e.which == 67) {
+			$('#controls').toggleClass('hide');
+			// -- switch state
+			controlsState == 'show' ? controlsState = 'hide'
+					: controlsState = 'show';
+		} else if (e.which == 83) {
 
-					// -- switch state
-					diaState == 'off' ? diaState = 'on' : diaState = 'off';
+			// -- switch state
+			diaState == 'off' ? diaState = 'on' : diaState = 'off';
 
-					if (diaState == 'on') {
-						Timer = setInterval(function() {
-							currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState)
-						}, 3000);
-					} else {
-						clearInterval(Timer);
-					}
-				}
-			});
+			if (diaState == 'on') {
+				Timer = setInterval(function() {
+					currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState)
+				}, 3000);
+			} else {
+				clearInterval(Timer);
+			}
+		}
+	});
 
 });
 
