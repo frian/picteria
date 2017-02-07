@@ -2,394 +2,351 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-
 @import "base";
-
 @import url(http://fonts.googleapis.com/css?family=Courgette|Muli);
 
-html, body { min-height : 100% }
-
-body {
-  color :              white;
-  background :    rgb(0,0,0);
-/*   overflow :          hidden; */
-  @include my-background-image(
-    linear-gradient(
-      top left,
-        rgba( 255, 255, 255, .1),
-        rgba( 255, 255, 255, 0)
-    )
-  );
+body,
+html {
+    min-height: 100%;
 }
 
-a { color : white; text-decoration : none }
+body {
+    color: white;
+    background: rgb(0,0,0);
+    /*   overflow :          hidden; */
+    @include my-background-image( linear-gradient( top left, rgba( 255, 255, 255, .1), rgba( 255, 255, 255, 0) ) );
+}
 
-a.error { color : white; text-decoration : underline }
+a {
+    color: white;
+    text-decoration: none;
+}
 
+a.error {
+    color: white;
+    text-decoration: underline;
+}
 
 #error {
-  width : 100%;
-  height : 100%;
-  @include debug(red);
+    width: 100%;
+    height: 100%;
+    @include debug(red);
 }
 
 #error td {
-  font-family: 'Muli', sans-serif;
-  font-size : 400%;
-  text-align : center;
+    font-family: 'Muli', sans-serif;
+    font-size: 400%;
+    text-align: center;
 }
-
 /* ----------------------------------------------------------------------------
    help screen
 ---------------------------------------------------------------------------- */
 #help {
-
-  @include posabs();
-  top :           0;
-  left : -320px;
-  width : 280px;
-  min-height :  100%;
-  z-index :       1;
-  padding :  0 20px;
-  background : rgba(0, 0, 0, .95);
-  font-family: 'Muli', sans-serif;
-  @include box-shadow(rgba(255, 0, 0, .4) 10px 0 20px);
+    @include posabs();
+    top: 0;
+    left: -320px;
+    width: 280px;
+    min-height: 100%;
+    z-index: 1;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, .95);
+    font-family: 'Muli', sans-serif;
+    @include box-shadow(rgba(255, 0, 0, .4) 10px 0 20px);
 }
-
-$delay-show : 188ms;
-$delay-hide : 475ms;
+$delay-show: 188ms;
+$delay-hide: 475ms;
 
 .hideHelpButton {
-  @include single-transition(all, 0ms, linear, $delay-show);
-  @include opacity(0);
-  z-index : 0!important;
+    @include single-transition(all, 0ms, linear, $delay-show);
+    @include opacity(0);
+    z-index: 0!important;
 }
 
 .showHelpButton {
-  @include single-transition(all, 0ms, linear, $delay-hide);
-  @include opacity(1);
+    @include single-transition(all, 0ms, linear, $delay-hide);
+    @include opacity(1);
 }
 
 .hideHelpButtonClose {
-  @include single-transition(all, 0ms, linear, $delay-hide);
-  @include opacity(0);
+    @include single-transition(all, 0ms, linear, $delay-hide);
+    @include opacity(0);
 }
 
 .showHelpButtonClose {
-  @include single-transition(all, 0ms, linear, $delay-show);
-  @include opacity(1);
+    @include single-transition(all, 0ms, linear, $delay-show);
+    @include opacity(1);
 }
 
 .showHelp {
-  @include single-transition(all, 1s);
-  left : 0!important;
+    @include single-transition(all, 1s);
+    left: 0!important;
 }
 
 .hideHelp {
-  @include single-transition(all, 1s);
-  left : auto;
+    @include single-transition(all, 1s);
+    left: auto;
 }
 
 #help h2 {
-  font-size : 120%;
-  margin :   5px 0 10px 5px;
+    font-size: 120%;
+    margin: 5px 0 10px 5px;
 }
 
 #help p {
-  font-size : 110%;
-  margin : 10px 10px;
+    font-size: 110%;
+    margin: 10px;
 }
 
 #help table {
-  margin : 15px 0;
+    margin: 15px 0;
 }
 
 #help table td {
-/*   padding : 0 5px;  */
-/*   @include debug(red) */
+    /*   padding : 0 5px;  */
+    /*   @include debug(red) */
 }
 
-#helpButton, #helpButtonClose {
-  @include posabs();
-  top :    10px;
-/*   left :   20px; */
-  width :  60px;
-  height : 60px;
-  cursor : pointer;
+#helpButton,
+#helpButtonClose {
+    @include posabs();
+    top: 10px;
+    /*   left :   20px; */
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
 }
 
 #helpButton {
-  left :   20px;
-  z-index : 2;
+    left: 20px;
+    z-index: 2;
 }
 
 #helpButtonClose {
-  right :   20px;
+    right: 20px;
 }
 
 #helpHeader {
-  height : 40px;
+    height: 40px;
 }
 
-#accordeon li, #accordeon ul { list-style: none; }
-#accordeon li.content { display: none; }
+#accordeon li,
+#accordeon ul {
+    list-style: none;
+}
+
+#accordeon li.content {
+    display: none;
+}
 
 ul li a {
-  display :      block;
-  font-size :     160%;
-  margin : 20px 0 10px;
+    display: block;
+    font-size: 160%;
+    margin: 20px 0 10px;
 }
 
-
 .key {
-  display:        inline-block;
-  color:           #eee;
-  font:  bold 9pt arial;
-  text-decoration: none;
-  text-align:    center;
-  width:           33px;
-  height:          30px;
-  margin:         2px 0;
-  background:      #333;
-  border-top: 1px solid #999;
-
-  @include border-radius(8px, 8px);
-
-  @include box-shadow(inset 0 0 25px #333,
-    0 1px 0 #000,
-    0 1px 0 #666,
-    0 2px 2px rgba(255, 0, 0, .8)
-  );
-
-  @include single-text-shadow(0, 1px, 0, 0, #f5f5f5);
+    display: inline-block;
+    color: #eee;
+    font: bold 9pt arial;
+    text-decoration: none;
+    text-align: center;
+    width: 33px;
+    height: 30px;
+    margin: 2px 0;
+    background: #333;
+    border-top: 1px solid #999;
+    @include border-radius(8px, 8px);
+    @include box-shadow(inset 0 0 25px #333, 0 1px 0 #000, 0 1px 0 #666, 0 2px 2px rgba(255, 0, 0, .8) );
+    @include single-text-shadow(0, 1px, 0, 0, #f5f5f5);
 }
 
 .enter {
-    width : 60px;
-    font-size : 10px;
+    width: 60px;
+    font-size: 10px;
 }
 
 #help li span {
-  display :           block;
-  line-height : 36px;
-  height : 36px;
-/*   @include debug(red) */
+    display: block;
+    line-height: 36px;
+    height: 36px;
+    /*   @include debug(red) */
 }
 
-
-#help li.text{
-
-  display :           block;
-  vertical-align :   middle;
-  line-height :        36px;
-  height : 36px;
-  text-transform: uppercase;
+#help li.text {
+    display: block;
+    vertical-align: middle;
+    line-height: 36px;
+    height: 36px;
+    text-transform: uppercase;
 }
-
-
 /* ----------------------------------------------------------------------------
    index screen
 ---------------------------------------------------------------------------- */
 #indexContainer {
-
-  width : 80%;
-  margin : auto;
-  padding : 20px;
-  text-align : center;
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
 }
 
 div.imageContainer {
-  width :    210px;
-  margin :    20px;
-  overflow :  auto;
-  display :   inline-block;
-  background-color : white;
+    width: 210px;
+    margin: 20px;
+    overflow: auto;
+    display: inline-block;
+    background-color: white;
 }
+$indexDivSize: 200px;
 
-
-$indexDivSize : 200px;
 div.indexImage {
-
-  width :  $indexDivSize;
-  height : $indexDivSize;
-  margin :           5px;
-  overflow :      hidden;
-/*   @include debug(red); */
+    width: $indexDivSize;
+    height: $indexDivSize;
+    margin: 5px;
+    overflow: hidden;
+    /*   @include debug(red); */
 }
 
 div.galleryTitle {
-
-  padding :      5px;
-  height :      30px;
-  line-height : 30px;
-  font-size :   110%;
-  color :       black;
-  font-family: 'Courgette',cursive;
+    padding: 5px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 110%;
+    color: black;
+    font-family: 'Courgette',cursive;
 }
 
 div.indexImage img {
-  max-height :       $indexDivSize;
-  margin-left : -$indexDivSize / 4;
+    max-height: $indexDivSize;
+    margin-left: -$indexDivSize / 4;
 }
 
 div.active {
-  background-color : none;
+    background-color: none;
 }
 
 div.current {
-  padding :          5px;
-  background-color : red;
+    padding: 5px;
+    background-color: red;
 }
 
-
 #previews {
-  @include posabs();
-  top :           0;
-  width :      100%;
-  min-height : 100%;
-/*   overflow : hidden !important; */
-  @include my-background-image(
-    linear-gradient(
-      top left,
-        rgba( 0, 0, 0, .7),
-        rgba( 0, 0, 0, .8)
-    )
-  );
-  z-index : 2;
-
+    @include posabs();
+    top: 0;
+    width: 100%;
+    min-height: 100%;
+    /*   overflow : hidden !important; */
+    @include my-background-image( linear-gradient( top left, rgba( 0, 0, 0, .7), rgba( 0, 0, 0, .8) ) );
+    z-index: 2;
 }
 
 #previewsContainer {
-
-  padding : 4%;
-  width : 92%;
-  text-align : center;
+    padding: 4%;
+    width: 92%;
+    text-align: center;
 }
-
 
 #previews img {
-  height : 110px;
-  margin : 3px;
-  border : 1px solid #666;
+    height: 110px;
+    margin: 3px;
+    border: 1px solid #666;
 }
-
 /* ----------------------------------------------------------------------------
    gallery screen
 ---------------------------------------------------------------------------- */
 #container {
-  @include posabs();
-  width :      100%;
-  height :     100%;
-  overflow : hidden !important;
+    @include posabs();
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
 }
 
 img.picteria {
-  position : relative;
-  @include box-shadow(
-    rgba(255,255,255,.4) 10px 0 20px,
-    rgba(255,255,255,.4) -5px 0 20px
-  );
+    position: relative;
+    @include box-shadow( rgba(255,255,255,.4) 10px 0 20px, rgba(255,255,255,.4) -5px 0 20px );
 }
 
 .hide {
-  display : none;
+    display: none;
 }
-
-
 /* ----------------------------------------------------------------------------
    controls bar
 ---------------------------------------------------------------------------- */
 #controls {
-  color :     black;
-  @include posabs();
-  width :      100%;
-  height :     40px;
-  bottom :     10px;
-  @include my-background-image(
-    linear-gradient(
-      top left,
-        rgba( 255, 255, 255, .4),
-        rgba( 255, 255, 255, .2)
-    )
-  );
+    color: black;
+    @include posabs();
+    width: 100%;
+    height: 40px;
+    bottom: 10px;
+    @include my-background-image( linear-gradient( top left, rgba( 255, 255, 255, .4), rgba( 255, 255, 255, .2) ) );
 }
 
 #controlsContainer {
-  margin : auto;
-  display: table;
+    margin: auto;
+    display: table;
 }
 
 img.preview {
-  height :    90px;
-  margin :   5px 0;
-  cursor : pointer;
+    height: 90px;
+    margin: 5px 0;
+    cursor: pointer;
 }
 
 div.currentPreview {
-  padding :          2px;
-  background-color : red;
+    padding: 2px;
+    background-color: red;
 }
 
 #mode {
-  width :     90px;
-  margin :   5px 0;
-  cursor : pointer;
+    width: 90px;
+    margin: 5px 0;
+    cursor: pointer;
 }
 
-#next, #prev {
-  height :    90px;
-  margin :   5px 0;
-  cursor : pointer;
+#next,
+#prev {
+    height: 90px;
+    margin: 5px 0;
+    cursor: pointer;
 }
-
-
 /* ----------------------------------------------------------------------------
    media queries
 ---------------------------------------------------------------------------- */
 @media screen and (min-width: 480px) {
-
-  #help {
-    left : -480px;
-    width : 440px;
-  }
-
+    #help {
+        left: -480px;
+        width: 440px;
+    }
 }
-
-
 @media screen and (min-width: 640px) {
+    #help {
+        left: -520px;
+        width: 480px;
+    }
 
-  #help {
-    left : -520px;
-    width : 480px;
-  }
-
-  #helpButton, #helpButtonClose {
-    width :  75px;
-    height : 75px;
-  }
-
+    #helpButton,
+    #helpButtonClose {
+        width: 75px;
+        height: 75px;
+    }
 }
-
 @media screen and (min-width: 1000px) {
+    #controls {
+        bottom: 20px;
+        height: 100px;
+    }
 
-  #controls {
-    bottom : 20px;
-    height : 100px;
-  }
+    #helpButton {
+        top: 20px;
+        left: 20px;
+        width: 90px;
+        height: 90px;
+    }
 
-  #helpButton {
-    top :    20px;
-    left :   20px;
-    width :  90px;
-    height : 90px;
-  }
-
-  #helpButtonClose {
-    top :    20px;
-    right :  20px;
-    width :  90px;
-    height : 90px;
-  }
+    #helpButtonClose {
+        top: 20px;
+        right: 20px;
+        width: 90px;
+        height: 90px;
+    }
 }
-
 /* EOF */
