@@ -191,7 +191,7 @@ $(function() {
 						Timer = setInterval(function() {
 							currentImgNumber = nextImageHandler(gal,
 									currentImgNumber, mode, controlsState)
-						}, 1000);
+						}, 3000);
 					} else {
 						clearInterval(Timer);
 					}
@@ -364,9 +364,9 @@ function prevImage(gal, currentImgNumber, mode) {
 
 function showImage(mode, resize) {
 
-	setTimeout(function() {
+	// setTimeout(function() {
 		mode == 'screen' ? fullScreen(resize) : fullImage(resize);
-	}, 50);
+	// }, 10);
 }
 
 function fullImage(resize) {
@@ -425,13 +425,14 @@ function fullScreen(resize) {
 
 		img.onload = function() {
 			_handleFullScreenCss(item);
+            item.removeClass('hide');
 		};
 
 		img.src = imgPath;
 	} else {
 		_handleFullScreenCss(item);
+        item.removeClass('hide');
 	}
-	item.removeClass('hide');
 }
 
 function _handleFullScreenCss(item) {
