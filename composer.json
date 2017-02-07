@@ -29,7 +29,8 @@
 	},
 	"autoload" : {
 		"psr-0" : {
-			"Silex\\Provider\\" : ""
+			"Silex\\Provider\\" : "",
+            "Frian\\Picteria\\" : "src/"
 		}
 	},
 	"target-dir" : "Silex/Provider",

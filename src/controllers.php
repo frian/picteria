@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Frian\Picteria\Helper;
 
 // infomaniak subdomain
 // $galsDir = '/picteria/web/galleries/';
@@ -50,7 +51,9 @@ $app->get('/', function () use ($app, $galsDir) {
 $gallery = $app['controllers_factory'];
 $gallery->get('/{gallery}/{size}/{id}', function (Request $request, $gallery, $size, $id) use ($app, $galsDir, $rootDir) {
 
-    $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
+    $helper = new Helper();
+
+    $galleryPath = $helper->checkGalleryPath($galsDir, $gallery, $rootDir, $app);
 
     if ($galleryPath == 'configError') {
         return $app['twig']->render('errors/config.twig');
@@ -60,7 +63,7 @@ $gallery->get('/{gallery}/{size}/{id}', function (Request $request, $gallery, $s
     }
 
     // get the previews
-    list($prevPics, $picCount) = showPreviews($size, $galleryPath, $gallery, $id);
+    list($prevPics, $picCount) = $helper->showPreviews($size, $galleryPath, $gallery, $id);
 
     // get the first preview
     $firstPreview = reset($prevPics);
@@ -93,7 +96,10 @@ $gallery->get('/{gallery}/{size}/{id}', function (Request $request, $gallery, $s
  */
 $image = $app['controllers_factory'];
 $image->get('/{gallery}/{picNum}', function ($gallery, $picNum) use ($app, $galsDir, $rootDir) {
-    $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
+
+    $helper = new Helper();
+
+    $galleryPath = $helper->checkGalleryPath($galsDir, $gallery, $rootDir, $app);
 
     if ($galleryPath == 'configError') {
         return $app['twig']->render('errors/config.twig');
@@ -130,6 +136,8 @@ $preview = $app['controllers_factory'];
 
 $preview->get('/{gallery}/{size}/{id}', function (Request $request, $gallery, $size, $id) use ($app, $galsDir, $rootDir) {
 
+    // $helper = new Helper();
+
     $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
 
     if ($galleryPath == 'configError') {
@@ -155,7 +163,9 @@ $preview->get('/{gallery}/{size}/{id}', function (Request $request, $gallery, $s
 
 $preview->get('/{gallery}', function ($gallery) use ($app, $galsDir, $rootDir) {
 
-    $galleryPath = checkGalleryPath($galsDir, $gallery, $rootDir, $app);
+    $helper = new Helper();
+
+    $galleryPath = $helper->checkGalleryPath($galsDir, $gallery, $rootDir, $app);
     $previewsFileName = glob($galleryPath . "/prev-*");
     $previews = array();
 
@@ -174,7 +184,22 @@ $preview->get('/{gallery}', function ($gallery) use ($app, $galsDir, $rootDir) {
 /**
  * -- handle errors -----------------------------------------------------------
  */
+$app->error(function (\Exception $e, $code) use ($app) {
 
+    if ($app['debug']) {
+        return;
+    }
+
+    // 404.html, 40x.html, 4xx.html, 500.html 5xx.html, default.html
+    $templates = array(
+        'errors/'.$code.'.twig',
+        'errors/'.substr($code, 0, 2).'x.twig',
+        'errors/'.substr($code, 0, 1).'xx.twig',
+        'errors/default.twig',
+    );
+
+    return new Response($app['twig']->resolveTemplate($templates)->render());
+});
 
 
 $app->mount('/gallery', $gallery);
