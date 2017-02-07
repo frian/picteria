@@ -174,22 +174,7 @@ $preview->get('/{gallery}', function ($gallery) use ($app, $galsDir, $rootDir) {
 /**
  * -- handle errors -----------------------------------------------------------
  */
-$app->error(function (\Exception $e, $code) use ($app) {
 
-    // if ($app['debug']) {
-    //     return;
-    // }
-
-    // 404.html, 40x.html, 4xx.html, 500.html 5xx.html, default.html
-    $templates = array(
-        'errors/'.$code.'.twig',
-        'errors/'.substr($code, 0, 2).'x.twig',
-        'errors/'.substr($code, 0, 1).'xx.twig',
-        'errors/default.twig',
-    );
-
-    return new Response($app['twig']->resolveTemplate($templates)->render());
-});
 
 
 $app->mount('/gallery', $gallery);
