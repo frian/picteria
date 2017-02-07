@@ -2,42 +2,44 @@
 
 {% block title %}home{% endblock %}
 
-{% block picteria_javascripts %}<script src="/js/index.js"></script>{% endblock %}
+{% block picteria_javascripts %}
+    <script src="/js/index.js"></script>
+{% endblock %}
 
 {% block content %}
 
-<img id="helpButton" src="/img/help.png" />
+    <img id="helpButton" src="/img/help.png"/>
 
-<div id="help">
+    <div id="help">
 
-  <img id="helpButtonClose" class="hideHelpButtonClose" src="/img/help.png" />
-  
-  <div id="helpHeader"></div>
+        <img id="helpButtonClose" class="hideHelpButtonClose" src="/img/help.png"/>
 
-  <ul id="accordeon">
+        <div id="helpHeader"></div>
 
-    <!-- english help ----------------------------------------------------- -->
-    {% include 'help.en.twig' %}
+        <ul id="accordeon">
 
-    <!-- french help ------------------------------------------------------ -->
-    {% include 'help.fr.twig' %}
+            <!-- english help ----------------------------------------------------- -->
+            {% include 'help.en.twig' %}
 
-  </ul>
-</div>
+            <!-- french help ------------------------------------------------------ -->
+            {% include 'help.fr.twig' %}
 
-
-<section id="indexContainer">
-  {% for gallery, img in galleriesData %}
-  <div class="imageContainer {{ loop.index }}">
-    <div class="indexImage">  
-      <a class="{{ loop.index }}" href="/gallery/{{ gallery }}"><img src="/galleries/{{ img }}"></a>
+        </ul>
     </div>
-    <div class="galleryTitle">{{ gallery }}</div>
-    <div id="{{ loop.index }}" class="active hide"><div class="current"></div></div>
-  </div>
-  <div id="previews-{{ loop.index0 }}" class="hide"></div>
-  {% endfor %}
-</section>
 
+    <section id="indexContainer">
+        {% for gallery, img in galleriesData %}
+            <div class="imageContainer {{ loop.index }}">
+                <div class="indexImage">
+                    <a class="{{ loop.index }}" href="/gallery/{{ gallery }}"><img src="/galleries/{{ img }}"></a>
+                </div>
+                <div class="galleryTitle">{{ gallery }}</div>
+                <div id="{{ loop.index }}" class="active hide">
+                    <div class="current"></div>
+                </div>
+            </div>
+            <div id="previews-{{ loop.index0 }}" class="hide"></div>
+        {% endfor %}
+    </section>
 
 {% endblock %}

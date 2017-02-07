@@ -1,41 +1,41 @@
 $(function() {
 
-	// get gallery name
+	// -- get gallery name
 	var gal = $('title').text().split(" / ")[1];
 
-	// get image list
+	// -- get image list
 	var images = $('#container').find('img').map(function() {
 		return this.id;
 	}).get();
 
-	// get previews list
+	// -- get previews list
 	var previews = $('#controls').find('img.preview').map(function() {
 		return this.id;
 	}).get();
 
-	// get id of current image
+	// -- get id of current image
 	var currentImgId = '#' + images[0];
 
-	// place holder for the current image number
+	// -- place holder for the current image number
 	var currentImgNumber = previews[0];
 
 	currentImgNumber = currentImgNumber.replace('picteria-', '');
 	currentImgNumber = currentImgNumber.replace('-prev', '');
 
-	// image mode : screen / image
+	// -- image mode : screen / image
 	var mode = 'image';
 
-	// diaporama state
+	// -- diaporama state
 	var diaState = 'off';
 
-	// controls state
+	// -- controls state
 	var controlsState = 'show';
 
 	// -- show first image on page load
 	// -----------------------------------------
 	showImage(mode);
 
-	// add active state style
+	// -- add active state style
 	addActiveStyleCss(currentImgNumber);
 
 	// -- handle screen resize
@@ -44,36 +44,29 @@ $(function() {
 
 	$(window).resize(
 		function() {
-			lastExec = updatePreviews(lastExec, gal, currentImgNumber,
-					currentImgNumber);
+			lastExec = updatePreviews(lastExec, gal, currentImgNumber, currentImgNumber);
 		});
 
 	// -- Handle show image
 	// -----------------------------------------------------
 	$(document).on("click", '#controlsContainer .preview', function() {
 
-		// $.each(images, function(index, item) {
-		// $('#' + item).addClass('hide');
-		// });
-
-		// console.log(currentImgNumber);
-
-		// remove active state from previous preview
+		// -- remove active state from previous preview
 		removeActiveStyleCss(currentImgNumber);
 
-		// get clicked element id
+		// -- get clicked element id
 		var id = $(this).attr('id');
 
-		// get corresponding img id
+		// -- get corresponding img id
 		var img = id.replace('-prev', '');
 
-		// get corresponding id tag
+		// -- get corresponding id tag
 		currentImgId = '#' + img;
 
-		// get image number
+		// -- get image number
 		currentImgNumber = img.replace('picteria-', '');
 
-		// get new pic
+		// -- get new pic
 		$.ajax({
 			url : '/image/' + gal + '/' + currentImgNumber,
 			type : "get",
@@ -87,17 +80,8 @@ $(function() {
 			}
 		});
 
-		// show new pic
+		// -- show new pic
 		$('#picteria-1').removeClass('hide');
-
-		// $.each(images, function(index, item) {
-		// if ( item == img ) {
-		// showImage(mode);
-		// }
-		// else {
-		// $('#' + item).addClass('hide');
-		// }
-		// });
 	});
 
 	// -- Handle next previews
@@ -114,52 +98,22 @@ $(function() {
 		prevPreviews(gal, currentImgNumber);
 	});
 
-	// $(document).on("swipeleft", '#container' , function(e) {
-	// $( '#debug' ).html('swipeleft jquery');
-	// currentImgNumber = nextImageHandler(gal, currentImgNumber, mode,
-	// controlsState);
-	// });
-	//
-	// $(document).on("swiperight", '#container', function(e) {
-	// $( '#debug' ).html('swiperight jquery');
-	// currentImgNumber = prevImageHandler(gal, currentImgNumber, mode,
-	// controlsState);
-	// });
-
-	Hammer(document.getElementById("container")).on(
-		"swipeleft",
-		function() {
-			console.log('swipeleft');
-			$('#debug').html('swipeleft hammer');
-			currentImgNumber = nextImageHandler(gal, currentImgNumber,
-					mode, controlsState);
-		});
-
-	Hammer(document.getElementById("container")).on(
-		"swiperight",
-		function() {
-			console.log('swiperight');
-			$('#debug').html('swiperight hammer');
-			currentImgNumber = prevImageHandler(gal, currentImgNumber,
-					mode, controlsState);
-		});
 
 	// -- Handle mode change
 	// ----------------------------------------------------
 	$(document).on("click", '#mode', function() {
 		mode = switchMode(mode);
-		// return mode;
 	});
 
 	// -- keyboard shortcuts
 	// ----------------------------------------------------
-	// r : switch mode 82
-	// up arrow : show next previews 38
-	// down arrow : show previous previews 40
+	// r :           switch mode 82
+	// up arrow :    show next previews 38
+	// down arrow :  show previous previews 40
 	// right arrow : show next image 39
-	// left arrow : show previous image 37
-	// b : back to galleries index 66
-	// c : show /hide controls 67
+	// left arrow :  show previous image 37
+	// b :           back to galleries index 66
+	// c :           show / hide controls 67
 	$(document).keydown(
 			function(e) {
 				console.log(e.which);
@@ -170,27 +124,24 @@ $(function() {
 				} else if (e.which == 40) {
 					prevPreviews(gal, currentImgNumber);
 				} else if (e.which == 39) {
-					currentImgNumber = nextImageHandler(gal, currentImgNumber,
-							mode, controlsState);
+					currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState);
 				} else if (e.which == 37) {
-					currentImgNumber = prevImageHandler(gal, currentImgNumber,
-							mode, controlsState);
+					currentImgNumber = prevImageHandler(gal, currentImgNumber, mode, controlsState);
 				} else if (e.which == 66) {
 					window.location.href = "/";
 				} else if (e.which == 67) {
 					$('#controls').toggleClass('hide');
-					// switch state
+					// -- switch state
 					controlsState == 'show' ? controlsState = 'hide'
 							: controlsState = 'show';
 				} else if (e.which == 83) {
 
-					// switch state
+					// -- switch state
 					diaState == 'off' ? diaState = 'on' : diaState = 'off';
 
 					if (diaState == 'on') {
 						Timer = setInterval(function() {
-							currentImgNumber = nextImageHandler(gal,
-									currentImgNumber, mode, controlsState)
+							currentImgNumber = nextImageHandler(gal, currentImgNumber, mode, controlsState)
 						}, 3000);
 					} else {
 						clearInterval(Timer);
@@ -307,7 +258,7 @@ function nextImage(gal, currentImgNumber, mode) {
 	}
 
 	console.log('toc');
-	// remove active state style from previous preview
+	// -- remove active state style from previous preview
 	removeActiveStyleCss(currentImgNumber);
 
 	currentImgNumber++;
@@ -324,7 +275,7 @@ function nextImage(gal, currentImgNumber, mode) {
 		}
 	});
 
-	// add active state style to current preview
+	// -- add active state style to current preview
 	addActiveStyleCss(currentImgNumber);
 
 	return currentImgNumber;
@@ -336,7 +287,7 @@ function prevImage(gal, currentImgNumber, mode) {
 		return currentImgNumber;
 	}
 
-	// remove active state style from previous preview
+	// -- remove active state style from previous preview
 	removeActiveStyleCss(currentImgNumber);
 
 	currentImgNumber--;
@@ -356,7 +307,7 @@ function prevImage(gal, currentImgNumber, mode) {
 		}
 	});
 
-	// add active state style to current preview
+	// -- add active state style to current preview
 	addActiveStyleCss(currentImgNumber);
 
 	return currentImgNumber;
@@ -397,7 +348,7 @@ function _handleFullImageCss(item) {
 
 	var orientation = getOrientation();
 
-	// remove css added by fullScreen
+	// -- remove css added by fullScreen
 	item.css('width', '');
 	item.css('height', '');
 
@@ -441,7 +392,7 @@ function _handleFullScreenCss(item) {
 	var screenHeight = getHeight();
 	var orientation = getOrientation();
 
-	// remove css added by fullImage
+	// -- remove css added by fullImage
 	item.css('max-width', '');
 	item.css('max-height', '');
 
@@ -507,7 +458,7 @@ function nextPreviews(gal, currentImgNumber) {
 
 	var galItems = $('#controls').attr('data-galItems');
 
-	// next image
+	// -- next image
 	lastImage++;
 
 	if (lastImage > galItems) {
@@ -527,7 +478,7 @@ function prevPreviews(gal, currentImgNumber) {
 	firstImage = firstImage.replace('picteria-', '');
 	firstImage = firstImage.replace('-prev', '');
 
-	// previous image
+	// -- previous image
 	firstImage--;
 
 	if (firstImage <= 0) {
@@ -541,16 +492,16 @@ function switchMode(mode) {
 
 	mode == 'screen' ? mode = 'image' : mode = 'screen';
 
-	// set icon to display
+	// -- set icon to display
 	var icon = 'resize';
 	if (mode == 'image') {
 		icon = 'fullscreen';
 	}
 
-	// show image
+	// -- show image
 	showImage(mode, 'resize');
 
-	// show icon
+	// -- show icon
 	$('#mode').attr('src', '/img/' + icon + '.png');
 
 	return mode;

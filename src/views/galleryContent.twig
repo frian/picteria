@@ -1,13 +1,10 @@
 <section id="container">
-  <img id="picteria-1" class="picteria hide" src="/galleries/{{ gallery }}/{{ pic }}" alt="" >
-{#     <img id="picteria-2" class="picteria hide" src="/galleries/buds/002.jpg" alt="" >#}
+    <img id="picteria-1" class="picteria hide" src="/galleries/{{ gallery }}/{{ pic }}" alt="">
+    {#     <img id="picteria-2" class="picteria hide" src="/galleries/buds/002.jpg" alt="" >#}
 </section>
 
-
-<div id="controls" data-galItems="{{ galItems }}" >
-  <div id="controlsContainer">
-
-{% include 'galleryContentPreviews.twig' %}
-
-  <div>
+<div id="controls" data-galItems="{{ galItems }}">
+    <div id="controlsContainer">
+        {% include 'galleryContentPreviews.twig' %}
+    <div>
 </div>

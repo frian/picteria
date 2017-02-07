@@ -1,10 +1,7 @@
 <div id="previews">
-  <div id="previewsContainer">
-  {% for picCount, prevPic in previews %}
-{#   <div style="display: inline-block;">#}
-    <img class="preview" id="picteria-{{ picCount }}-prev" src="/galleries/{{ gallery }}/{{ prevPic }}" alt="" >
-{#     <div id="{{ picCount }}" class="active hide"><div class="currentPreview"></div></div>#}
-{#   </div>#}
-  {% endfor %}
-  </div>
+    <div id="previewsContainer">
+        {% for picCount, prevPic in previews %}
+            <img class="preview" id="picteria-{{ picCount }}-prev" src="/galleries/{{ gallery }}/{{ prevPic }}" alt="">
+        {% endfor %}
+    </div>
 </div>
