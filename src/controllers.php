@@ -186,10 +186,6 @@ $preview->get('/{gallery}', function ($gallery) use ($app, $galsDir, $rootDir) {
  */
 $app->error(function (\Exception $e, $code) use ($app) {
 
-    if ($app['debug']) {
-        return;
-    }
-
     // 404.html, 40x.html, 4xx.html, 500.html 5xx.html, default.html
     $templates = array(
         'errors/'.$code.'.twig',
