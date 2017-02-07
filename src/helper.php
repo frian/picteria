@@ -4,7 +4,7 @@ namespace Frian\Picteria;
 
 class Helper {
 
-    function checkGalleryPath($galsDir, $gallery, $rootDir)
+    public function checkGalleryPath($galsDir, $gallery, $rootDir)
     {
         $galleriesBasePath = $rootDir.$galsDir;
 
@@ -22,7 +22,7 @@ class Helper {
         return $galleryPath;
     }
 
-    function showPreviews($size, $galleryPath, $id)
+    public function showPreviews($size, $galleryPath, $id)
     {
         $screenWidth = $size - 180;
         $previewsWidth = 0;
